@@ -143,6 +143,7 @@ void update_events(char* keys)
       switch (event.key.keysym.sym) {
 	
       case SDLK_q:
+      case SDLK_ESCAPE:
 	gameover = 1;
 	break;
       }
@@ -164,7 +165,7 @@ int main(int argc, char* argv[])
   SDL_Surface *screen, *temp;
   int colorkey;
 
-  Map* map;
+  Map* map, *map_objet;
   /* set the title bar */
   SDL_WM_SetCaption("Tower Defense", "SDL Animation");
   
@@ -185,6 +186,9 @@ int main(int argc, char* argv[])
 
   /* Pour le ROSE */
   colorkey =  SDL_MapRGB(screen->format, 255, 0, 255);
+  map = LoadMap("monde.txt");
+  map_objet = LoadMap("objet.txt");
+  SDL_SetColorKey(map_objet->tileset, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
 
   char key[SDLK_LAST] = {0};
   gameover = 0;
@@ -209,8 +213,9 @@ int main(int argc, char* argv[])
       /* draw the background 
 	 SDL_BlitSurface(background, NULL, screen, NULL);
       */
-      map = LoadMap("monde.txt");
+      
       PrintMap(map,screen);
+      PrintMap(map_objet,screen);
       SDL_Flip(screen);
       
       
@@ -221,7 +226,7 @@ int main(int argc, char* argv[])
       
     }
   
-  
+  FreeMap(map);
   
   
   /* ****************************************************************************************************************************** */

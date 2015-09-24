@@ -169,6 +169,7 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
    if (map->tab_props[gauche].type == 0 && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE - marge) {
       s_mob.vit.x = -creep_speed;
       s_mob.vit.y = 0;
+
     }
     if (map->tab_props[gauche].type == 0 && s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge) {
       s_mob.vit.x = -creep_speed;
@@ -177,33 +178,38 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
     if (map->tab_props[bas].type == 0 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = creep_speed;
+
     }
     if (map->tab_props[bas].type == 0 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = creep_speed;
+
     }
     if (map->tab_props[haut].type == 0 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = -creep_speed;
+
     }
     if (map->tab_props[haut].type == 0 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = -creep_speed;
+
     }
 
     if (map->tab_props[droite].type == 0 && s_mob.vit.y > 0 && s_mob.coords.y >= (y*TILE_SIZE - marge)) {
       s_mob.vit.x = creep_speed;
       s_mob.vit.y = 0;
+
     }
     if (map->tab_props[droite].type == 0 && s_mob.vit.y < 0 && s_mob.coords.y <= (y*TILE_SIZE - marge)) {
       s_mob.vit.x = creep_speed;
       s_mob.vit.y = 0;
+
     }
  
 
 
   }
-
   return s_mob;
 }
 

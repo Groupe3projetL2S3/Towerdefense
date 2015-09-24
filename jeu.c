@@ -121,7 +121,7 @@ int FreeMap(Map* map)
 
 s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh) { //gère l'apparition du vaisseau
   /* set vaisseau speed */
-  s_mob.vit.x = 0.2;
+  s_mob.vit.x = 0.8;
   s_mob.vit.y = 0.0;
 
   /* set sprite position */
@@ -157,57 +157,59 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
   y = (int) (s_mob.coords.y +  CREEP_HEIGHT/2) / TILE_SIZE;
       
   
-  if (s_mob.coords.x > TILE_SIZE){
+  if (s_mob.coords.x > TILE_SIZE && s_mob.coords.x < SCREEN_WIDTH - TILE_SIZE*1.5 ){
     haut = map->monde[x][y-1];
     gauche = map->monde[x-1][y];
     bas = map->monde[x][y+1];
     droite = map->monde[x+1][y];
 
-    float creep_speed = 0.4;
+    float creep_speed = 2.8;
     marge = 8;
 
-   if (map->tab_props[gauche].type == 0 && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE - marge) {
-      s_mob.vit.x = -creep_speed;
-      s_mob.vit.y = 0;
 
-    }
-    if (map->tab_props[gauche].type == 0 && s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge) {
-      s_mob.vit.x = -creep_speed;
-      s_mob.vit.y = 0;
-    }
-    if (map->tab_props[bas].type == 0 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
+    if (map->tab_props[droite].type == 1 && map->tab_props[haut].type == 1 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = creep_speed;
-
     }
-    if (map->tab_props[bas].type == 0 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
+    if (map->tab_props[droite].type == 1 && map->tab_props[bas].type == 1 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
+      s_mob.vit.x = 0;
+      s_mob.vit.y = -creep_speed;
+      }
+
+
+
+
+    if (map->tab_props[bas].type == 1 && map->tab_props[droite].type == 1 && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
+      s_mob.vit.x = -creep_speed;
+      s_mob.vit.y = 0;
+    }
+    if (map->tab_props[bas].type == 1 && map->tab_props[gauche].type == 1 && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
+      s_mob.vit.x = creep_speed;
+      s_mob.vit.y = 0;
+      }
+
+
+
+    if (map->tab_props[haut].type == 1 && map->tab_props[droite].type == 1 && s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
+      s_mob.vit.x = -creep_speed;
+      s_mob.vit.y = 0;      
+      }
+    if (map->tab_props[haut].type == 1 && map->tab_props[gauche].type == 1 &&  s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
+      s_mob.vit.x = creep_speed;
+      s_mob.vit.y = 0;
+      
+    }
+
+
+
+    if (map->tab_props[gauche].type == 1 && map->tab_props[haut].type == 1 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = creep_speed;
-
     }
-    if (map->tab_props[haut].type == 0 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
+    if (map->tab_props[gauche].type == 1 && map->tab_props[bas].type == 1 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = -creep_speed;
-
-    }
-    if (map->tab_props[haut].type == 0 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
-      s_mob.vit.x = 0;
-      s_mob.vit.y = -creep_speed;
-
-    }
-
-    if (map->tab_props[droite].type == 0 && s_mob.vit.y > 0 && s_mob.coords.y >= (y*TILE_SIZE - marge)) {
-      s_mob.vit.x = creep_speed;
-      s_mob.vit.y = 0;
-
-    }
-    if (map->tab_props[droite].type == 0 && s_mob.vit.y < 0 && s_mob.coords.y <= (y*TILE_SIZE - marge)) {
-      s_mob.vit.x = creep_speed;
-      s_mob.vit.y = 0;
-
-    }
- 
-
+      }
 
   }
   return s_mob;
@@ -270,7 +272,7 @@ int main(int argc, char* argv[])
 {
   SDL_Surface *screen, *temp;
   int colorkey;
-  s_Mob creep;
+  s_Mob creep, creep1, creep2;
 
   Map* map, *map_objet;
   /* set the title bar */
@@ -282,13 +284,14 @@ int main(int argc, char* argv[])
   /* set keyboard repeat */
   SDL_EnableKeyRepeat(70, 70);
   
-  int xmin, ymin;
+ 
   /* **********************   LOAD IMAGE ******************* */
   map = LoadMap("monde.txt");
   map_objet = LoadMap("objet.txt");
   
   creep.mob = Load_image("sprite_creeper.bmp");
-  
+  creep1.mob = Load_image("sprite_creeper.bmp");
+  creep2.mob = Load_image("sprite_creeper.bmp");
 
   /* ********************   colorkey ******************* */
 
@@ -298,6 +301,8 @@ int main(int argc, char* argv[])
   colorkey =  SDL_MapRGB(screen->format, 255, 0, 255);
   SDL_SetColorKey(map_objet->tileset, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(creep.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(creep1.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(creep2.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   char key[SDLK_LAST] = {0};
   gameover = 0;
   
@@ -306,6 +311,12 @@ int main(int argc, char* argv[])
   
   
   creep = mob_spawn(creep, CREEP_WIDTH, CREEP_HEIGHT);
+  creep1 = mob_spawn(creep, CREEP_WIDTH, CREEP_HEIGHT);
+  creep2 = mob_spawn(creep, CREEP_WIDTH, CREEP_HEIGHT);
+  
+  creep1.coords.x = -60;
+  creep2.coords.x = -90;
+
 
   /* message pump */
   while (!gameover)
@@ -329,21 +340,38 @@ int main(int argc, char* argv[])
      /* draw the creeper */
       creep = mob_deplacement(creep);
       creep = mob_animation(creep);
-
+      
+      creep1 = mob_deplacement(creep1);
+      creep1 = mob_animation(creep1);
+      
+      creep2 = mob_deplacement(creep2);
+      creep2 = mob_animation(creep2);
+      
       creep.rcSprite.x = (int) creep.coords.x;
       creep.rcSprite.y = (int) creep.coords.y;
       SDL_BlitSurface(creep.mob, &creep.rcSrc, screen, &creep.rcSprite);
 
-      SDL_Flip(screen);
+      
+      creep1.rcSprite.x = (int) creep1.coords.x;
+      creep1.rcSprite.y = (int) creep1.coords.y;
+      SDL_BlitSurface(creep1.mob, &creep1.rcSrc, screen, &creep1.rcSprite);
+
+      
+      creep2.rcSprite.x = (int) creep2.coords.x;
+      creep2.rcSprite.y = (int) creep2.coords.y;
+      SDL_BlitSurface(creep2.mob, &creep2.rcSrc, screen, &creep2.rcSprite);
+      
+
+      
       
       creep = mob_parcours(creep,map);
-      /* test */
-      xmin = (int) creep.coords.x / 32;
-      ymin = (int) creep.coords.y / 32;
 
-      //printf(" %d %d \n", xmin, ymin);
+      creep1 = mob_parcours(creep1,map);
+      
+      creep2 = mob_parcours(creep2,map);
 
 
+      SDL_Flip(screen);
       /* update the screen */
       SDL_UpdateRect(screen, 0, 0, 0, 0);
       SDL_Delay(5);
@@ -352,13 +380,14 @@ int main(int argc, char* argv[])
     }
   
   FreeMap(map);
-  
+  FreeMap(map_objet);
   
   /* ****************************************************************************************************************************** */
   /* ***********************************     Clean Up    ************************************************************************** */
   /* ****************************************************************************************************************************** */
   
   SDL_FreeSurface(creep.mob);
+
   SDL_Quit();
   
   return 0;

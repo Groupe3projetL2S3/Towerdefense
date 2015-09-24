@@ -4,7 +4,7 @@
 
 #define TILE_SIZE 32
 
-#define SCREEN_WIDTH 640
+#define SCREEN_WIDTH 680
 #define SCREEN_HEIGHT 480
 
 #define CREEP_WIDTH 16

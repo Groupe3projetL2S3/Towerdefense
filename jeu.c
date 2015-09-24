@@ -162,7 +162,7 @@ void update_events(char* keys)
 
 int main(int argc, char* argv[])
 {
-  SDL_Surface *screen, *temp;
+  SDL_Surface *screen, *temp, *creeper;
   int colorkey;
 
   Map* map, *map_objet;
@@ -177,8 +177,11 @@ int main(int argc, char* argv[])
   
 
   /* **********************   LOAD IMAGE ******************* */
-
- 
+  map = LoadMap("monde.txt");
+  map_objet = LoadMap("objet.txt");
+  
+  creeper = Load_image("sprite_creeper.bmp");
+  
 
   /* ********************   colorkey ******************* */
 
@@ -186,10 +189,8 @@ int main(int argc, char* argv[])
 
   /* Pour le ROSE */
   colorkey =  SDL_MapRGB(screen->format, 255, 0, 255);
-  map = LoadMap("monde.txt");
-  map_objet = LoadMap("objet.txt");
   SDL_SetColorKey(map_objet->tileset, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
-
+  SDL_SetColorKey(creeper, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   char key[SDLK_LAST] = {0};
   gameover = 0;
   
@@ -210,12 +211,15 @@ int main(int argc, char* argv[])
       update_events(key);
       
       
-      /* draw the background 
-	 SDL_BlitSurface(background, NULL, screen, NULL);
-      */
+ 
+      
       
       PrintMap(map,screen);
       PrintMap(map_objet,screen);
+
+     /* draw the creeper */
+      SDL_BlitSurface(creeper, NULL, screen, NULL);
+
       SDL_Flip(screen);
       
       
@@ -233,7 +237,7 @@ int main(int argc, char* argv[])
   /* ***********************************     Clean Up    ************************************************************************** */
   /* ****************************************************************************************************************************** */
   
-  
+  SDL_FreeSurface(creeper);
   SDL_Quit();
   
   return 0;

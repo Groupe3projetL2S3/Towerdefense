@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include "jeu.h"
 
-#define TAB_MAX 1000
-
 SDL_Surface* Load_image(const char* image) {
   SDL_Surface* res;
   SDL_Surface* temp = SDL_LoadBMP(image);
@@ -12,219 +10,6 @@ SDL_Surface* Load_image(const char* image) {
   return res;
 }
 
-//Fonctions de LoadMap
-void LoadMap_tiles(FILE* Fichier,Map* map) //Sous fonction qui charge les tiles dans un tableau
-{
-  int nbtile, i, j;
-  char tab[TAB_MAX];  
-  char tab1[TAB_MAX]; // Tableaux pour stocker lignes Fichier 
-  fscanf(Fichier, "%s", tab); // #images_tiles
-  fscanf(Fichier, "%s", tab); // nom image bmp
-  map->tileset = Load_image(tab); //On charge l'image indiquée dans le txt
-  fscanf(Fichier, "%d %d", &map->nbtilesX, &map->nbtilesY);
-  map->tile_width = map->tileset->w / map->nbtilesX; //on obtient la largeur d'un tile
-  map->tile_height = map->tileset->h / map->nbtilesY; //on obtient la hauteur d'un tile
-  map->tab_props = malloc(map->nbtilesX * map->nbtilesY * sizeof(TileProp));
-  for(j = 0, nbtile = 0; j < map->nbtilesY; j++)
-    {
-      for(i = 0; i < map->nbtilesX; i++, nbtile++)
-	{
-	  map->tab_props[nbtile].R.w = map->tile_width;
-	  map->tab_props[nbtile].R.h = map->tile_height;
-	  map->tab_props[nbtile].R.x = i * map->tile_width;
-	  map->tab_props[nbtile].R.y = j * map->tile_height;
-	  fscanf(Fichier,"%s %s",tab,tab1);
-	  map->tab_props[nbtile].type = 0;
-	  if (strcmp(tab1,"terrain")==0)
-	    map->tab_props[nbtile].type = 1;
-	}
-    }
-}
-
-
-
-void LoadMap_structure(FILE* Fichier,Map* map) //Charge les tiles dans le tableau final
-{
-  int i,j;
-  char tab[TAB_MAX];  
-  fscanf(Fichier, "%s", tab); // On change de partie du Fichier (#monde)
-  fscanf(Fichier, "%d %d", &map->nbtiles_largeur_monde, &map->nbtiles_hauteur_monde); //largeur et hauteur du tableau monde
-  map->monde = malloc(map->nbtiles_largeur_monde * sizeof(Uint16*));
-  for(i = 0; i < map->nbtiles_largeur_monde; i++)
-    map->monde[i] = malloc(map->nbtiles_hauteur_monde * sizeof(Uint16));
-  for(j = 0; j < map->nbtiles_hauteur_monde; j++)
-    {
-      for(i = 0; i < map->nbtiles_largeur_monde; i++)
-	{
-	  int tmp;
-	  fscanf(Fichier, "%d", &tmp);
-	  if (tmp >= map->nbtilesX * map->nbtilesY)
-	    {
-	      printf("Il n'y a pas autant de tiles !\n");
-	      SDL_Quit();
-	    }
-	  map->monde[i][j] = tmp;
-	}
-    }
-}
-
-
-
-Map* LoadMap(const char* monde) //affecte le Fichier txt à la map
-{
-  FILE* Fichier;
-  Map* map;
-  Fichier = fopen(monde,"r");
-  if (!Fichier)
-    {
-      printf("Fichier %s introuvable !! \n",monde);
-      SDL_Quit();
-    }
-  map = malloc(sizeof(Map));
-  LoadMap_tiles(Fichier,map);
-  LoadMap_structure(Fichier,map);
-  fclose(Fichier);
-  return map;
-}
-
-
-int PrintMap(Map* map,SDL_Surface* screen) //affiche la map
-{
-  int i,j;
-  SDL_Rect Rect_dest;
-  int numero_tile;
-  for(i = 0; i < map->nbtiles_largeur_monde; i++)
-    {
-      for(j = 0; j < map->nbtiles_hauteur_monde; j++)
-	{
-	  Rect_dest.x = i * map->tile_width;
-	  Rect_dest.y = j * map->tile_height;
-	  numero_tile = map->monde[i][j];
-	  SDL_BlitSurface(map->tileset, &(map->tab_props[numero_tile].R), screen, &Rect_dest);
-	}
-    }
-  return 0;
-}
-
-int FreeMap(Map* map)
-{
-  int i;
-  SDL_FreeSurface(map->tileset);
-  for(i = 0; i < map->nbtiles_hauteur_monde; i++)
-    free(map->monde[i]);
-  free(map->monde);
-  free(map->tab_props);
-  free(map);
-  return 0;
-}
-
-
-s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh) { //gère l'apparition du vaisseau
-  /* set vaisseau speed */
-  s_mob.vit.x = 0.8;
-  s_mob.vit.y = 0.0;
-
-  /* set sprite position */
-  s_mob.coords.x = -30;
-  s_mob.coords.y = 120;
-  
-  /* set sprite animation frame */
-  s_mob.rcSrc.x = 0;
-  s_mob.rcSrc.y = 0;
-  s_mob.rcSrc.w = taillew;
-  s_mob.rcSrc.h = tailleh;
-
-  s_mob.animation = 0;
-  
-  return s_mob;
-}
-s_Mob mob_deplacement(s_Mob s_mob) { 
-
-
-  s_mob.coords.x = s_mob.coords.x + s_mob.vit.x;
-  s_mob.coords.y = s_mob.coords.y + s_mob.vit.y;
-  
-  
-  return s_mob;
-}
-
-s_Mob mob_parcours(s_Mob s_mob, Map *map){
-  
-  int x, y, marge, haut, bas, gauche, droite;
-  
- 
-  x = (int) (s_mob.coords.x + CREEP_WIDTH/2 ) / TILE_SIZE;
-  y = (int) (s_mob.coords.y +  CREEP_HEIGHT/2) / TILE_SIZE;
-      
-  
-  if (s_mob.coords.x > TILE_SIZE && s_mob.coords.x < SCREEN_WIDTH - TILE_SIZE*1.5 ){
-    haut = map->monde[x][y-1];
-    gauche = map->monde[x-1][y];
-    bas = map->monde[x][y+1];
-    droite = map->monde[x+1][y];
-
-    float creep_speed = 2.8;
-    marge = 8;
-
-
-    if (map->tab_props[droite].type == 1 && map->tab_props[haut].type == 1 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
-      s_mob.vit.x = 0;
-      s_mob.vit.y = creep_speed;
-    }
-    if (map->tab_props[droite].type == 1 && map->tab_props[bas].type == 1 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
-      s_mob.vit.x = 0;
-      s_mob.vit.y = -creep_speed;
-      }
-
-
-
-
-    if (map->tab_props[bas].type == 1 && map->tab_props[droite].type == 1 && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
-      s_mob.vit.x = -creep_speed;
-      s_mob.vit.y = 0;
-    }
-    if (map->tab_props[bas].type == 1 && map->tab_props[gauche].type == 1 && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
-      s_mob.vit.x = creep_speed;
-      s_mob.vit.y = 0;
-      }
-
-
-
-    if (map->tab_props[haut].type == 1 && map->tab_props[droite].type == 1 && s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
-      s_mob.vit.x = -creep_speed;
-      s_mob.vit.y = 0;      
-      }
-    if (map->tab_props[haut].type == 1 && map->tab_props[gauche].type == 1 &&  s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
-      s_mob.vit.x = creep_speed;
-      s_mob.vit.y = 0;
-      
-    }
-
-
-
-    if (map->tab_props[gauche].type == 1 && map->tab_props[haut].type == 1 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
-      s_mob.vit.x = 0;
-      s_mob.vit.y = creep_speed;
-    }
-    if (map->tab_props[gauche].type == 1 && map->tab_props[bas].type == 1 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
-      s_mob.vit.x = 0;
-      s_mob.vit.y = -creep_speed;
-      }
-
-  }
-  return s_mob;
-}
-
-s_Mob mob_animation(s_Mob s_mob) {
-
-  s_mob.animation += 1;
-  if (s_mob.animation >= 45) 
-    s_mob.animation = 0;
-
-  s_mob.rcSrc.x = (s_mob.animation/15)* s_mob.rcSrc.w;
-
-  return s_mob;
-}
 
 
 /******************************          Programme          *******************************/
@@ -235,7 +20,7 @@ int gameover;
 
 
 /* SDL Function */
-void update_events(char* keys)
+liste_mob update_events(char* keys, liste_mob L, s_Mob m)
 {
   SDL_Event event;
   while(SDL_PollEvent(&event)) {
@@ -254,13 +39,34 @@ void update_events(char* keys)
       case SDLK_ESCAPE:
 	gameover = 1;
 	break;
+      case SDLK_d:
+	L = liste_cons_mob(m,L);
+	break;
       }
       keys[event.key.keysym.sym] = 1;
       break;
     }
   }
+  return L;
 }
 
+
+liste_tower update_events_mouse(char* keys, liste_tower L, s_Tower t, Map *map)
+{
+  SDL_Event event;
+  switch (event.type) {
+  case SDL_MOUSEBUTTONDOWN:
+    if (event.button.button == SDL_BUTTON_LEFT){
+      t.coords.x = (event.button.x / TILE_SIZE) * TILE_SIZE;
+      t.coords.y = (event.button.y / TILE_SIZE) * TILE_SIZE -20; //on récup' les coords exactes ou afficher la tour
+      printf("%d %d \n", event.button.x, event.button.y);
+      printf("%f %f \n", t.coords.x, t.coords.y);
+      L = liste_cons_tower(t, L);
+    }
+    break;
+  }
+  return L;
+}
 
 
 /* ******************************************   MAIN   ********************************************** */
@@ -271,10 +77,19 @@ void update_events(char* keys)
 int main(int argc, char* argv[])
 {
   SDL_Surface *screen, *temp;
-  int colorkey;
-  s_Mob creep, creep1, creep2;
 
+  SDL_Event event;
+
+  int colorkey;
+  s_Mob creep;
+  s_Tower magic;
+  liste_mob liste_creep;
+  liste_tower liste_magic;
   Map* map, *map_objet;
+
+
+
+
   /* set the title bar */
   SDL_WM_SetCaption("Tower Defense", "SDL Animation");
   
@@ -290,8 +105,7 @@ int main(int argc, char* argv[])
   map_objet = LoadMap("objet.txt");
   
   creep.mob = Load_image("sprite_creeper.bmp");
-  creep1.mob = Load_image("sprite_creeper.bmp");
-  creep2.mob = Load_image("sprite_creeper.bmp");
+  magic.tower = Load_image("tower_magic1.bmp");
 
   /* ********************   colorkey ******************* */
 
@@ -301,22 +115,18 @@ int main(int argc, char* argv[])
   colorkey =  SDL_MapRGB(screen->format, 255, 0, 255);
   SDL_SetColorKey(map_objet->tileset, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(creep.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
-  SDL_SetColorKey(creep1.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
-  SDL_SetColorKey(creep2.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(magic.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+
   char key[SDLK_LAST] = {0};
   gameover = 0;
   
-  
+  liste_creep = liste_new_empty_mob();
+  liste_magic = liste_new_empty_tower();
   /* ******************** boucle principale ******************* */
   
   
   creep = mob_spawn(creep, CREEP_WIDTH, CREEP_HEIGHT);
-  creep1 = mob_spawn(creep, CREEP_WIDTH, CREEP_HEIGHT);
-  creep2 = mob_spawn(creep, CREEP_WIDTH, CREEP_HEIGHT);
-  
-  creep1.coords.x = -60;
-  creep2.coords.x = -90;
-
+  magic = tower_init(magic, MAGIC_WIDTH, MAGIC_HEIGHT);
 
   /* message pump */
   while (!gameover)
@@ -328,50 +138,22 @@ int main(int argc, char* argv[])
       
       
       /* look for an event */
-      update_events(key);
+      liste_creep = update_events(key,liste_creep,creep);
       
-      
- 
-      
-      
+      liste_magic = update_events_mouse(key, liste_magic, magic, map);
+
+  
       PrintMap(map,screen);
       PrintMap(map_objet,screen);
 
-     /* draw the creeper */
-      creep = mob_deplacement(creep);
-      creep = mob_animation(creep);
+      /* draw the creeper */
+      mob_affichage(liste_creep, creep, map, screen);
       
-      creep1 = mob_deplacement(creep1);
-      creep1 = mob_animation(creep1);
-      
-      creep2 = mob_deplacement(creep2);
-      creep2 = mob_animation(creep2);
-      
-      creep.rcSprite.x = (int) creep.coords.x;
-      creep.rcSprite.y = (int) creep.coords.y;
-      SDL_BlitSurface(creep.mob, &creep.rcSrc, screen, &creep.rcSprite);
-
-      
-      creep1.rcSprite.x = (int) creep1.coords.x;
-      creep1.rcSprite.y = (int) creep1.coords.y;
-      SDL_BlitSurface(creep1.mob, &creep1.rcSrc, screen, &creep1.rcSprite);
-
-      
-      creep2.rcSprite.x = (int) creep2.coords.x;
-      creep2.rcSprite.y = (int) creep2.coords.y;
-      SDL_BlitSurface(creep2.mob, &creep2.rcSrc, screen, &creep2.rcSprite);
-      
-
-      
-      
-      creep = mob_parcours(creep,map);
-
-      creep1 = mob_parcours(creep1,map);
-      
-      creep2 = mob_parcours(creep2,map);
-
+      /* draw the tower */
+      tower_affichage(liste_magic, magic, screen);
 
       SDL_Flip(screen);
+
       /* update the screen */
       SDL_UpdateRect(screen, 0, 0, 0, 0);
       SDL_Delay(5);
@@ -385,7 +167,10 @@ int main(int argc, char* argv[])
   /* ****************************************************************************************************************************** */
   /* ***********************************     Clean Up    ************************************************************************** */
   /* ****************************************************************************************************************************** */
-  
+
+  liste_free_mob(&liste_creep);
+  liste_free_tower(&liste_magic);
+  SDL_FreeSurface(magic.tower);
   SDL_FreeSurface(creep.mob);
 
   SDL_Quit();

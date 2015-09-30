@@ -20,9 +20,11 @@ int gameover;
 
 
 /* SDL Function */
-liste_mob update_events(char* keys, liste_mob L, s_Mob m)
+void update_events(char* keys, liste_mob *L, s_Mob mob, s_Tower tower)
 {
   SDL_Event event;
+  liste_mob tmp;
+
   while(SDL_PollEvent(&event)) {
     switch (event.type) {
     case SDL_QUIT:
@@ -40,28 +42,32 @@ liste_mob update_events(char* keys, liste_mob L, s_Mob m)
 	gameover = 1;
 	break;
       case SDLK_d:
-	L = liste_cons_mob(m,L);
+	tmp = *L;
+	tmp = liste_cons_mob(mob,tmp);
+	*L = tmp;
 	break;
       }
       keys[event.key.keysym.sym] = 1;
       break;
     }
   }
-  return L;
 }
 
 
-liste_tower update_events_mouse(char* keys, liste_tower L, s_Tower t, Map *map)
+liste_tower update_events_mouse(char* keys, liste_tower L, s_Tower t, Map *map, Map *map_o)
 {
   SDL_Event event;
+  int x, y;
   switch (event.type) {
   case SDL_MOUSEBUTTONDOWN:
     if (event.button.button == SDL_BUTTON_LEFT){
       t.coords.x = (event.button.x / TILE_SIZE) * TILE_SIZE;
       t.coords.y = (event.button.y / TILE_SIZE) * TILE_SIZE -20; //on récup' les coords exactes ou afficher la tour
-      printf("%d %d \n", event.button.x, event.button.y);
-      printf("%f %f \n", t.coords.x, t.coords.y);
-      L = liste_cons_tower(t, L);
+      x = (int) event.button.x/TILE_SIZE;
+      y = (int) event.button.y/TILE_SIZE;
+      if (map->tab_props[map->monde[x][y]].type == 1 && map_o->tab_props[map_o->monde[x][y]].type == 1 ){
+   	    L = liste_cons_tower(t, L);
+	  }
     }
     break;
   }
@@ -80,12 +86,19 @@ int main(int argc, char* argv[])
 
   SDL_Event event;
 
-  int colorkey;
+  int colorkey, colorkeyN;
+
   s_Mob creep;
   s_Tower magic;
+  s_Tir tir_magic;
+
   liste_mob liste_creep;
   liste_tower liste_magic;
+  liste_tir liste_tir_magic;
+
   Map* map, *map_objet;
+
+  int temp_jeu = 0;
 
 
 
@@ -106,6 +119,7 @@ int main(int argc, char* argv[])
   
   creep.mob = Load_image("sprite_creeper.bmp");
   magic.tower = Load_image("tower_magic1.bmp");
+  tir_magic.tir = Load_image("tir.bmp");
 
   /* ********************   colorkey ******************* */
 
@@ -113,34 +127,40 @@ int main(int argc, char* argv[])
 
   /* Pour le ROSE */
   colorkey =  SDL_MapRGB(screen->format, 255, 0, 255);
+  colorkeyN =  SDL_MapRGB(screen->format, 0, 0, 0);
+
   SDL_SetColorKey(map_objet->tileset, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(creep.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(magic.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(tir_magic.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkeyN);
 
   char key[SDLK_LAST] = {0};
   gameover = 0;
   
   liste_creep = liste_new_empty_mob();
   liste_magic = liste_new_empty_tower();
+  liste_tir_magic = liste_new_empty_tir();
   /* ******************** boucle principale ******************* */
   
   
   creep = mob_spawn(creep, CREEP_WIDTH, CREEP_HEIGHT);
   magic = tower_init(magic, MAGIC_WIDTH, MAGIC_HEIGHT);
+  tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
 
   /* message pump */
   while (!gameover)
     {
       
+      temp_jeu = SDL_GetTicks();
       
       /* initialize SDL */
       SDL_Init(SDL_INIT_VIDEO);
       
       
       /* look for an event */
-      liste_creep = update_events(key,liste_creep,creep);
+      update_events(key,&liste_creep, creep, magic);
       
-      liste_magic = update_events_mouse(key, liste_magic, magic, map);
+      liste_magic = update_events_mouse(key, liste_magic, magic, map, map_objet);
 
   
       PrintMap(map,screen);
@@ -150,7 +170,9 @@ int main(int argc, char* argv[])
       mob_affichage(liste_creep, creep, map, screen);
       
       /* draw the tower */
-      tower_affichage(liste_magic, magic, screen);
+      tower_affichage(liste_magic, liste_creep, &liste_tir_magic, magic, tir_magic, screen,temp_jeu);
+      
+      tir_affichage(liste_tir_magic, tir_magic, screen);
 
       SDL_Flip(screen);
 
@@ -170,8 +192,11 @@ int main(int argc, char* argv[])
 
   liste_free_mob(&liste_creep);
   liste_free_tower(&liste_magic);
+  liste_free_tir(&liste_tir_magic);
+
   SDL_FreeSurface(magic.tower);
   SDL_FreeSurface(creep.mob);
+  SDL_FreeSurface(tir_magic.tir);
 
   SDL_Quit();
   

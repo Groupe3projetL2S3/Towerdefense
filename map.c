@@ -27,6 +27,8 @@ void LoadMap_tiles(FILE* Fichier,Map* map) //Sous fonction qui charge les tiles 
 	  map->tab_props[nbtile].type = 0;
 	  if (strcmp(tab1,"terrain")==0)
 	    map->tab_props[nbtile].type = 1;
+	  if (strcmp(tab1,"obstacle")==0)
+	    map->tab_props[nbtile].type = 2;
 	}
     }
 }

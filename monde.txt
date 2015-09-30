@@ -17,7 +17,7 @@ tile12: terrain
 tile13: terrain
 tile14: terrain
 tile15: terrain
-tile16: terrain
+tile16: obstacle
 tile17: terrain
 tile18: terrain
 tile19: terrain
@@ -44,7 +44,7 @@ tile39: terrain
 tile40: terrain
 tile41: terrain
 tile42: terrain
-tile43: terrain
+tile43: obstacle
 tile44: terrain
 tile45: terrain
 tile46: terrain
@@ -60,7 +60,7 @@ tile55: terrain
 tile56: terrain
 tile57: terrain
 tile58: terrain
-tile59: terrain
+tile59: ostacle
 tile60: terrain
 tile61: terrain
 tile62: terrain
@@ -167,12 +167,12 @@ tile159: terrain
 59  59  59  59  59  59  59  59  59  59  59  59  59  59  59  59  59  59  59  59  59
 0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    
 0    0    0    0    0    0    0    0    0    0    0    0    3    3    3    3    3    3    3    0    0   
-3    4    0    3    3    3    3    3    3    0    0    0    3    0    0    0    0    0    3    0    0   
-0    4    0    3    0    0    0    0    3    0    0    0    3    0    0    0    0    0    3    0    0   
-0    4    0    3    3    0    0    3    3    0    3    3    3    0    0    0    0    0    3    3    3   
+3    3    0    3    3    3    3    3    3    0    0    0    3    0    0    0    0    0    3    0    0   
+0    3    0    3    0    0    0    0    3    0    0    0    3    0    0    0    0    0    3    0    0   
+0    3    0    3    3    0    0    3    3    0    3    3    3    0    0    0    0    0    3    3    3   
 0    3    0    0    3    0    0    3    0    0    3    0    0    0    0    0    0    0    0    0    0   
 0    3    0    3    3    0    0    3    0    0    3    0    0    0    0    0    0    0    0    0    0   
 0    3    3    3    0    0    0    3    3    3    3    0    0    0    0    0    0    0    0    0    0   
-0    0    0    0    0    0    0    0    0    0    3    0    0    0    0    0    0    0    0    0    0   
-0    0    0    0    0    0    0    0    0    0    3   0    0    0    0    0    0    0    0    0    0    
-16  16  16  16  16  16  16  16  16  16  3  16  16  16  16  16  16  16  16  16  16  
+0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0   
+0    0    0    0    0    0    0    0    0    0    0   0    0    0    0    0    0    0    0    0    0    
+16  16  16  16  16  16  16  16  16  16  16  16  16  16  16  16  16  16  16  16  16  

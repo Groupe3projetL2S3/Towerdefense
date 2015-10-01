@@ -12,7 +12,7 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh) {
 }
 
 
-void tower_affichage(liste_tower L, liste_mob M, liste_tir *T, s_Tower t, s_Tir tir, SDL_Surface *screen, int temp_jeu) {
+void tower_affichage(liste_tower L, liste_mob M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temp_jeu) {
 
       liste_tower it = L;
       liste_tir tmp = *T;
@@ -26,7 +26,7 @@ void tower_affichage(liste_tower L, liste_mob M, liste_tir *T, s_Tower t, s_Tir 
 
 	  mob = liste_head_mob(M);
 
-	  if(temp_jeu - t.temps > 300 && abs(t.coords.x-mob.coords.x) < 50 && abs(t.coords.y-mob.coords.y) < 50 ){
+	  if(temp_jeu - t.temps > 300 && abs(t.coords.x-mob.coords.x) < 500 && abs(t.coords.y-mob.coords.y) < 500 ){
 	    
 	    tir = tir_spawn(tir, t);
 	    tir = direction_tir(tir,M);

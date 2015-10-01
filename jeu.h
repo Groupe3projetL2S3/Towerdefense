@@ -27,6 +27,23 @@ typedef struct
   int type;
 } TileProp;
 
+
+typedef struct 
+{
+  float x;
+  float y;
+  float w;
+  float h;
+} s_Hitbox;
+
+
+typedef struct
+{
+  float x;
+  float y;
+} s_Floatpos;
+
+
 typedef struct
 {
   int tile_width, tile_height;
@@ -40,14 +57,9 @@ typedef struct
 
 typedef struct
 {
-  float x;
-  float y;
-} s_Floatpos;
-
-typedef struct
-{
   s_Floatpos coords;
   s_Floatpos vit;
+  s_Hitbox box;
   int animation;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
@@ -68,6 +80,7 @@ typedef struct
 {
   s_Floatpos coords;
   s_Floatpos vit;
+  s_Hitbox box;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tir;
@@ -163,13 +176,17 @@ s_Mob mob_animation(s_Mob s_mob);
 void mob_affichage(liste_mob L, s_Mob m, Map* map, SDL_Surface* screen);
 
 s_Tower tower_init(s_Tower t, int taillew, int tailleh);
-void tower_affichage(liste_tower L, liste_mob M, liste_tir *T, s_Tower t, s_Tir tir, SDL_Surface *screen, int temp_jeu);
+void tower_affichage(liste_tower L, liste_mob M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temp_jeu);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
-void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen);
+void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M);
 s_Tir tir_spawn(s_Tir t, s_Tower to);
 s_Tir direction_tir(s_Tir t, liste_mob L);
 s_Tir deplacement_tir(s_Tir t);
+
+void collision_tir_mob(liste_tir *T, liste_mob *M);
+int collision_box_box(s_Hitbox box1, s_Hitbox box2);
+
 /******************************* SDL *********************************/
 
 void update_events(char* keys, liste_mob *L, s_Mob mob, s_Tower tower);

@@ -31,7 +31,7 @@ s_Mob liste_head_mob(liste_mob L) {
 }
 
 liste_mob liste_tail_mob(liste_mob L) {
-  assert (liste_is_empty_mob(L)==0);
+  assert (NULL!=L);
   return (L->next);
 }
 
@@ -40,7 +40,7 @@ liste_mob liste_tail_mob(liste_mob L) {
 
 void liste_free_mob(liste_mob * L) {
   liste_mob tmp;
-  while (!liste_is_empty_mob(*L)) {
+  while (*L) {
     tmp = *L;
     *L = liste_tail_mob(*L);
     free(tmp);
@@ -59,8 +59,10 @@ liste_tower liste_new_empty_tower() {
 
 
 liste_tower liste_cons_tower(s_Tower t, liste_tower L) {
-  liste_tower nouveau = (liste_tower) malloc(sizeof(Liste_tower));
-  nouveau->t = t; 
+  liste_tower nouveau =  malloc(sizeof(Liste_tower));
+  if (nouveau == NULL)
+    exit(-1);
+  nouveau->t = t;
   nouveau->next = L;
   return nouveau;
 }

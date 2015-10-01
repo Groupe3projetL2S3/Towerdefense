@@ -10,14 +10,18 @@ s_Tir tir_init(s_Tir t, int taillew, int tailleh) {
 }
 
 
-void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen) {
+void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M) {
 
       liste_tir it = L;
       
       while (it != NULL) {
 	s_Tir t = it->t;
-	
+
+	t = direction_tir(t, M);
 	t = deplacement_tir(t);
+	
+
+
 	t.rcSprite.x = (int) t.coords.x;
 	t.rcSprite.y = (int) t.coords.y;
 
@@ -48,27 +52,27 @@ s_Tir direction_tir(s_Tir t, liste_mob L) { //à faire appel quand il spawn
 
   if (xm >= (xt) && ym <= (yt)){
     alpha = (xm-xt)/((sqrt(pow((xm-xt),2)+pow((ym-yt),2))));
-    alpha = acos(alpha);
-    t.vit.x=cos(alpha);
-    t.vit.y=-sin(alpha);
+    alpha = acosf(alpha);
+    t.vit.x=cosf(alpha);
+    t.vit.y=-sinf(alpha);
   }
   if (xm < (xt) && ym <= (yt)){
     alpha = (xt-xm)/((sqrt(pow((xm-xt),2)+pow((ym-yt),2))));
-    alpha = acos(alpha);
-    t.vit.x=-cos(alpha);
-    t.vit.y=-sin(alpha);
+    alpha = acosf(alpha);
+    t.vit.x=-cosf(alpha);
+    t.vit.y=-sinf(alpha);
   }
   if (xm < (xt) && ym > (yt)){
     alpha = (xt-xm)/((sqrt(pow((xm-xt),2)+pow((ym-yt),2))));
-    alpha = acos(alpha);
-    t.vit.x=-cos(alpha);
-    t.vit.y=sin(alpha);
+    alpha = acosf(alpha);
+    t.vit.x=-cosf(alpha);
+    t.vit.y=sinf(alpha);
   }
   if (xm >= (xt) && ym > (yt)){
     alpha = (xm-xt)/((sqrt(pow((xm-xt),2)+pow((ym-yt),2))));
-    alpha = acos(alpha);
-    t.vit.x=cos(alpha);
-    t.vit.y=sin(alpha);
+    alpha = acosf(alpha);
+    t.vit.x=cosf(alpha);
+    t.vit.y=sinf(alpha);
   }
 
   return t;
@@ -79,6 +83,11 @@ s_Tir deplacement_tir(s_Tir t) { //à faire appel dans affichage
 
   t.coords.x += t.vit.x*2;
   t.coords.y += t.vit.y*2;
+
+  t.box.x = t.coords.x;
+  t.box.y = t.coords.y;
+  t.box.w = t.coords.x + t.rcSrc.w;
+  t.box.h = t.coords.y + t.rcSrc.h;
 
   return t;
 }

@@ -1,8 +1,8 @@
 #include "jeu.h"
 
 
-s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh) { //gère l'apparition du vaisseau
-  /* set vaisseau speed */
+s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh) { //gère l'apparition du mob
+  /* set mob speed */
   s_mob.vit.x = 0.8;
   s_mob.vit.y = 0.0;
 
@@ -25,7 +25,11 @@ s_Mob mob_deplacement(s_Mob s_mob) {
 
   s_mob.coords.x = s_mob.coords.x + s_mob.vit.x;
   s_mob.coords.y = s_mob.coords.y + s_mob.vit.y;
-  
+
+  s_mob.box.x = s_mob.coords.x;
+  s_mob.box.y = s_mob.coords.y;
+  s_mob.box.w = s_mob.coords.x + s_mob.rcSrc.w;
+  s_mob.box.h = s_mob.coords.y + s_mob.rcSrc.h;
   
   return s_mob;
 }
@@ -140,6 +144,8 @@ void mob_affichage(liste_mob L, s_Mob m, Map *map, SDL_Surface *screen) {
 	s_Mob m = it->m;
 	m = mob_deplacement(m);
 	m = mob_animation(m);
+
+	printf("%f %f %f %f \n", m.box.x,m.box.y,m.box.w,m.box.h);
 	
 	m.rcSprite.x = (int) m.coords.x;
 	m.rcSprite.y = (int) m.coords.y;

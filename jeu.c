@@ -82,9 +82,7 @@ liste_tower update_events_mouse(char* keys, liste_tower L, s_Tower t, Map *map, 
 
 int main(int argc, char* argv[])
 {
-  SDL_Surface *screen, *temp;
-
-  SDL_Event event;
+  SDL_Surface *screen;
 
   int colorkey, colorkeyN;
 
@@ -170,9 +168,14 @@ int main(int argc, char* argv[])
       mob_affichage(liste_creep, creep, map, screen);
       
       /* draw the tower */
-      tower_affichage(liste_magic, liste_creep, &liste_tir_magic, magic, tir_magic, screen,temp_jeu);
+      tower_affichage(liste_magic, liste_creep, &liste_tir_magic, tir_magic, screen,temp_jeu);
       
-      tir_affichage(liste_tir_magic, tir_magic, screen);
+      tir_affichage(liste_tir_magic, tir_magic, screen, liste_creep);
+
+
+      if (!liste_is_empty_tir(liste_tir_magic) && !liste_is_empty_mob(liste_creep)) {
+	  collision_tir_mob(&liste_tir_magic, &liste_creep);
+	}
 
       SDL_Flip(screen);
 

@@ -136,7 +136,7 @@ s_Mob mob_animation(s_Mob s_mob) {
 }
 
 
-void mob_affichage(liste_mob L, s_Mob m, Map *map, SDL_Surface *screen) {
+void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen) {
 
       liste_mob it = L;
       
@@ -145,8 +145,9 @@ void mob_affichage(liste_mob L, s_Mob m, Map *map, SDL_Surface *screen) {
 	m = mob_deplacement(m);
 	m = mob_animation(m);
 
-	printf("%f %f %f %f \n", m.box.x,m.box.y,m.box.w,m.box.h);
+	//printf("%f %f %f %f \n", m.box.x,m.box.y,m.box.w,m.box.h);
 	
+
 	m.rcSprite.x = (int) m.coords.x;
 	m.rcSprite.y = (int) m.coords.y;
 	SDL_BlitSurface(m.mob, &m.rcSrc, screen, &m.rcSprite);

@@ -20,10 +20,13 @@ int gameover;
 
 
 /* SDL Function */
-void update_events(char* keys, liste_mob *L, s_Mob mob, s_Tower tower)
+void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Tower tower,Map *map, Map *map_o,int *i)
 {
   SDL_Event event;
   liste_mob tmp;
+  liste_tower tmp2;
+  int j;
+  
 
   while(SDL_PollEvent(&event)) {
     switch (event.type) {
@@ -42,6 +45,9 @@ void update_events(char* keys, liste_mob *L, s_Mob mob, s_Tower tower)
 	gameover = 1;
 	break;
       case SDLK_d:
+	j = *i +1;
+	mob.numero = j;
+	*i = j;
 	tmp = *L;
 	tmp = liste_cons_mob(mob,tmp);
 	*L = tmp;
@@ -49,30 +55,32 @@ void update_events(char* keys, liste_mob *L, s_Mob mob, s_Tower tower)
       }
       keys[event.key.keysym.sym] = 1;
       break;
-    }
-  }
-}
 
+    case SDL_MOUSEBUTTONDOWN:    
+      switch(event.button.button){
+	
+      case SDL_BUTTON_LEFT:   
 
-liste_tower update_events_mouse(char* keys, liste_tower L, s_Tower t, Map *map, Map *map_o)
-{
-  SDL_Event event;
-  int x, y;
-  switch (event.type) {
-  case SDL_MOUSEBUTTONDOWN:
-    if (event.button.button == SDL_BUTTON_LEFT){
-      t.coords.x = (event.button.x / TILE_SIZE) * TILE_SIZE;
-      t.coords.y = (event.button.y / TILE_SIZE) * TILE_SIZE -20; //on récup' les coords exactes ou afficher la tour
-      x = (int) event.button.x/TILE_SIZE;
-      y = (int) event.button.y/TILE_SIZE;
-      if (map->tab_props[map->monde[x][y]].type == 1 && map_o->tab_props[map_o->monde[x][y]].type == 1 ){
-   	    L = liste_cons_tower(t, L);
+	if (event.button.button == SDL_BUTTON_LEFT){
+	  tower.coords.x = (event.button.x / TILE_SIZE) * TILE_SIZE;
+	  tower.coords.y = (event.button.y / TILE_SIZE) * TILE_SIZE -20; //on récup' les coords exactes ou afficher la tour
+	  int x = (int) event.button.x/TILE_SIZE;
+	  int y = (int) event.button.y/TILE_SIZE;
+
+	  if (map->tab_props[map->monde[x][y]].type == 1 && map_o->tab_props[map_o->monde[x][y]].type == 1 ){
+	    tmp2 = *T;
+	    tmp2 = liste_cons_tower(tower,tmp2);
+	    *T = tmp2;
 	  }
+	}
+	break;
+      }
+      keys[event.button.button] = 1;
+      break; 
     }
-    break;
   }
-  return L;
 }
+
 
 
 /* ******************************************   MAIN   ********************************************** */
@@ -96,7 +104,8 @@ int main(int argc, char* argv[])
 
   Map* map, *map_objet;
 
-  int temp_jeu = 0;
+  int temps_jeu = 0;
+  int num_mob = 0;
 
 
 
@@ -149,33 +158,40 @@ int main(int argc, char* argv[])
   while (!gameover)
     {
       
-      temp_jeu = SDL_GetTicks();
+      temps_jeu = SDL_GetTicks();
       
       /* initialize SDL */
       SDL_Init(SDL_INIT_VIDEO);
       
       
       /* look for an event */
-      update_events(key,&liste_creep, creep, magic);
-      
-      liste_magic = update_events_mouse(key, liste_magic, magic, map, map_objet);
+      update_events(key,&liste_creep, &liste_magic, creep, magic, map, map_objet, &num_mob);
 
+
+
+      /* draw the map */
   
       PrintMap(map,screen);
       PrintMap(map_objet,screen);
 
       /* draw the creeper */
-      mob_affichage(liste_creep, creep, map, screen);
+      mob_affichage(liste_creep, map, screen);
       
       /* draw the tower */
-      tower_affichage(liste_magic, liste_creep, &liste_tir_magic, tir_magic, screen,temp_jeu);
-      
+      cible(&liste_tir_magic, liste_creep);
+      tower_affichage(liste_magic ,screen);
+
+      /* draw the shoot */
+
       tir_affichage(liste_tir_magic, tir_magic, screen, liste_creep);
+      disparition_tir(&liste_tir_magic, liste_creep);
 
+      /* fonction */
 
-      if (!liste_is_empty_tir(liste_tir_magic) && !liste_is_empty_mob(liste_creep)) {
-	  collision_tir_mob(&liste_tir_magic, &liste_creep);
-	}
+      collision_tir_mob(&liste_tir_magic, &liste_creep);
+
+      tower_tir(&liste_magic, liste_creep, &liste_tir_magic, tir_magic, screen, temps_jeu);
+      
 
       SDL_Flip(screen);
 

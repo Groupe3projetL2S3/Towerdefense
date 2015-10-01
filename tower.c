@@ -12,29 +12,14 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh) {
 }
 
 
-void tower_affichage(liste_tower L, liste_mob M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temp_jeu) {
+void tower_affichage(liste_tower L, SDL_Surface *screen) {
 
-      liste_tower it = L;
-      liste_tir tmp = *T;
-
-      s_Mob mob;
+  liste_tower it = L;
       
       while (it != NULL) {
 	s_Tower t = it->t;
 	
-	if(liste_is_empty_mob(M)==0){
 
-	  mob = liste_head_mob(M);
-
-	  if(temp_jeu - t.temps > 300 && abs(t.coords.x-mob.coords.x) < 500 && abs(t.coords.y-mob.coords.y) < 500 ){
-	    
-	    tir = tir_spawn(tir, t);
-	    tir = direction_tir(tir,M);
-	    tmp = liste_cons_tir(tir,tmp);
-	    *T = tmp;
-	    t.temps = temp_jeu;
-	  }
-	}
 	t.rcSprite.x = (int) t.coords.x;
 	t.rcSprite.y = (int) t.coords.y;
 	SDL_BlitSurface(t.tower, &t.rcSrc, screen, &t.rcSprite);
@@ -42,4 +27,53 @@ void tower_affichage(liste_tower L, liste_mob M, liste_tir *T, s_Tir tir, SDL_Su
 	it->t = t;
 	it = it->next;
       }
+}
+
+
+void tower_tir (liste_tower *L, liste_mob M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu){
+  
+
+  liste_tower it = *L;
+
+  liste_mob mit = M;
+
+  liste_tir tmp = *T;
+
+
+  if(liste_is_empty_mob(M)==0){
+
+    while (it != NULL) {
+      s_Tower tow = it->t;
+      
+	
+      if(temps_jeu - tow.temps > 1500 ){
+
+	while(mit != NULL){
+	
+	  s_Mob m = mit->m;
+	  
+	  if( abs((tow.coords.x + tow.rcSprite.w) - (m.coords.x + m.rcSprite.w)) < DISTANCE_MAGIC_TOWER && abs((tow.coords.y+tow.rcSprite.h)-(m.coords.y+m.rcSprite.h)) < DISTANCE_MAGIC_TOWER){
+
+	    tir = tir_spawn(tir, tow);
+	    printf("%d \n",m.numero);
+	    tir.cible = m;
+	    tmp = liste_cons_tir(tir,tmp);
+	    *T = tmp;
+
+	    }
+
+	  mit->m = m;
+	  mit = mit->next;
+	  tow.temps = temps_jeu;
+
+	  }
+
+	
+      }
+
+      it->t = tow;
+      it = it->next;
+      
+    }
+  }
 }

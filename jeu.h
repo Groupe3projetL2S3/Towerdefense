@@ -17,6 +17,8 @@
 #define TIR_WIDTH 16
 #define TIR_HEIGHT 16
 
+#define DISTANCE_MAGIC_TOWER 100
+
 #define TAB_MAX 1000
 
 /************************** Structs**********************************/
@@ -61,6 +63,7 @@ typedef struct
   s_Floatpos vit;
   s_Hitbox box;
   int animation;
+  int numero;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *mob;
@@ -84,6 +87,7 @@ typedef struct
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tir;
+  s_Mob cible;
 } s_Tir;
 
 
@@ -173,25 +177,29 @@ s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh);
 s_Mob mob_deplacement(s_Mob s_mob);
 s_Mob mob_parcours(s_Mob s_mob, Map *map);
 s_Mob mob_animation(s_Mob s_mob);
-void mob_affichage(liste_mob L, s_Mob m, Map* map, SDL_Surface* screen);
+void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
 
 s_Tower tower_init(s_Tower t, int taillew, int tailleh);
-void tower_affichage(liste_tower L, liste_mob M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temp_jeu);
+void tower_affichage(liste_tower L, SDL_Surface *screen);
+void tower_tir (liste_tower *L, liste_mob M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M);
 s_Tir tir_spawn(s_Tir t, s_Tower to);
-s_Tir direction_tir(s_Tir t, liste_mob L);
+s_Tir direction_tir(s_Tir t, s_Mob mob);
 s_Tir deplacement_tir(s_Tir t);
+void disparition_tir(liste_tir *T,liste_mob L );
+void cible(liste_tir *L, liste_mob M);
+
 
 void collision_tir_mob(liste_tir *T, liste_mob *M);
 int collision_box_box(s_Hitbox box1, s_Hitbox box2);
 
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L, s_Mob mob, s_Tower tower);
-liste_tower update_events_mouse(char* keys, liste_tower L, s_Tower t, Map *map, Map *map_o);
-void alternative_HandleEvent(char* key);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Tower tower, Map *map, Map *map_o, int *i);
+
+
 
 
 

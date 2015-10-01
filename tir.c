@@ -18,7 +18,7 @@ void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M) {
 	s_Tir t = it->t;
 	t = deplacement_tir(t);
 
-	
+	printf("%lf %lf \n",t.coords.x, t.coords.y);
 
 
 	t.rcSprite.x = (int) t.coords.x;

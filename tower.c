@@ -56,6 +56,7 @@ void tower_tir (liste_tower *L, liste_mob M, liste_tir *T, s_Tir tir, SDL_Surfac
 
 	    tir = tir_spawn(tir, tow);
 	    printf("%d \n",m.numero);
+	    tir = direction_tir(tir, m);
 	    tir.cible = m;
 	    tmp = liste_cons_tir(tir,tmp);
 	    *T = tmp;

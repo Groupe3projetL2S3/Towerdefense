@@ -3,6 +3,7 @@
 #include <time.h>
 #include <assert.h>
 
+#define ERROR -1
 #define TILE_SIZE 32
 
 #define SCREEN_WIDTH 672

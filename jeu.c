@@ -5,6 +5,10 @@
 SDL_Surface* Load_image(const char* image) {
   SDL_Surface* res;
   SDL_Surface* temp = SDL_LoadBMP(image);
+  if (temp == NULL) {
+    printf("Load_image error ! \n");
+    exit(ERROR);
+  }
   res = SDL_DisplayFormat(temp);
   SDL_FreeSurface(temp);
   return res;
@@ -98,11 +102,12 @@ int main(int argc, char* argv[])
   s_Tower magic;
   s_Tir tir_magic;
 
-  liste_mob liste_creep;
-  liste_tower liste_magic;
-  liste_tir liste_tir_magic;
+  liste_mob liste_creep = NULL;
+  liste_tower liste_magic = NULL;
+  liste_tir liste_tir_magic = NULL;
 
-  Map* map, *map_objet;
+  Map* map = NULL;
+  Map* map_objet = NULL;
 
   int temps_jeu = 0;
   int num_mob = 0;
@@ -130,9 +135,6 @@ int main(int argc, char* argv[])
 
   /* ********************   colorkey ******************* */
 
-
-
-  /* Pour le ROSE */
   colorkey =  SDL_MapRGB(screen->format, 255, 0, 255);
   colorkeyN =  SDL_MapRGB(screen->format, 0, 0, 0);
 
@@ -144,9 +146,6 @@ int main(int argc, char* argv[])
   char key[SDLK_LAST] = {0};
   gameover = 0;
   
-  liste_creep = liste_new_empty_mob();
-  liste_magic = liste_new_empty_tower();
-  liste_tir_magic = liste_new_empty_tir();
   /* ******************** boucle principale ******************* */
   
   
@@ -208,13 +207,19 @@ int main(int argc, char* argv[])
   /* ***********************************     Clean Up    ************************************************************************** */
   /* ****************************************************************************************************************************** */
 
-  liste_free_mob(&liste_creep);
-  liste_free_tower(&liste_magic);
-  liste_free_tir(&liste_tir_magic);
+  if (liste_creep != NULL)
+    liste_free_mob(&liste_creep);
+  if (liste_magic != NULL)
+    liste_free_tower(&liste_magic);
+  if (liste_tir_magic != NULL)
+    liste_free_tir(&liste_tir_magic);
 
-  SDL_FreeSurface(magic.tower);
-  SDL_FreeSurface(creep.mob);
-  SDL_FreeSurface(tir_magic.tir);
+  if (magic.tower != NULL)
+    SDL_FreeSurface(magic.tower);
+  if (creep.mob != NULL)
+    SDL_FreeSurface(creep.mob);
+  if (tir_magic.tir != NULL)
+    SDL_FreeSurface(tir_magic.tir);
 
   SDL_Quit();
   

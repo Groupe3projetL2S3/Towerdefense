@@ -1,5 +1,5 @@
 #tileset
-TileA2asd.bmp
+Images/TileA2asd.bmp
 16 12
 tile0: obstacle
 tile1: obstacle

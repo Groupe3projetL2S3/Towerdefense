@@ -1,5 +1,5 @@
 #tileset
-tileminecraft.bmp
+Images/tileminecraft.bmp
 16 10
 tile0: terrain
 tile1: terrain

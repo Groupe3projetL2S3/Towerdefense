@@ -124,9 +124,9 @@ int main(int argc, char* argv[])
   map = LoadMap("monde.txt");
   map_objet = LoadMap("objet.txt");
   
-  creep.mob = Load_image("sprite_creeper.bmp");
-  magic.tower = Load_image("tower_magic1.bmp");
-  tir_magic.tir = Load_image("tir.bmp");
+  creep.mob = Load_image("Images/sprite_creeper.bmp");
+  magic.tower = Load_image("Images/tower_magic1.bmp");
+  tir_magic.tir = Load_image("Images/tir.bmp");
 
   /* ********************   colorkey ******************* */
 
@@ -192,7 +192,6 @@ int main(int argc, char* argv[])
 
       tower_tir(&liste_magic, &liste_creep, &liste_tir_magic, tir_magic, screen, temps_jeu, magic);
       
-
       SDL_Flip(screen);
 
       /* update the screen */

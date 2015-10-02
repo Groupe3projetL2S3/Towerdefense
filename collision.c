@@ -40,7 +40,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M) {
 	s_Tir t = tit->t;
 	
 	
-	if (collision_box_box(t.box, m.box)) {
+	if (collision_box_box(t.box, m.box) && t.cible.numero >= m.numero && t.cible.numero <= m.numero + 0.1) {
 	  collided = 1;
 	  poubelle_tir = liste_cons_tir(t, poubelle_tir);
 	}

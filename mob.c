@@ -3,7 +3,7 @@
 
 s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh) { //gère l'apparition du mob
   /* set mob speed */
-  s_mob.vit.x = 0.8;
+  s_mob.vit.x = 1.2;
   s_mob.vit.y = 0.0;
 
   /* set sprite position */
@@ -17,6 +17,7 @@ s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh) { //gère l'apparition du
   s_mob.rcSrc.h = tailleh;
 
   s_mob.animation = 0;
+  s_mob.priorite = 0.0;
   
   return s_mob;
 }
@@ -25,6 +26,9 @@ s_Mob mob_deplacement(s_Mob s_mob) {
 
   s_mob.coords.x = s_mob.coords.x + s_mob.vit.x;
   s_mob.coords.y = s_mob.coords.y + s_mob.vit.y;
+
+  s_mob.priorite += fabs(s_mob.vit.x) + fabs(s_mob.vit.y);
+
 
   s_mob.box.x = s_mob.coords.x;
   s_mob.box.y = s_mob.coords.y;
@@ -49,7 +53,7 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
     bas = map->monde[x][y+1];
     droite = map->monde[x+1][y];
 
-    float creep_speed = 1.0;
+    float creep_speed = 1.8;
     marge = 8;
 
 

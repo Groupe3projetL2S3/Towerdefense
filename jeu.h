@@ -64,6 +64,7 @@ typedef struct
   s_Hitbox box;
   int animation;
   int numero;
+  float priorite;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *mob;
@@ -181,7 +182,7 @@ void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
 
 s_Tower tower_init(s_Tower t, int taillew, int tailleh);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
-void tower_tir (liste_tower *L, liste_mob M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu);
+void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M);

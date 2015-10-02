@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
 
       collision_tir_mob(&liste_tir_magic, &liste_creep);
 
-      tower_tir(&liste_magic, liste_creep, &liste_tir_magic, tir_magic, screen, temps_jeu);
+      tower_tir(&liste_magic, &liste_creep, &liste_tir_magic, tir_magic, screen, temps_jeu, magic);
       
 
       SDL_Flip(screen);

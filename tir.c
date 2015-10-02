@@ -18,8 +18,6 @@ void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M) {
 	s_Tir t = it->t;
 	t = deplacement_tir(t);
 
-	printf("%lf %lf \n",t.coords.x, t.coords.y);
-
 
 	t.rcSprite.x = (int) t.coords.x;
 	t.rcSprite.y = (int) t.coords.y;
@@ -82,8 +80,8 @@ s_Tir direction_tir(s_Tir t, s_Mob mob) { //à faire appel quand il spawn
 
 s_Tir deplacement_tir(s_Tir t) { //à faire appel dans affichage
 
-  t.coords.x += t.vit.x*2;
-  t.coords.y += t.vit.y*2;
+  t.coords.x += t.vit.x*3;
+  t.coords.y += t.vit.y*3;
 
   t.box.x = t.coords.x;
   t.box.y = t.coords.y;
@@ -130,30 +128,33 @@ void cible(liste_tir *L, liste_mob M){
   liste_tir new_liste_tir = NULL;
   liste_mob mit = M;
 
-
-  while (it != NULL) {
-    s_Tir t = it->t;
+  if (!liste_is_empty_tir(it) && !liste_is_empty_mob(mit)){
     
     
-    while(mit != NULL){
+    while (it != NULL) {
+      s_Tir t = it->t;
       
-      s_Mob m = mit->m;
       
-      if(m.numero == t.cible.numero){
-	t = direction_tir(t, m);
+      while(mit != NULL){
+	
+	s_Mob m = mit->m;
+	
+	if(m.numero == t.cible.numero){
+	  t = direction_tir(t, m);
+	}
+	
+	
+	mit->m = m;
+	mit = mit->next;
+	
       }
-
-
-      mit->m = m;
-      mit = mit->next;
-     
+      
+      new_liste_tir = liste_cons_tir(t, new_liste_tir);
+      
+      it->t = t;
+      it = it->next;
+      
     }
-    
-    new_liste_tir = liste_cons_tir(t, new_liste_tir);
-    
-    it->t = t;
-    it = it->next;
-    
+    *L = new_liste_tir;
   }
-  *L = new_liste_tir;
 }

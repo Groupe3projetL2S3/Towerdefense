@@ -94,7 +94,7 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Tower 
 
 int main(int argc, char* argv[])
 {
-  SDL_Surface *screen;
+  SDL_Surface *screen = NULL;
 
   int colorkey, colorkeyN;
 
@@ -111,9 +111,6 @@ int main(int argc, char* argv[])
 
   int temps_jeu = 0;
   int num_mob = 0;
-
-
-
 
   /* set the title bar */
   SDL_WM_SetCaption("Tower Defense", "SDL Animation");

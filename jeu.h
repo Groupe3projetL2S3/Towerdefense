@@ -1,4 +1,6 @@
 #include "SDL.h"
+#include "SDL_ttf.h"
+#include "SDL_Image.h"
 #include <math.h> 
 #include <time.h>
 #include <assert.h>
@@ -18,7 +20,7 @@
 #define TIR_WIDTH 16
 #define TIR_HEIGHT 16
 
-#define DISTANCE_MAGIC_TOWER 100
+#define DISTANCE_MAGIC_TOWER 150
 
 #define TAB_MAX 1000
 

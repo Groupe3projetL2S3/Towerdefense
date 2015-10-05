@@ -12,22 +12,27 @@ s_Tir tir_init(s_Tir t, int taillew, int tailleh) {
 
 void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M) {
 
-      liste_tir it = L;
-      
-      while (it != NULL) {
-	s_Tir t = it->t;
-	t = deplacement_tir(t);
+  if (L == NULL)
+    return;
 
 
-	t.rcSprite.x = (int) t.coords.x;
-	t.rcSprite.y = (int) t.coords.y;
-
-	SDL_BlitSurface(t.tir, &t.rcSrc, screen, &t.rcSprite);
-
-	it->t = t;
-	it = it->next;
-      }
-}
+  liste_tir it =  NULL;
+  it = L;
+  
+  while (it != NULL) {
+    s_Tir t = it->t;
+    t = deplacement_tir(t);
+    
+    
+    t.rcSprite.x = (int) t.coords.x;
+    t.rcSprite.y = (int) t.coords.y;
+    
+    SDL_BlitSurface(t.tir, &t.rcSrc, screen, &t.rcSprite);
+    
+    it->t = t;
+    it = it->next;
+  }
+ }
 
 
 s_Tir tir_spawn(s_Tir t, s_Tower to) { 
@@ -148,7 +153,6 @@ void cible(liste_tir *L, liste_mob M){
 	mit = mit->next;
 	
       }
-      
       new_liste_tir = liste_cons_tir(t, new_liste_tir);
       
       it->t = t;

@@ -3,7 +3,7 @@
 
 s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh) { //gère l'apparition du mob
   /* set mob speed */
-  s_mob.vit.x = 1.2;
+  s_mob.vit.x = 0.8;
   s_mob.vit.y = 0.0;
 
   /* set sprite position */
@@ -53,7 +53,7 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
     bas = map->monde[x][y+1];
     droite = map->monde[x+1][y];
 
-    float creep_speed = 1.8;
+    float creep_speed = 0.8;
     marge = 8;
 
 

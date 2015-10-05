@@ -45,7 +45,7 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
     
     while (it != NULL) {
       s_Tower tow = it->t;
-      float tir_priorite = 0;
+      float tir_priorite = 0.0;
       liste_mob mit = *M;
  
 
@@ -58,7 +58,7 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
 
 	  
 	  
-	   if( abs((tow.coords.x + tow.rcSprite.w) - (mo.coords.x + mo.rcSprite.w)) < DISTANCE_MAGIC_TOWER && abs((tow.coords.y+tow.rcSprite.h)-(mo.coords.y+mo.rcSprite.h)) < DISTANCE_MAGIC_TOWER){
+	   if( abs((tow.coords.x + tow.rcSprite.w/2) - (mo.coords.x + mo.rcSprite.w/2)) < DISTANCE_MAGIC_TOWER && abs((tow.coords.y+tow.rcSprite.h/2)-(mo.coords.y+mo.rcSprite.h/2)) < DISTANCE_MAGIC_TOWER){
 	     
 	     if(mo.priorite > tir_priorite && mo.coords.x > 10){
 	       
@@ -73,7 +73,6 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
 	     if(mit->next == NULL){
 	       
 	       tmp = liste_cons_tir(tir,tmp);
-	       *T = tmp;
 	     }
 	   }
 	   
@@ -83,9 +82,11 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
 	}
 	
 	
-	
+
 	tow.temps = temps_jeu;
       }
+      
+      *T = tmp;
       
       it->t = tow;
       it = it->next;

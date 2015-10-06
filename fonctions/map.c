@@ -24,11 +24,11 @@ void LoadMap_tiles(FILE* Fichier,Map* map) //Sous fonction qui charge les tiles 
 	  map->tab_props[nbtile].R.x = i * map->tile_width;
 	  map->tab_props[nbtile].R.y = j * map->tile_height;
 	  fscanf(Fichier,"%s %s",tab,tab1);
-	  map->tab_props[nbtile].type = 0;
+	  map->tab_props[nbtile].type = CHEMIN;
 	  if (strcmp(tab1,"terrain")==0)
-	    map->tab_props[nbtile].type = 1;
+	    map->tab_props[nbtile].type = TERRAIN;
 	  if (strcmp(tab1,"obstacle")==0)
-	    map->tab_props[nbtile].type = 2;
+	    map->tab_props[nbtile].type = OBSTACLE;
 	}
     }
 }
@@ -108,4 +108,19 @@ int FreeMap(Map* map)
   free(map->tab_props);
   free(map);
   return 0;
+}
+
+float SeekSpawn(Map *map) {
+  int i;
+  float res = 0.0;
+  int trouve = 0;
+  for (i = 0; i < map->nbtiles_hauteur_monde && trouve == 0; i++) {
+    if (map->tab_props[map->monde[0][i]].type == CHEMIN) {
+      trouve = 1;
+      printf("%d \n", i);
+      res = ((i+1)*32.0 - 40.0);
+      printf(" %f \n", res);
+    }
+  }
+return res;
 }

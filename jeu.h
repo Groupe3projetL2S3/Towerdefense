@@ -1,11 +1,14 @@
 #include "SDL.h"
 #include "SDL_ttf.h"
-#include "SDL_Image.h"
+
 #include <math.h> 
 #include <time.h>
 #include <assert.h>
 
 #define ERROR -1
+#define CHEMIN 0
+#define TERRAIN 1
+#define OBSTACLE 2
 #define TILE_SIZE 32
 
 #define SCREEN_WIDTH 672
@@ -13,6 +16,7 @@
 
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
+#define CREEP_SPEED 0.8
 
 #define MAGIC_WIDTH 32
 #define MAGIC_HEIGHT 48
@@ -177,11 +181,14 @@ SDL_Surface* Load_image(const char* image);
 Map* LoadMap(const char* Fichier);
 int PrintMap(Map* map,SDL_Surface* screen);
 int FreeMap(Map* map);
-s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh);
+float SeekSpawn(Map *map);
+
+s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit);
 s_Mob mob_deplacement(s_Mob s_mob);
 s_Mob mob_parcours(s_Mob s_mob, Map *map);
 s_Mob mob_animation(s_Mob s_mob);
 void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
+
 
 s_Tower tower_init(s_Tower t, int taillew, int tailleh);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
@@ -194,7 +201,6 @@ s_Tir direction_tir(s_Tir t, s_Mob mob);
 s_Tir deplacement_tir(s_Tir t);
 void disparition_tir(liste_tir *T,liste_mob L );
 void cible(liste_tir *L, liste_mob M);
-
 
 void collision_tir_mob(liste_tir *T, liste_mob *M);
 int collision_box_box(s_Hitbox box1, s_Hitbox box2);

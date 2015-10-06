@@ -146,7 +146,7 @@ int main(int argc, char* argv[])
   /* ******************** boucle principale ******************* */
   
   
-  creep = mob_spawn(creep, CREEP_WIDTH, CREEP_HEIGHT);
+  creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED);
   magic = tower_init(magic, MAGIC_WIDTH, MAGIC_HEIGHT);
   tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
 

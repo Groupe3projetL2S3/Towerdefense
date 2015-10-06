@@ -1,14 +1,15 @@
 #include "../jeu.h"
 
 
-s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh) { //gère l'apparition du mob
+s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit) { //gère l'apparition du mob
   /* set mob speed */
-  s_mob.vit.x = 0.8;
+  s_mob.vit.x = vit;
   s_mob.vit.y = 0.0;
 
   /* set sprite position */
   s_mob.coords.x = -30;
-  s_mob.coords.y = 120;
+  s_mob.coords.y = SeekSpawn(map);
+  printf("%f \n", s_mob.coords.y);
   
   /* set sprite animation frame */
   s_mob.rcSrc.x = 0;
@@ -22,7 +23,6 @@ s_Mob mob_spawn(s_Mob s_mob, int taillew, int tailleh) { //gère l'apparition du
   return s_mob;
 }
 s_Mob mob_deplacement(s_Mob s_mob) { 
-
 
   s_mob.coords.x = s_mob.coords.x + s_mob.vit.x;
   s_mob.coords.y = s_mob.coords.y + s_mob.vit.y;
@@ -41,11 +41,11 @@ s_Mob mob_deplacement(s_Mob s_mob) {
 s_Mob mob_parcours(s_Mob s_mob, Map *map){
   
   int x, y, marge, haut, bas, gauche, droite;
-  
+  float vit = fabs(s_mob.vit.x + s_mob.vit.y);
  
   x = (int) (s_mob.coords.x + CREEP_WIDTH/2 ) / TILE_SIZE;
   y = (int) (s_mob.coords.y +  CREEP_HEIGHT/2) / TILE_SIZE;
-      
+  marge = 8;
   
   if (s_mob.coords.x > TILE_SIZE && s_mob.coords.x < SCREEN_WIDTH - TILE_SIZE*1.5 ){
     haut = map->monde[x][y-1];
@@ -53,60 +53,53 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
     bas = map->monde[x][y+1];
     droite = map->monde[x+1][y];
 
-    float creep_speed = 0.8;
-    marge = 8;
-
-
-    if (map->tab_props[droite].type == 1 && map->tab_props[haut].type == 1 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
+    
+    if (map->tab_props[droite].type == TERRAIN && map->tab_props[haut].type == TERRAIN && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
-      s_mob.vit.y = creep_speed;
+      s_mob.vit.y = vit;
     }
-    if (map->tab_props[droite].type == 1 && map->tab_props[bas].type == 1 && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
+    if (map->tab_props[droite].type == TERRAIN && map->tab_props[bas].type == TERRAIN && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
-      s_mob.vit.y = -creep_speed;
-      }
+      s_mob.vit.y = -vit;
+    }
 
 
 
-
-    if (map->tab_props[bas].type == 1 && map->tab_props[droite].type == 1 && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
-      s_mob.vit.x = -creep_speed;
+    if (map->tab_props[bas].type == TERRAIN && map->tab_props[droite].type == TERRAIN && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
+      s_mob.vit.x = -vit;
       s_mob.vit.y = 0;
     }
-    if (map->tab_props[bas].type == 1 && map->tab_props[gauche].type == 1 && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
-      s_mob.vit.x = creep_speed;
+    if (map->tab_props[bas].type == TERRAIN && map->tab_props[gauche].type == TERRAIN && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
+      s_mob.vit.x = vit;
       s_mob.vit.y = 0;
-      }
+    }
 
 
 
-    if (map->tab_props[haut].type == 1 && map->tab_props[droite].type == 1 && s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
-      s_mob.vit.x = -creep_speed;
+    if (map->tab_props[haut].type == TERRAIN && map->tab_props[droite].type == TERRAIN && s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
+      s_mob.vit.x = -vit;
       s_mob.vit.y = 0;      
-      }
-    if (map->tab_props[haut].type == 1 && map->tab_props[gauche].type == 1 &&  s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
-      s_mob.vit.x = creep_speed;
+    }
+    if (map->tab_props[haut].type == TERRAIN && map->tab_props[gauche].type == TERRAIN &&  s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
+      s_mob.vit.x = vit;
       s_mob.vit.y = 0;
-      
     }
 
 
 
-    if (map->tab_props[gauche].type == 1 && map->tab_props[haut].type == 1 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
+    if (map->tab_props[gauche].type == TERRAIN && map->tab_props[haut].type == TERRAIN && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
-      s_mob.vit.y = creep_speed;
+      s_mob.vit.y = vit;
     }
-    if (map->tab_props[gauche].type == 1 && map->tab_props[bas].type == 1 && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
+    if (map->tab_props[gauche].type == TERRAIN && map->tab_props[bas].type == TERRAIN && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
-      s_mob.vit.y = -creep_speed;
-      }
-
+      s_mob.vit.y = -vit;
+    }
   }
   return s_mob;
 }
 
 s_Mob mob_animation(s_Mob s_mob) {
-
 
   if (s_mob.vit.x > 0) {
     s_mob.animation += 1;

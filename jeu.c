@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
   creep.mob = Load_image("Images/sprite_creeper.bmp");
   magic.tower = Load_image("Images/tower_magic1.bmp");
   tir_magic.tir = Load_image("Images/tir.bmp");
-  creep.healthbar.vie = Load_image("Images/healthbar.bmp");
+  creep.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
 
   /* ********************   colorkey ******************* */
 
@@ -181,6 +181,7 @@ int main(int argc, char* argv[])
 
       /* draw healthbar */
       healthbar_affichage(liste_creep, screen);
+
       /* fonction */
       collision_tir_mob(&liste_tir_magic, &liste_creep);
       tower_tir(&liste_magic, &liste_creep, &liste_tir_magic, tir_magic, screen, temps_jeu, magic);

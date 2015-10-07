@@ -6,6 +6,8 @@ s_Tir tir_init(s_Tir t, int taillew, int tailleh) {
   t.rcSrc.y = 0;
   t.rcSrc.w = taillew;
   t.rcSrc.h = tailleh;
+  t.cible.numero = 0;
+  t.dommage = 0;
   return t;
 }
 
@@ -38,7 +40,9 @@ void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M) {
 s_Tir tir_spawn(s_Tir t, s_Tower to) { 
   t.coords.x = to.coords.x + to.rcSprite.w/2 - t.rcSrc.w/2;
   t.coords.y = to.coords.y;
-
+  if (to.type == 1){
+    t.dommage = 1; // a définir la puissance selon le type 
+  }
   return t;
 }
 
@@ -108,7 +112,7 @@ void disparition_tir(liste_tir *T, liste_mob M) {
     
     s_Tir t = it->t;
 	
-    if (liste_is_empty_mob(M)) {
+    if (liste_is_empty_mob(M) || t.cible.numero == 0) {
       poubelle_tir = liste_cons_tir(t, poubelle_tir);
     }
     else {
@@ -132,6 +136,7 @@ void cible(liste_tir *L, liste_mob M){
   liste_tir it = *L;
   liste_tir new_liste_tir = NULL;
   liste_mob mit = M;
+  int cible_valide = 0;
 
   if (!liste_is_empty_tir(it) && !liste_is_empty_mob(mit)){
     
@@ -146,6 +151,7 @@ void cible(liste_tir *L, liste_mob M){
 	
 	if(m.numero == t.cible.numero){
 	  t = direction_tir(t, m);
+	  cible_valide = 1;
 	}
 	
 	
@@ -153,12 +159,16 @@ void cible(liste_tir *L, liste_mob M){
 	mit = mit->next;
 	
       }
+      if(cible_valide == 0){
+	t.cible.numero = 0;
+      }
       new_liste_tir = liste_cons_tir(t, new_liste_tir);
-      
+
       it->t = t;
       it = it->next;
       
     }
     *L = new_liste_tir;
+
   }
 }

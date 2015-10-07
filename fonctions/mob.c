@@ -16,6 +16,10 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit) { //
   s_mob.rcSrc.w = taillew;
   s_mob.rcSrc.h = tailleh;
 
+  /* initialisation des pv*/
+  s_mob.pv_max = 20; // a définir
+  s_mob.pv = s_mob.pv_max;
+
   s_mob.animation = 0;
   s_mob.priorite = 0.0;
   
@@ -141,8 +145,7 @@ void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen) {
 	m = mob_deplacement(m);
 	m = mob_animation(m);
 
-	//printf("%f %f %f %f \n", m.box.x,m.box.y,m.box.w,m.box.h);
-	
+
 
 	m.rcSprite.x = (int) m.coords.x;
 	m.rcSprite.y = (int) m.coords.y;

@@ -6,6 +6,7 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh) {
   t.rcSrc.y = 0;
   t.rcSrc.w = taillew;
   t.rcSrc.h = tailleh;
+  t.type = 1; // a définir
 
   t.temps = 0;
   return t;
@@ -47,6 +48,7 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
       s_Tower tow = it->t;
       float tir_priorite = 0.0;
       liste_mob mit = *M;
+      tir.cible.numero = 0;
  
 
       if(temps_jeu - tow.temps > 1500 ){
@@ -54,14 +56,13 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
 	while(mit != NULL){
 	  
 	  s_Mob mo = mit->m;
-	  
 
+	  
 	  
 	  
 	   if( abs((tow.coords.x + tow.rcSprite.w/2) - (mo.coords.x + mo.rcSprite.w/2)) < DISTANCE_MAGIC_TOWER && abs((tow.coords.y+tow.rcSprite.h/2)-(mo.coords.y+mo.rcSprite.h/2)) < DISTANCE_MAGIC_TOWER){
 	     
 	     if(mo.priorite > tir_priorite && mo.coords.x > 10){
-	       
 	       tir = tir_spawn(tir, tow);
 	       tir = direction_tir(tir, mo);
 	       tir.cible = mo;
@@ -70,18 +71,15 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
 	     
 	     tir_priorite = mo.priorite;
 	     
-	     if(mit->next == NULL){
-	       
-	       tmp = liste_cons_tir(tir,tmp);
-	     }
+
 	   }
-	   
+
 	   mit->m = mo;
 	   mit = mit->next;	      
 
 	}
-	
-	
+	if(tir.cible.numero > 0 )
+	  tmp = liste_cons_tir(tir,tmp);
 
 	tow.temps = temps_jeu;
       }

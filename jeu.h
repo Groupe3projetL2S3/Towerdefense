@@ -27,7 +27,7 @@
 #define HB_WIDTH 20
 #define HB_HEIGHT 5
 
-#define DISTANCE_MAGIC_TOWER 150
+#define DISTANCE_MAGIC_TOWER 70
 
 #define TAB_MAX 1000
 
@@ -84,6 +84,8 @@ typedef struct
   s_Healthbar healthbar;
   int animation;
   int numero;
+  int pv_max;
+  int pv;
   float priorite;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
@@ -94,6 +96,7 @@ typedef struct
 {
   s_Floatpos coords;
   int temps;
+  int type;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tower;
@@ -105,6 +108,7 @@ typedef struct
   s_Floatpos coords;
   s_Floatpos vit;
   s_Hitbox box;
+  int dommage;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tir;
@@ -218,6 +222,7 @@ void disparition_tir(liste_tir *T,liste_mob L );
 void cible(liste_tir *L, liste_mob M);
 
 s_Healthbar healthbar_init(s_Healthbar h, int taillew, int tailleh);
+s_Healthbar healthbar_animation(s_Healthbar h, s_Mob mob);
 void healthbar_affichage(liste_mob L, SDL_Surface *screen);
 
 void collision_tir_mob(liste_tir *T, liste_mob *M);

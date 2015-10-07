@@ -224,6 +224,8 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(tir_magic.tir);
   if (creep.healthbar.vie != NULL)
     SDL_FreeSurface(creep.healthbar.vie);
+  if (menu_tower != NULL)
+    SDL_FreeSurface(menu_tower);
 
   SDL_Quit();
   

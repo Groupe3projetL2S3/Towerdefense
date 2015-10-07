@@ -98,6 +98,15 @@ typedef struct
   s_Mob cible;
 } s_Tir;
 
+typedef struct
+{
+  s_Floatpos coords;
+  SDL_Rect rcSrc;
+  SDL_Rect rcSprite;
+  SDL_Surface *vie;
+} s_Healthbar;
+
+
 
 /* Définition de la structure liste pour mobs*/
 struct Liste_mob
@@ -132,6 +141,17 @@ struct Liste_tir
 typedef struct Liste_tir Liste_tir;
 typedef struct Liste_tir * liste_tir;
 
+
+/* Définition de la structure liste pour les healthbars*/
+struct Liste_healthbar
+{
+  s_Healthbar h;
+  struct Liste_healthbar * next;
+};
+
+/* Définition du type liste_tir */ 
+typedef struct Liste_healthbar Liste_healthbar;
+typedef struct Liste_healthbar * liste_healthbar;
 
 /****************************Liste mob********************************/
 /* constructeurs */
@@ -173,6 +193,19 @@ liste_tir liste_tail_tir(liste_tir L);
 
 /* Libérer */
 void liste_free_tir(liste_tir * L);
+
+/**************************Liste healthbar ******************************/
+/* constructeurs */
+liste_healthbar liste_new_empty_healthbar();
+liste_healthbar liste_cons_healthbar(s_Healthbar h, liste_healthbar L);
+
+/* accesseurs */
+int liste_is_empty_healthbar(liste_healthbar L);
+s_Healthbar liste_head_healthbar(liste_healthbar L);
+liste_healthbar liste_tail_healthbar(liste_healthbar L);
+
+/* Libérer */
+void liste_free_healthbar(liste_healthbar * L);
 
 
 /**************************Headers**********************************/

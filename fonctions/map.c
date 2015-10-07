@@ -1,7 +1,5 @@
 #include "../jeu.h"
 
-
-
 //Fonctions de LoadMap
 void LoadMap_tiles(FILE* Fichier,Map* map) //Sous fonction qui charge les tiles dans un tableau
 {
@@ -113,13 +111,10 @@ int FreeMap(Map* map)
 float SeekSpawn(Map *map) {
   int i;
   float res = 0.0;
-  int trouve = 0;
-  for (i = 0; i < map->nbtiles_hauteur_monde && trouve == 0; i++) {
+  float marge = 40.0;
+  for (i = 0; i < map->nbtiles_hauteur_monde; i++) {
     if (map->tab_props[map->monde[0][i]].type == CHEMIN) {
-      trouve = 1;
-      printf("%d \n", i);
-      res = ((i+1)*32.0 - 40.0);
-      printf(" %f \n", res);
+      res = ((i+1)*TILE_SIZE - marge);
     }
   }
 return res;

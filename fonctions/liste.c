@@ -146,3 +146,53 @@ void liste_free_tir(liste_tir * L) {
     free(tmp);
   }
 }
+
+
+
+
+/*************************** Implémentation liste healthbar *********************/
+/* constructeurs */
+
+liste_healthbar liste_new_empty_healthbar() {
+  return NULL;
+}
+
+
+liste_healthbar liste_cons_healthbar(s_Healthbar h, liste_healthbar L) {
+  liste_healthbar nouveau = (liste_healthbar) malloc(sizeof(Liste_healthbar));
+  nouveau->h = h; 
+  nouveau->next = L;
+  return nouveau;
+}
+
+
+/* accesseurs */
+
+int liste_is_empty_healthbar(liste_healthbar L) {
+  if (L == NULL) {
+    return 1;
+  }
+  return 0;
+}
+
+s_Healthbar liste_head_healthbar(liste_healthbar L) {
+  assert (liste_is_empty_healthbar(L)==0);
+  return (L->h);
+}
+
+liste_healthbar liste_tail_healthbar(liste_healthbar L) {
+  assert (liste_is_empty_healthbar(L)==0);
+  return (L->next);
+}
+
+
+/* free  */
+
+void liste_free_healthbar(liste_healthbar * L) {
+  liste_healthbar tmp;
+  while (!liste_is_empty_healthbar(*L)) {
+    tmp = *L;
+    *L = liste_tail_healthbar(*L);
+    free(tmp);
+  }
+}

@@ -101,10 +101,12 @@ int main(int argc, char* argv[])
   s_Mob creep;
   s_Tower magic;
   s_Tir tir_magic;
+  S_Healthbar hb;
 
   liste_mob liste_creep = NULL;
   liste_tower liste_magic = NULL;
   liste_tir liste_tir_magic = NULL;
+  liste_healthbar liste_hb = NULL;
 
   Map* map = NULL;
   Map* map_objet = NULL;
@@ -129,6 +131,7 @@ int main(int argc, char* argv[])
   creep.mob = Load_image("Images/sprite_creeper.bmp");
   magic.tower = Load_image("Images/tower_magic1.bmp");
   tir_magic.tir = Load_image("Images/tir.bmp");
+  hb.vie = Load_image("Images/healthbar.bmp");
 
   /* ********************   colorkey ******************* */
 
@@ -149,6 +152,7 @@ int main(int argc, char* argv[])
   creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED);
   magic = tower_init(magic, MAGIC_WIDTH, MAGIC_HEIGHT);
   tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
+  hb = healthbar_init(hb, HB_WIDTH, HB_HEIGHT);
 
   /* message pump */
   while (!gameover)

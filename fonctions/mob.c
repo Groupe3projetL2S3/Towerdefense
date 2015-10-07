@@ -9,7 +9,6 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit) { //
   /* set sprite position */
   s_mob.coords.x = -30;
   s_mob.coords.y = SeekSpawn(map);
-  printf("%f \n", s_mob.coords.y);
   
   /* set sprite animation frame */
   s_mob.rcSrc.x = 0;

@@ -54,7 +54,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M) {
       new_liste_tir = NULL;
       liste_free_tir(&new_liste_tir);
       
-      if (m.pv != 0) {
+      if (m.pv > 0) {
 	new_liste_mob = liste_cons_mob(m, new_liste_mob);
       }
       else{

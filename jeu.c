@@ -94,7 +94,8 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Tower 
 
 int main(int argc, char* argv[])
 {
-  SDL_Surface *screen = NULL;
+  SDL_Surface *screen = NULL, *menu_tower = NULL;
+  SDL_Rect rcMenu_tower;
 
   int colorkey, colorkeyN;
 
@@ -130,6 +131,7 @@ int main(int argc, char* argv[])
   magic.tower = Load_image("Images/tower_magic1.bmp");
   tir_magic.tir = Load_image("Images/tir.bmp");
   creep.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
+  menu_tower = Load_image("Images/menu_tower.bmp");
 
   /* ********************   colorkey ******************* */
 
@@ -167,6 +169,11 @@ int main(int argc, char* argv[])
       /* draw the map */
       PrintMap(map,screen);
       PrintMap(map_objet,screen);
+
+      rcMenu_tower.x = 0;
+      rcMenu_tower.y = 416;
+      SDL_BlitSurface(menu_tower, NULL, screen, &rcMenu_tower );
+	
 
       /* draw creeps */
       mob_affichage(liste_creep, map, screen);

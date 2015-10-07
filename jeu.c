@@ -101,12 +101,10 @@ int main(int argc, char* argv[])
   s_Mob creep;
   s_Tower magic;
   s_Tir tir_magic;
-  S_Healthbar hb;
 
   liste_mob liste_creep = NULL;
   liste_tower liste_magic = NULL;
   liste_tir liste_tir_magic = NULL;
-  liste_healthbar liste_hb = NULL;
 
   Map* map = NULL;
   Map* map_objet = NULL;
@@ -131,7 +129,7 @@ int main(int argc, char* argv[])
   creep.mob = Load_image("Images/sprite_creeper.bmp");
   magic.tower = Load_image("Images/tower_magic1.bmp");
   tir_magic.tir = Load_image("Images/tir.bmp");
-  hb.vie = Load_image("Images/healthbar.bmp");
+  creep.healthbar.vie = Load_image("Images/healthbar.bmp");
 
   /* ********************   colorkey ******************* */
 
@@ -152,7 +150,7 @@ int main(int argc, char* argv[])
   creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED);
   magic = tower_init(magic, MAGIC_WIDTH, MAGIC_HEIGHT);
   tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
-  hb = healthbar_init(hb, HB_WIDTH, HB_HEIGHT);
+  creep.healthbar = healthbar_init(creep.healthbar, HB_WIDTH, HB_HEIGHT);
 
   /* message pump */
   while (!gameover)
@@ -163,33 +161,28 @@ int main(int argc, char* argv[])
       /* initialize SDL */
       SDL_Init(SDL_INIT_VIDEO);
       
-      
       /* look for an event */
       update_events(key,&liste_creep, &liste_magic, creep, magic, map, map_objet, &num_mob);
 
-
-
       /* draw the map */
-  
       PrintMap(map,screen);
       PrintMap(map_objet,screen);
 
-      /* draw the creeper */
+      /* draw creeps */
       mob_affichage(liste_creep, map, screen);
       
-      /* draw the tower */
+      /* draw towers */
       cible(&liste_tir_magic, liste_creep);
       tower_affichage(liste_magic ,screen);
 
-      /* draw the shoot */
-
+      /* draw shoots */
       tir_affichage(liste_tir_magic, tir_magic, screen, liste_creep);
       disparition_tir(&liste_tir_magic, liste_creep);
 
+      /* draw healthbar */
+      healthbar_affichage(liste_creep, screen);
       /* fonction */
-
       collision_tir_mob(&liste_tir_magic, &liste_creep);
-
       tower_tir(&liste_magic, &liste_creep, &liste_tir_magic, tir_magic, screen, temps_jeu, magic);
       
       SDL_Flip(screen);
@@ -221,6 +214,8 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(creep.mob);
   if (tir_magic.tir != NULL)
     SDL_FreeSurface(tir_magic.tir);
+  if (creep.healthbar.vie != NULL)
+    SDL_FreeSurface(creep.healthbar.vie);
 
   SDL_Quit();
   

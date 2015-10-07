@@ -1,5 +1,5 @@
 # definition des fichiers
-FONCTIONS = jeu.c fonctions/map.c fonctions/mob.c fonctions/liste.c fonctions/tower.c fonctions/tir.c fonctions/collision.c
+FONCTIONS = jeu.c fonctions/map.c fonctions/mob.c fonctions/liste.c fonctions/tower.c fonctions/tir.c fonctions/collision.c fonctions/healthbar.c
 
 CC = gcc
 

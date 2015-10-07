@@ -24,6 +24,9 @@
 #define TIR_WIDTH 16
 #define TIR_HEIGHT 16
 
+#define HB_WIDTH 20
+#define HB_HEIGHT 5
+
 #define DISTANCE_MAGIC_TOWER 150
 
 #define TAB_MAX 1000
@@ -55,6 +58,15 @@ typedef struct
 
 typedef struct
 {
+  s_Floatpos coords;
+  SDL_Rect rcSrc;
+  SDL_Rect rcSprite;
+  SDL_Surface *vie;
+} s_Healthbar;
+
+
+typedef struct
+{
   int tile_width, tile_height;
   int nbtilesX,nbtilesY;
   SDL_Surface* tileset;
@@ -69,6 +81,7 @@ typedef struct
   s_Floatpos coords;
   s_Floatpos vit;
   s_Hitbox box;
+  s_Healthbar healthbar;
   int animation;
   int numero;
   float priorite;
@@ -98,13 +111,6 @@ typedef struct
   s_Mob cible;
 } s_Tir;
 
-typedef struct
-{
-  s_Floatpos coords;
-  SDL_Rect rcSrc;
-  SDL_Rect rcSprite;
-  SDL_Surface *vie;
-} s_Healthbar;
 
 
 
@@ -141,17 +147,6 @@ struct Liste_tir
 typedef struct Liste_tir Liste_tir;
 typedef struct Liste_tir * liste_tir;
 
-
-/* Définition de la structure liste pour les healthbars*/
-struct Liste_healthbar
-{
-  s_Healthbar h;
-  struct Liste_healthbar * next;
-};
-
-/* Définition du type liste_tir */ 
-typedef struct Liste_healthbar Liste_healthbar;
-typedef struct Liste_healthbar * liste_healthbar;
 
 /****************************Liste mob********************************/
 /* constructeurs */
@@ -194,19 +189,6 @@ liste_tir liste_tail_tir(liste_tir L);
 /* Libérer */
 void liste_free_tir(liste_tir * L);
 
-/**************************Liste healthbar ******************************/
-/* constructeurs */
-liste_healthbar liste_new_empty_healthbar();
-liste_healthbar liste_cons_healthbar(s_Healthbar h, liste_healthbar L);
-
-/* accesseurs */
-int liste_is_empty_healthbar(liste_healthbar L);
-s_Healthbar liste_head_healthbar(liste_healthbar L);
-liste_healthbar liste_tail_healthbar(liste_healthbar L);
-
-/* Libérer */
-void liste_free_healthbar(liste_healthbar * L);
-
 
 /**************************Headers**********************************/
 
@@ -234,6 +216,9 @@ s_Tir direction_tir(s_Tir t, s_Mob mob);
 s_Tir deplacement_tir(s_Tir t);
 void disparition_tir(liste_tir *T,liste_mob L );
 void cible(liste_tir *L, liste_mob M);
+
+s_Healthbar healthbar_init(s_Healthbar h, int taillew, int tailleh);
+void healthbar_affichage(liste_mob L, SDL_Surface *screen);
 
 void collision_tir_mob(liste_tir *T, liste_mob *M);
 int collision_box_box(s_Hitbox box1, s_Hitbox box2);

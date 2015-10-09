@@ -258,6 +258,10 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(magic.tower);
   if (creep.mob != NULL)
     SDL_FreeSurface(creep.mob);
+  if (zombie.mob != NULL)
+    SDL_FreeSurface(zombie.mob);
+  if (ender.mob != NULL)
+    SDL_FreeSurface(ender.mob);
   if (tir_magic.tir != NULL)
     SDL_FreeSurface(tir_magic.tir);
   if (creep.healthbar.vie != NULL)

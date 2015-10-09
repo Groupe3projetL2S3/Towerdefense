@@ -97,6 +97,7 @@ typedef struct
   s_Floatpos coords;
   int temps;
   int type;
+  int actif;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tower;
@@ -212,6 +213,7 @@ void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
 s_Tower tower_init(s_Tower t, int taillew, int tailleh);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
+void tower_menu(s_Tower tower, liste_tower *T,  int event_button_x, int event_button_y, int case1, Map *map, Map *map_o);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M);

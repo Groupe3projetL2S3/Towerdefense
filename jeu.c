@@ -28,8 +28,10 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Tower 
 {
   SDL_Event event;
   liste_mob tmp;
-  liste_tower tmp2;
+  liste_tower tmp2 = NULL;
   int j;
+  int case1 = 0;
+
   
 
   while(SDL_PollEvent(&event)) {
@@ -63,24 +65,26 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Tower 
     case SDL_MOUSEBUTTONDOWN:    
       switch(event.button.button){
 	
-      case SDL_BUTTON_LEFT:   
+      case SDL_BUTTON_LEFT: 
 
-	if (event.button.button == SDL_BUTTON_LEFT){
-	  tower.coords.x = (event.button.x / TILE_SIZE) * TILE_SIZE;
-	  tower.coords.y = (event.button.y / TILE_SIZE) * TILE_SIZE -20; //on récup' les coords exactes ou afficher la tour
-	  int x = (int) event.button.x/TILE_SIZE;
-	  int y = (int) event.button.y/TILE_SIZE;
-
-	  if (map->tab_props[map->monde[x][y]].type == 1 && map_o->tab_props[map_o->monde[x][y]].type == 1 ){
-	    tmp2 = *T;
-	    tmp2 = liste_cons_tower(tower,tmp2);
-	    *T = tmp2;
-	  }
-	}
+	tower_menu(tower, T, event.button.x, event.button.y,case1, map, map_o);	
 	break;
       }
-      keys[event.button.button] = 1;
+      keys[event.button.button] = 1;      
       break; 
+
+    case SDL_MOUSEMOTION:
+      if (*T != NULL) {
+	tmp2 = NULL;
+	tmp2 = *T;
+	if (!tmp2->t.actif){
+	tmp2->t.coords.x = event.motion.x - MAGIC_WIDTH / 2;
+	tmp2->t.coords.y = event.motion.y - MAGIC_HEIGHT / 2 - 16;
+	}
+	*T = tmp2;
+      }
+      break;
+
     }
   }
 }
@@ -175,6 +179,10 @@ int main(int argc, char* argv[])
       SDL_BlitSurface(menu_tower, NULL, screen, &rcMenu_tower );
 	
 
+      magic.rcSprite.x = 21;
+      magic.rcSprite.y = 439;
+      SDL_BlitSurface(magic.tower, NULL, screen, &magic.rcSprite );
+	
       /* draw creeps */
       mob_affichage(liste_creep, map, screen);
       

@@ -22,6 +22,10 @@
 #define ZOMBIE_HEIGHT 32
 #define ZOMBIE_SPEED 0.6
 
+#define ENDER_WIDTH 16
+#define ENDER_HEIGHT 40
+#define ENDER_SPEED 0.6
+
 #define MAGIC_WIDTH 32
 #define MAGIC_HEIGHT 48
 
@@ -236,7 +240,7 @@ int collision_box_box(s_Hitbox box1, s_Hitbox box2);
 
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Tower tower, Map *map, Map *map_o, int *i);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower tower, Map *map, Map *map_o, int *i);
 
 
 

@@ -18,6 +18,10 @@
 #define CREEP_HEIGHT 32
 #define CREEP_SPEED 0.8
 
+#define ZOMBIE_WIDTH 16
+#define ZOMBIE_HEIGHT 32
+#define ZOMBIE_SPEED 0.6
+
 #define MAGIC_WIDTH 32
 #define MAGIC_HEIGHT 48
 
@@ -232,7 +236,7 @@ int collision_box_box(s_Hitbox box1, s_Hitbox box2);
 
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Tower tower, Map *map, Map *map_o, int *i);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Tower tower, Map *map, Map *map_o, int *i);
 
 
 

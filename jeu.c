@@ -24,7 +24,7 @@ int gameover;
 
 
 /* SDL Function */
-void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Tower tower,Map *map, Map *map_o,int *i)
+void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Tower tower,Map *map, Map *map_o,int *i)
 {
   SDL_Event event;
   liste_mob tmp;
@@ -58,6 +58,15 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Tower 
 	tmp = liste_cons_mob(mob,tmp);
 	*L = tmp;
 	break;
+      case SDLK_f:
+	j = *i +1;
+	mob2.numero = j;
+	*i = j;
+	tmp = *L;
+	tmp = liste_cons_mob(mob2,tmp);
+	*L = tmp;
+	break;
+
       }
       keys[event.key.keysym.sym] = 1;
       break;
@@ -104,6 +113,7 @@ int main(int argc, char* argv[])
   int colorkey, colorkeyN;
 
   s_Mob creep;
+  s_Mob zombie;
   s_Tower magic;
   s_Tir tir_magic;
 
@@ -132,9 +142,11 @@ int main(int argc, char* argv[])
   map_objet = LoadMap("objet.txt");
   
   creep.mob = Load_image("Images/sprite_creeper.bmp");
+  zombie.mob = Load_image("Images/sprite_zombie.bmp");
   magic.tower = Load_image("Images/tower_magic1.bmp");
   tir_magic.tir = Load_image("Images/tir.bmp");
   creep.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
+  zombie.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
   menu_tower = Load_image("Images/menu_tower.bmp");
 
   /* ********************   colorkey ******************* */
@@ -144,6 +156,7 @@ int main(int argc, char* argv[])
 
   SDL_SetColorKey(map_objet->tileset, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(creep.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(zombie.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(magic.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(tir_magic.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkeyN);
 
@@ -154,10 +167,13 @@ int main(int argc, char* argv[])
   
   
   creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED);
+  zombie = mob_spawn(zombie, map, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, ZOMBIE_SPEED);
+
   magic = tower_init(magic, MAGIC_WIDTH, MAGIC_HEIGHT);
   tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
-  creep.healthbar = healthbar_init(creep.healthbar, HB_WIDTH, HB_HEIGHT);
 
+  creep.healthbar = healthbar_init(creep.healthbar, HB_WIDTH, HB_HEIGHT);
+  zombie.healthbar = healthbar_init(zombie.healthbar, HB_WIDTH, HB_HEIGHT);
   /* message pump */
   while (!gameover)
     {
@@ -168,7 +184,7 @@ int main(int argc, char* argv[])
       SDL_Init(SDL_INIT_VIDEO);
       
       /* look for an event */
-      update_events(key,&liste_creep, &liste_magic, creep, magic, map, map_objet, &num_mob);
+      update_events(key,&liste_creep, &liste_magic, creep, zombie, magic, map, map_objet, &num_mob);
 
       /* draw the map */
       PrintMap(map,screen);

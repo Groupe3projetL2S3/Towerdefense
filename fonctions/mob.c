@@ -17,7 +17,7 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit) { //
   s_mob.rcSrc.h = tailleh;
 
   /* initialisation des pv*/
-  s_mob.pv_max = 20; // a définir
+  s_mob.pv_max = 100; // a définir
   s_mob.pv = s_mob.pv_max;
 
   s_mob.animation = 0;

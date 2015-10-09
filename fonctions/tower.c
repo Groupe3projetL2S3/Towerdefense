@@ -43,7 +43,7 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
     liste_mob mit = *M;
     tir.cible.numero = 0;
  
-    if(temps_jeu - tow.temps > 1500 && tow.actif){
+    if(temps_jeu - tow.temps > 50 && tow.actif){
 	  
       while(mit != NULL){
 	  

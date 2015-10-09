@@ -11,7 +11,7 @@ s_Healthbar healthbar_init(s_Healthbar h, int taillew, int tailleh) {
 }
 
 s_Healthbar healthbar_animation(s_Healthbar h, s_Mob mob) {
-  printf("%d \n",mob.pv);
+
   float tmp1 = 0, tmp2 = 0, vie = 100.0;
   tmp1 = mob.pv_max;
   tmp2 = mob.pv;

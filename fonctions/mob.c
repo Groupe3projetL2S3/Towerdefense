@@ -156,3 +156,15 @@ void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen) {
 	it = it->next;
       }
 }
+
+void mob_add(int *i, s_Mob mob, liste_mob *L) {
+  int j = 0;
+  liste_mob tmp = NULL;
+
+  j = *i +1;
+  mob.numero = j;
+  *i = j;
+  tmp = *L;
+  tmp = liste_cons_mob(mob, tmp);
+  *L = tmp;
+}

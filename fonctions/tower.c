@@ -74,9 +74,12 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
 }
 
 
-void tower_menu(s_Tower tower, liste_tower *T,  int event_button_x, int event_button_y, int case1, Map *map, Map *map_o) {
+void tower_menu(s_Tower tower, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o) {
 
+  int case1 = 0;
   liste_tower tmp2 = NULL;
+
+  /* pour ajouter les 3 autres tours, il suffira de faire un switch avec un "case:" pour chaque bouton, puis mettre le contenu du "else" dans le cas général du switch. Puis je ferai une fonction "tower_add" pour racourcir le code (voir mob_add dans update_event) */
 
   if (event_button_x >= 9 && event_button_x <= 63
       && event_button_y >= 439 && event_button_y <= 493 && !case1 ) {
@@ -109,4 +112,18 @@ void tower_menu(s_Tower tower, liste_tower *T,  int event_button_x, int event_bu
       }
     }
   }
+}
+
+void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y) {
+
+  liste_tower tmp2 = NULL;
+
+  if (*T != NULL) {
+    tmp2 = *T;
+    if (!tmp2->t.actif){
+      tmp2->t.coords.x = event_motion_x - MAGIC_WIDTH / 2;
+      tmp2->t.coords.y = event_motion_y - MAGIC_HEIGHT / 2 - 16; //pour centrer sur la souris
+    }
+    *T = tmp2;
+  }  
 }

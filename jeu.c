@@ -27,12 +27,6 @@ int gameover;
 void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3,s_Tower tower,Map *map, Map *map_o,int *i)
 {
   SDL_Event event;
-  liste_mob tmp;
-  liste_tower tmp2 = NULL;
-  int j;
-  int case1 = 0;
-
-  
 
   while(SDL_PollEvent(&event)) {
     switch (event.type) {
@@ -50,31 +44,18 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
       case SDLK_ESCAPE:
 	gameover = 1;
 	break;
+
       case SDLK_d:
-	j = *i +1;
-	mob.numero = j;
-	*i = j;
-	tmp = *L;
-	tmp = liste_cons_mob(mob,tmp);
-	*L = tmp;
-	break;
-      case SDLK_f:
-	j = *i +1;
-	mob2.numero = j;
-	*i = j;
-	tmp = *L;
-	tmp = liste_cons_mob(mob2,tmp);
-	*L = tmp;
-	break;
-      case SDLK_g:
-	j = *i +1;
-	mob3.numero = j;
-	*i = j;
-	tmp = *L;
-	tmp = liste_cons_mob(mob3,tmp);
-	*L = tmp;
+	mob_add(i, mob, L);
 	break;
 
+      case SDLK_f:
+	mob_add(i, mob2, L);
+
+	break;
+      case SDLK_g:
+	mob_add(i, mob3, L);
+	break;
       }
       keys[event.key.keysym.sym] = 1;
       break;
@@ -83,23 +64,14 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
       switch(event.button.button){
 	
       case SDL_BUTTON_LEFT: 
-
-	tower_menu(tower, T, event.button.x, event.button.y,case1, map, map_o);	
+	tower_menu(tower, T, event.button.x, event.button.y, map, map_o);	
 	break;
       }
       keys[event.button.button] = 1;      
       break; 
 
     case SDL_MOUSEMOTION:
-      if (*T != NULL) {
-	tmp2 = NULL;
-	tmp2 = *T;
-	if (!tmp2->t.actif){
-	tmp2->t.coords.x = event.motion.x - MAGIC_WIDTH / 2;
-	tmp2->t.coords.y = event.motion.y - MAGIC_HEIGHT / 2 - 16;
-	}
-	*T = tmp2;
-      }
+      tower_motion(T, event.motion.x, event.motion.y);
       break;
 
     }

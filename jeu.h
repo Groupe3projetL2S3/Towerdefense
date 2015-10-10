@@ -216,12 +216,15 @@ s_Mob mob_deplacement(s_Mob s_mob);
 s_Mob mob_parcours(s_Mob s_mob, Map *map);
 s_Mob mob_animation(s_Mob s_mob);
 void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
+void mob_add(int *i, s_Mob mob, liste_mob *L);
 
 
 s_Tower tower_init(s_Tower t, int taillew, int tailleh);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
-void tower_menu(s_Tower tower, liste_tower *T,  int event_button_x, int event_button_y, int case1, Map *map, Map *map_o);
+void tower_menu(s_Tower tower, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o);
+void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y);
+
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M);

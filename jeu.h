@@ -16,21 +16,26 @@
 
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
-#define CREEP_SPEED 0.8
+#define CREEP_SPEED 0.7
 
 #define ZOMBIE_WIDTH 16
 #define ZOMBIE_HEIGHT 32
-#define ZOMBIE_SPEED 0.6
+#define ZOMBIE_SPEED 0.3
 
 #define ENDER_WIDTH 16
 #define ENDER_HEIGHT 40
-#define ENDER_SPEED 0.6
+#define ENDER_SPEED 0.5
 
 #define MAGIC_WIDTH 32
 #define MAGIC_HEIGHT 48
+#define SNIPER_WIDTH 32
+#define SNIPER_HEIGHT 48
 
 #define TIR_WIDTH 16
 #define TIR_HEIGHT 16
+
+#define RANGE_SNIPER1_SIZE 140
+
 
 #define HB_WIDTH 20
 #define HB_HEIGHT 5
@@ -72,6 +77,29 @@ typedef struct
   SDL_Surface *vie;
 } s_Healthbar;
 
+typedef struct
+{
+  s_Floatpos coords;
+  SDL_Rect rcSrc;
+  SDL_Rect rcSprite;
+  SDL_Surface *range;
+} s_Range;
+
+typedef struct
+{
+  s_Floatpos coords;
+  SDL_Rect rcSrc;
+  SDL_Rect rcSprite;
+  SDL_Surface *sell;
+} s_Sell;
+
+typedef struct
+{
+  s_Floatpos coords;
+  SDL_Rect rcSrc;
+  SDL_Rect rcSprite;
+  SDL_Surface *up;
+} s_Upgrade;
 
 typedef struct
 {
@@ -103,9 +131,14 @@ typedef struct
 typedef struct
 {
   s_Floatpos coords;
+  s_Range range;
+  s_Sell sell;
+  s_Upgrade up;
   int temps;
   int type;
   int actif;
+  int select;
+  int niveau;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tower;
@@ -222,9 +255,9 @@ void mob_add(int *i, s_Mob mob, liste_mob *L);
 s_Tower tower_init(s_Tower t, int taillew, int tailleh);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
-void tower_menu(s_Tower tower, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o);
+void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o);
 void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y);
-
+void tower_select(liste_tower *T,  int event_button_x, int event_button_y);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M);
@@ -241,9 +274,11 @@ void healthbar_affichage(liste_mob L, SDL_Surface *screen);
 void collision_tir_mob(liste_tir *T, liste_mob *M);
 int collision_box_box(s_Hitbox box1, s_Hitbox box2);
 
+s_Range Range_init(s_Range r, int taillew, int tailleh);
+void Range_affichage(liste_tower L, SDL_Surface *screen);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower tower, Map *map, Map *map_o, int *i);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper, s_Tower magic, Map *map, Map *map_o, int *i);
 
 
 

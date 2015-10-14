@@ -38,8 +38,8 @@ void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M) {
 
 
 s_Tir tir_spawn(s_Tir t, s_Tower to) { 
-  t.coords.x = to.coords.x + to.rcSprite.w/2 - t.rcSrc.w/2;
-  t.coords.y = to.coords.y;
+  t.coords.x = to.coords.x + to.rcSprite.w/2;
+  t.coords.y = to.coords.y + to.rcSprite.h/2;
   if (to.type == 1){
     t.dommage = 1; // a définir la puissance selon le type 
   }

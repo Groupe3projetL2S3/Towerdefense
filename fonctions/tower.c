@@ -8,6 +8,8 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh) {
   t.rcSrc.h = tailleh;
   t.type = 1; // a définir
   t.actif = 0;
+  t.select = 0;
+  t.niveau = 1;
 
   t.temps = 0;
   return t;
@@ -21,7 +23,6 @@ void tower_affichage(liste_tower L, SDL_Surface *screen) {
   while (it != NULL) {
     s_Tower t = it->t;
 	
-
     t.rcSprite.x = (int) t.coords.x;
     t.rcSprite.y = (int) t.coords.y;
     SDL_BlitSurface(t.tower, &t.rcSrc, screen, &t.rcSprite);
@@ -74,24 +75,33 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
 }
 
 
-void tower_menu(s_Tower tower, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o) {
+void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o) {
 
-  int case1 = 0;
   liste_tower tmp2 = NULL;
 
   /* pour ajouter les 3 autres tours, il suffira de faire un switch avec un "case:" pour chaque bouton, puis mettre le contenu du "else" dans le cas général du switch. Puis je ferai une fonction "tower_add" pour racourcir le code (voir mob_add dans update_event) */
 
+
   if (event_button_x >= 9 && event_button_x <= 63
-      && event_button_y >= 439 && event_button_y <= 493 && !case1 ) {
-    case1 = 1;
+      && event_button_y >= 439 && event_button_y <= 493){
+    
     tmp2 = NULL;
     tmp2 = *T;
-    tmp2 = liste_cons_tower(tower,tmp2);
+    tmp2 = liste_cons_tower(sniper,tmp2);
+    tmp2->t.coords.x = event_button_x - SNIPER_WIDTH / 2;
+    tmp2->t.coords.y = event_button_y - SNIPER_HEIGHT /2 - 16;
+    *T = tmp2;
+  }
+  else if (event_button_x >= 177 && event_button_x <= 231 
+	   && event_button_y >= 439 && event_button_y <= 493){
+
+    tmp2 = NULL;
+    tmp2 = *T;
+    tmp2 = liste_cons_tower(magic,tmp2);
     tmp2->t.coords.x = event_button_x - MAGIC_WIDTH / 2;
     tmp2->t.coords.y = event_button_y - MAGIC_HEIGHT /2 - 16;
     *T = tmp2;
   } else {
-
     if(*T == NULL)
       return;
 
@@ -106,7 +116,6 @@ void tower_menu(s_Tower tower, liste_tower *T,  int event_button_x, int event_bu
 	  tmp2->t.coords.x = (event_button_x / TILE_SIZE) * TILE_SIZE;
 	  tmp2->t.coords.y = (event_button_y / TILE_SIZE) * TILE_SIZE -20; //on récup' les coords exactes ou afficher la tour
 	  tmp2->t.actif = 1;
-	  case1 = 0;
 	}
 	*T = tmp2;
       }
@@ -126,4 +135,41 @@ void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y) {
     }
     *T = tmp2;
   }  
+}
+
+
+void tower_select(liste_tower *T, int event_button_x, int event_button_y) {
+
+  liste_tower it = *T;
+
+  while (it != NULL) {
+    s_Tower t = it->t;
+	
+    if (event_button_x >= t.coords.x
+	&& event_button_x <= t.coords.x + t.rcSrc.w
+	&& event_button_y >= t.coords.y + t.rcSrc.h-TILE_SIZE
+	&& event_button_y <= t.coords.y + t.rcSrc.h)
+      t.select = 1;
+    else 
+      t.select = 0;
+
+    it->t = t;
+    it = it->next;
+  }
+}
+
+
+void tower_upgrade(liste_tower *T){
+
+   liste_tower it = *T;
+
+  while (it != NULL) {
+    s_Tower t = it->t;
+    
+    if(t.select && t.actif)
+      
+
+    it->t = t;
+    it = it->next;
+  }
 }

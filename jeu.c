@@ -24,7 +24,7 @@ int gameover;
 
 
 /* SDL Function */
-void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3,s_Tower tower,Map *map, Map *map_o,int *i)
+void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3,s_Tower sniper, s_Tower magic, Map *map, Map *map_o,int *i)
 {
   SDL_Event event;
 
@@ -64,7 +64,8 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
       switch(event.button.button){
 	
       case SDL_BUTTON_LEFT: 
-	tower_menu(tower, T, event.button.x, event.button.y, map, map_o);	
+	tower_menu(sniper, magic, T, event.button.x, event.button.y, map, map_o);     
+	tower_select( T, event.button.x, event.button.y);
 	break;
       }
       keys[event.button.button] = 1;      
@@ -95,12 +96,13 @@ int main(int argc, char* argv[])
   s_Mob creep;
   s_Mob zombie;
   s_Mob ender;
+  s_Tower sniper;
   s_Tower magic;
   s_Tir tir_magic;
 
-  liste_mob liste_creep = NULL;
-  liste_tower liste_magic = NULL;
-  liste_tir liste_tir_magic = NULL;
+  liste_mob liste_mob = NULL;
+  liste_tower liste_tower = NULL;
+  liste_tir liste_tir = NULL;
 
   Map* map = NULL;
   Map* map_objet = NULL;
@@ -125,12 +127,17 @@ int main(int argc, char* argv[])
   creep.mob = Load_image("Images/sprite_creeper.bmp");
   zombie.mob = Load_image("Images/sprite_zombie.bmp");
   ender.mob = Load_image("Images/sprite_enderman.bmp");
+
+  sniper.tower = Load_image("Images/tower_sniper1.bmp");
   magic.tower = Load_image("Images/tower_magic1.bmp");
+
   tir_magic.tir = Load_image("Images/tir.bmp");
   creep.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
   zombie.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
   ender.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
   menu_tower = Load_image("Images/menu_tower.bmp");
+  sniper.range.range = Load_image("Images/range_sniper1.bmp");
+  magic.range.range = Load_image("Images/range_sniper1.bmp");
 
   /* ********************   colorkey ******************* */
 
@@ -141,9 +148,11 @@ int main(int argc, char* argv[])
   SDL_SetColorKey(creep.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(zombie.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(ender.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(sniper.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(magic.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(tir_magic.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkeyN);
-
+  SDL_SetColorKey(sniper.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(magic.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   char key[SDLK_LAST] = {0};
   gameover = 0;
   
@@ -154,12 +163,16 @@ int main(int argc, char* argv[])
   zombie = mob_spawn(zombie, map, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, ZOMBIE_SPEED);
   ender = mob_spawn(ender, map, ENDER_WIDTH, ENDER_HEIGHT, ENDER_SPEED);
 
+  sniper = tower_init(sniper, SNIPER_WIDTH, SNIPER_HEIGHT);
   magic = tower_init(magic, MAGIC_WIDTH, MAGIC_HEIGHT);
   tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
 
   creep.healthbar = healthbar_init(creep.healthbar, HB_WIDTH, HB_HEIGHT);
   zombie.healthbar = healthbar_init(zombie.healthbar, HB_WIDTH, HB_HEIGHT);
   ender.healthbar = healthbar_init(ender.healthbar, HB_WIDTH, HB_HEIGHT);
+
+  sniper.range = Range_init(sniper.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
+  magic.range = Range_init(magic.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
   /* message pump */
   while (!gameover)
     {
@@ -170,7 +183,7 @@ int main(int argc, char* argv[])
       SDL_Init(SDL_INIT_VIDEO);
       
       /* look for an event */
-      update_events(key,&liste_creep, &liste_magic, creep, zombie, ender, magic, map, map_objet, &num_mob);
+      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, sniper, magic, map, map_objet, &num_mob);
 
       /* draw the map */
       PrintMap(map,screen);
@@ -179,29 +192,39 @@ int main(int argc, char* argv[])
       rcMenu_tower.x = 0;
       rcMenu_tower.y = 416;
       SDL_BlitSurface(menu_tower, NULL, screen, &rcMenu_tower );
-	
 
-      magic.rcSprite.x = 21;
+
+      sniper.rcSprite.x = 21;
+      sniper.rcSprite.y = 439;
+      SDL_BlitSurface(sniper.tower, NULL, screen, &sniper.rcSprite );
+
+      magic.rcSprite.x = 189;
       magic.rcSprite.y = 439;
       SDL_BlitSurface(magic.tower, NULL, screen, &magic.rcSprite );
 	
-      /* draw creeps */
-      mob_affichage(liste_creep, map, screen);
-      
+ 
+
+      /* draw mobs */
+      mob_affichage(liste_mob, map, screen);
+
+      /* draw range */
+      Range_affichage(liste_tower, screen);
+
       /* draw towers */
-      cible(&liste_tir_magic, liste_creep);
-      tower_affichage(liste_magic ,screen);
+      cible(&liste_tir, liste_mob);
+      tower_affichage(liste_tower ,screen);
 
       /* draw shoots */
-      tir_affichage(liste_tir_magic, tir_magic, screen, liste_creep);
-      disparition_tir(&liste_tir_magic, liste_creep);
+      tir_affichage(liste_tir, tir_magic, screen, liste_mob);
+      disparition_tir(&liste_tir, liste_mob);
 
       /* draw healthbar */
-      healthbar_affichage(liste_creep, screen);
+      healthbar_affichage(liste_mob, screen);
+
 
       /* fonction */
-      collision_tir_mob(&liste_tir_magic, &liste_creep);
-      tower_tir(&liste_magic, &liste_creep, &liste_tir_magic, tir_magic, screen, temps_jeu, magic);
+      collision_tir_mob(&liste_tir, &liste_mob);
+      tower_tir(&liste_tower, &liste_mob, &liste_tir, tir_magic, screen, temps_jeu, sniper);
       
       SDL_Flip(screen);
 
@@ -219,13 +242,15 @@ int main(int argc, char* argv[])
   /* ***********************************     Clean Up    ************************************************************************** */
   /* ****************************************************************************************************************************** */
 
-  if (liste_creep != NULL)
-    liste_free_mob(&liste_creep);
-  if (liste_magic != NULL)
-    liste_free_tower(&liste_magic);
-  if (liste_tir_magic != NULL)
-    liste_free_tir(&liste_tir_magic);
+  if (liste_mob != NULL)
+    liste_free_mob(&liste_mob);
+  if (liste_tower != NULL)
+    liste_free_tower(&liste_tower);
+  if (liste_tir != NULL)
+    liste_free_tir(&liste_tir);
 
+  if (sniper.tower != NULL)
+    SDL_FreeSurface(sniper.tower);
   if (magic.tower != NULL)
     SDL_FreeSurface(magic.tower);
   if (creep.mob != NULL)
@@ -240,7 +265,10 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(creep.healthbar.vie);
   if (menu_tower != NULL)
     SDL_FreeSurface(menu_tower);
-
+  if (sniper.range.range != NULL)
+    SDL_FreeSurface(sniper.range.range);
+  if (magic.range.range != NULL)
+    SDL_FreeSurface(magic.range.range);
   SDL_Quit();
   
   return 0;

@@ -1,12 +1,12 @@
 #include "../jeu.h"
 
-s_Tower tower_init(s_Tower t, int taillew, int tailleh) {
+s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type) {
  
   t.rcSrc.x = 0;
   t.rcSrc.y = 0;
   t.rcSrc.w = taillew;
   t.rcSrc.h = tailleh;
-  t.type = 1; // a définir
+  t.type = type;
   t.actif = 0;
   t.select = 0;
   t.niveau = 1;

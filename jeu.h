@@ -34,13 +34,14 @@
 #define TIR_WIDTH 16
 #define TIR_HEIGHT 16
 
-#define RANGE_SNIPER1_SIZE 140
-
-
 #define HB_WIDTH 20
 #define HB_HEIGHT 5
 
+#define RANGE_SNIPER1_SIZE 140
+#define SNIPER 1
+
 #define DISTANCE_MAGIC_TOWER 70
+#define MAGIC 2
 
 #define TAB_MAX 1000
 
@@ -251,7 +252,7 @@ void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
 void mob_add(int *i, s_Mob mob, liste_mob *L);
 
 
-s_Tower tower_init(s_Tower t, int taillew, int tailleh);
+s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
 void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4);
@@ -279,7 +280,7 @@ s_Range Range_init(s_Range r, int taillew, int tailleh);
 void Range_affichage(liste_tower L, SDL_Surface *screen);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper, s_Tower magic, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper, s_Tower magic, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover);
 
 
 

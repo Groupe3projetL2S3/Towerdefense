@@ -212,7 +212,6 @@ void liste_free_mob(liste_mob * L);
 /* constructeurs */
 liste_tower liste_new_empty_tower();
 liste_tower liste_cons_tower(s_Tower t, liste_tower L);
-
 /* accesseurs */
 int liste_is_empty_tower(liste_tower L);
 s_Tower liste_head_tower(liste_tower L);
@@ -255,9 +254,10 @@ void mob_add(int *i, s_Mob mob, liste_mob *L);
 s_Tower tower_init(s_Tower t, int taillew, int tailleh);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
-void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o);
+void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4);
 void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y);
 void tower_select(liste_tower *T,  int event_button_x, int event_button_y);
+int tower_posay(liste_tower *T, int event_button_x, int event_button_y);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M);
@@ -278,7 +278,7 @@ s_Range Range_init(s_Range r, int taillew, int tailleh);
 void Range_affichage(liste_tower L, SDL_Surface *screen);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper, s_Tower magic, Map *map, Map *map_o, int *i);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper, s_Tower magic, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4);
 
 
 

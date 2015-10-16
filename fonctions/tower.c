@@ -19,7 +19,6 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh) {
 void tower_affichage(liste_tower L, SDL_Surface *screen) {
 
   liste_tower it = L;
-      
   while (it != NULL) {
     s_Tower t = it->t;
 	
@@ -75,25 +74,26 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surfa
 }
 
 
-void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o) {
+void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4) {
 
   liste_tower tmp2 = NULL;
-
-  /* pour ajouter les 3 autres tours, il suffira de faire un switch avec un "case:" pour chaque bouton, puis mettre le contenu du "else" dans le cas général du switch. Puis je ferai une fonction "tower_add" pour racourcir le code (voir mob_add dans update_event) */
-
+  int posay;
 
   if (event_button_x >= 9 && event_button_x <= 63
-      && event_button_y >= 439 && event_button_y <= 493){
-    
+      && event_button_y >= 439 && event_button_y <= 493 && *case1){
     tmp2 = NULL;
     tmp2 = *T;
-    tmp2 = liste_cons_tower(sniper,tmp2);
+    tmp2 =liste_cons_tower(sniper,tmp2);
     tmp2->t.coords.x = event_button_x - SNIPER_WIDTH / 2;
     tmp2->t.coords.y = event_button_y - SNIPER_HEIGHT /2 - 16;
     *T = tmp2;
+    *case1 = 0;
+    *case2 = 0;
+    *case3 = 0;
+    *case4 = 0;
   }
   else if (event_button_x >= 177 && event_button_x <= 231 
-	   && event_button_y >= 439 && event_button_y <= 493){
+	   && event_button_y >= 439 && event_button_y <= 493 && *case2){
 
     tmp2 = NULL;
     tmp2 = *T;
@@ -101,21 +101,27 @@ void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button
     tmp2->t.coords.x = event_button_x - MAGIC_WIDTH / 2;
     tmp2->t.coords.y = event_button_y - MAGIC_HEIGHT /2 - 16;
     *T = tmp2;
+    *case1 = 0;
+    *case2 = 0;
+    *case3 = 0;
+    *case4 = 0;
   } else {
     if(*T == NULL)
       return;
 
     int x = (int) event_button_x/TILE_SIZE;
     int y = (int) event_button_y/TILE_SIZE;
-
     if (y < map->nbtiles_hauteur_monde && x < map->nbtiles_largeur_monde){
-      if (map->tab_props[map->monde[x][y]].type == 1 && map_o->tab_props[map_o->monde[x][y]].type == 1 ){
+      if (map->tab_props[map->monde[x][y]].type == 1 && map_o->tab_props[map_o->monde[x][y]].type == 1){
 	tmp2 = NULL;
 	tmp2 = *T;
-	if (!tmp2->t.actif){
+	posay = tower_posay(T, event_button_x, event_button_y);
+	if (!tmp2->t.actif && posay){
 	  tmp2->t.coords.x = (event_button_x / TILE_SIZE) * TILE_SIZE;
-	  tmp2->t.coords.y = (event_button_y / TILE_SIZE) * TILE_SIZE -20; //on récup' les coords exactes ou afficher la tour
+	  tmp2->t.coords.y = (event_button_y / TILE_SIZE) * TILE_SIZE - TILE_SIZE/2; //on récup' les coords exactes ou afficher la tour
 	  tmp2->t.actif = 1;
+	  *case1 = 1;
+	  *case2 = 1;
 	}
 	*T = tmp2;
       }
@@ -159,17 +165,21 @@ void tower_select(liste_tower *T, int event_button_x, int event_button_y) {
 }
 
 
-void tower_upgrade(liste_tower *T){
-
+int tower_posay(liste_tower *T, int event_button_x, int event_button_y){
    liste_tower it = *T;
-
+   int posay = 1;
   while (it != NULL) {
     s_Tower t = it->t;
     
-    if(t.select && t.actif)
-      
+    if (event_button_x >= t.coords.x && event_button_x <= t.coords.x + TILE_SIZE
+	&& event_button_y >= t.coords.y + (t.rcSrc.h - TILE_SIZE) && event_button_y <= t.coords.y + TILE_SIZE + (t.rcSrc.h - TILE_SIZE) && t.actif) {
+      posay = 0;
+    }
 
     it->t = t;
     it = it->next;
   }
+  return posay;
 }
+
+

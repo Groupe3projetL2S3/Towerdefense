@@ -24,7 +24,7 @@ int gameover;
 
 
 /* SDL Function */
-void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3,s_Tower sniper, s_Tower magic, Map *map, Map *map_o,int *i)
+void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3,s_Tower sniper, s_Tower magic, Map *map, Map *map_o,int *i, int *case1, int *case2, int *case3, int *case4)
 {
   SDL_Event event;
 
@@ -64,7 +64,7 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
       switch(event.button.button){
 	
       case SDL_BUTTON_LEFT: 
-	tower_menu(sniper, magic, T, event.button.x, event.button.y, map, map_o);     
+	tower_menu(sniper, magic, T, event.button.x, event.button.y, map, map_o, case1, case2, case3, case4);     
 	tower_select( T, event.button.x, event.button.y);
 	break;
       }
@@ -92,6 +92,10 @@ int main(int argc, char* argv[])
   SDL_Rect rcMenu_tower;
 
   int colorkey, colorkeyN;
+  int case1 = 1;
+  int case2 = 1;
+  int case3 = 1;
+  int case4 = 1;
 
   s_Mob creep;
   s_Mob zombie;
@@ -183,7 +187,7 @@ int main(int argc, char* argv[])
       SDL_Init(SDL_INIT_VIDEO);
       
       /* look for an event */
-      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, sniper, magic, map, map_objet, &num_mob);
+      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, sniper, magic, map, map_objet, &num_mob, &case1, &case2, &case3, &case4);
 
       /* draw the map */
       PrintMap(map,screen);
@@ -192,7 +196,7 @@ int main(int argc, char* argv[])
       rcMenu_tower.x = 0;
       rcMenu_tower.y = 416;
       SDL_BlitSurface(menu_tower, NULL, screen, &rcMenu_tower );
-
+      
 
       sniper.rcSprite.x = 21;
       sniper.rcSprite.y = 439;
@@ -202,7 +206,7 @@ int main(int argc, char* argv[])
       magic.rcSprite.y = 439;
       SDL_BlitSurface(magic.tower, NULL, screen, &magic.rcSprite );
 	
- 
+
 
       /* draw mobs */
       mob_affichage(liste_mob, map, screen);

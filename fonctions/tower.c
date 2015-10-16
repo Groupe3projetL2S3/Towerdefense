@@ -81,30 +81,12 @@ void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button
 
   if (event_button_x >= 9 && event_button_x <= 63
       && event_button_y >= 439 && event_button_y <= 493 && *case1){
-    tmp2 = NULL;
-    tmp2 = *T;
-    tmp2 =liste_cons_tower(sniper,tmp2);
-    tmp2->t.coords.x = event_button_x - SNIPER_WIDTH / 2;
-    tmp2->t.coords.y = event_button_y - SNIPER_HEIGHT /2 - 16;
-    *T = tmp2;
-    *case1 = 0;
-    *case2 = 0;
-    *case3 = 0;
-    *case4 = 0;
+    tower_add(T, sniper, case1, case2, case3, case4, event_button_x, event_button_y);
   }
   else if (event_button_x >= 177 && event_button_x <= 231 
 	   && event_button_y >= 439 && event_button_y <= 493 && *case2){
+tower_add(T, magic, case1, case2, case3, case4, event_button_x, event_button_y);
 
-    tmp2 = NULL;
-    tmp2 = *T;
-    tmp2 = liste_cons_tower(magic,tmp2);
-    tmp2->t.coords.x = event_button_x - MAGIC_WIDTH / 2;
-    tmp2->t.coords.y = event_button_y - MAGIC_HEIGHT /2 - 16;
-    *T = tmp2;
-    *case1 = 0;
-    *case2 = 0;
-    *case3 = 0;
-    *case4 = 0;
   } else {
     if(*T == NULL)
       return;
@@ -183,3 +165,18 @@ int tower_posay(liste_tower *T, int event_button_x, int event_button_y){
 }
 
 
+void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3, int *case4, int event_button_x, int event_button_y) {
+ 
+  liste_tower tmp2;
+  tmp2 = NULL;
+  tmp2 = *T;
+  tmp2 =liste_cons_tower(tower,tmp2);
+  tmp2->t.coords.x = event_button_x - SNIPER_WIDTH / 2;
+  tmp2->t.coords.y = event_button_y - SNIPER_HEIGHT /2 - 16;
+  *T = tmp2;
+  *case1 = 0;
+  *case2 = 0;
+  *case3 = 0;
+  *case4 = 0;
+  
+}

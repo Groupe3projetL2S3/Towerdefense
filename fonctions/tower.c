@@ -138,7 +138,13 @@ void tower_select(liste_tower *T, int event_button_x, int event_button_y) {
 	&& event_button_y >= t.coords.y + t.rcSrc.h-TILE_SIZE
 	&& event_button_y <= t.coords.y + t.rcSrc.h)
       t.select = 1;
-    else 
+    
+    else if (event_button_x >= SCREEN_WIDTH - UP_WIDTH
+	     && event_button_y <= UP_HEIGHT + SELL_HEIGHT
+	     && t.select == 1)
+      t.select = 1;
+    
+    else
       t.select = 0;
 
     it->t = t;
@@ -180,3 +186,63 @@ void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3
   *case4 = 0;
   
 }
+
+s_Tower towerup_init(s_Tower s, s_Tower s_up) {
+  
+  s_up.rcSrc = s.rcSrc;
+  s_up.coords = s.coords;
+  s_up.niveau = s.niveau + 1;
+
+
+  return s_up;
+}
+
+
+void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower magic2, int event_button_x, int event_button_y) {
+
+  liste_tower new_liste_tower = NULL;
+  liste_tower poubelle_tower = NULL;
+
+
+  liste_tower tit = *T;
+
+
+  if (!liste_is_empty_tower(tit)) {
+    
+      tit = *T;
+      
+      while(tit != NULL) {
+	
+	s_Tower t = tit->t;
+	
+	
+	if (t.select == 1 && event_button_x >= (SCREEN_WIDTH - UP_WIDTH)
+	    && event_button_y <= UP_HEIGHT) {
+	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
+	  if (t.type == SNIPER) {
+	    if (t.niveau == 1) {
+	      sniper2 = towerup_init(t, sniper2);
+	      new_liste_tower = liste_cons_tower(sniper2, new_liste_tower);
+	    }
+	  }
+	}
+	    
+	else if (t.select == 1 && event_button_x >= SCREEN_WIDTH - SELL_WIDTH
+		 && event_button_y <= SELL_HEIGHT + UP_HEIGHT
+		 && event_button_y > UP_HEIGHT) {
+	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
+	}
+	else {
+	  new_liste_tower = liste_cons_tower(t, new_liste_tower);
+	}
+	tit->t = t;
+	tit = tit->next;
+      }
+      liste_free_tower(&poubelle_tower);
+      *T = new_liste_tower;
+      new_liste_tower = NULL;
+      liste_free_tower(&new_liste_tower);
+
+  }
+}
+      

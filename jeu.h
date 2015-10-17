@@ -37,6 +37,12 @@
 #define HB_WIDTH 20
 #define HB_HEIGHT 5
 
+#define UP_WIDTH 32
+#define UP_HEIGHT 32
+
+#define SELL_WIDTH 32
+#define SELL_HEIGHT 32
+
 #define RANGE_SNIPER1_SIZE 140
 #define SNIPER 1
 
@@ -260,6 +266,8 @@ void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y);
 void tower_select(liste_tower *T,  int event_button_x, int event_button_y);
 int tower_posay(liste_tower *T, int event_button_x, int event_button_y);
 void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3, int *case4, int event_button_x, int event_button_y);
+s_Tower towerup_init(s_Tower s, s_Tower s_up);
+void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower magic2, int event_button_x, int event_button_y);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M);
@@ -278,9 +286,15 @@ int collision_box_box(s_Hitbox box1, s_Hitbox box2);
 
 s_Range Range_init(s_Range r, int taillew, int tailleh);
 void Range_affichage(liste_tower L, SDL_Surface *screen);
+
+s_Upgrade upgrade_init(s_Upgrade up, int taillew, int tailleh);
+void upgrade_affichage(liste_tower L, SDL_Surface *screen);
+
+s_Sell sell_init(s_Sell s, int taillew, int tailleh);
+void sell_affichage(liste_tower L, SDL_Surface *screen);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper, s_Tower magic, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper1, s_Tower sniper2, s_Tower magic1, s_Tower magic2, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover);
 
 
 

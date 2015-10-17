@@ -221,10 +221,9 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 	    && event_button_y <= UP_HEIGHT) {
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
 	  if (t.type == SNIPER) {
-	    printf(" %d \n", t.niveau);
+	    printf("t.niveau avant up : %d \n", t.niveau);
 	    if (t.niveau == 2) {
 	      sniper3 = towerup_init(t, sniper3);
-	      printf("dedans");
 	      new_liste_tower = liste_cons_tower(sniper3, new_liste_tower);
 	    }
 	    if (t.niveau == 1) {

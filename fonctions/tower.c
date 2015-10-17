@@ -187,18 +187,19 @@ void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3
   
 }
 
-s_Tower towerup_init(s_Tower s, s_Tower s_up) {
+s_Tower towerup_init(s_Tower t, s_Tower t_up) {
   
-  s_up.rcSrc = s.rcSrc;
-  s_up.coords = s.coords;
-  s_up.niveau = s.niveau + 1;
+  t_up.rcSrc = t.rcSrc;
+  t_up.coords = t.coords;
+  t_up.niveau = t.niveau + 1;
+  t_up.type = t.type;
 
 
-  return s_up;
+  return t_up;
 }
 
 
-void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower magic2, int event_button_x, int event_button_y) {
+void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, int event_button_x, int event_button_y) {
 
   liste_tower new_liste_tower = NULL;
   liste_tower poubelle_tower = NULL;
@@ -220,6 +221,12 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower magic2, int event_bu
 	    && event_button_y <= UP_HEIGHT) {
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
 	  if (t.type == SNIPER) {
+	    printf(" %d \n", t.niveau);
+	    if (t.niveau == 2) {
+	      sniper3 = towerup_init(t, sniper3);
+	      printf("dedans");
+	      new_liste_tower = liste_cons_tower(sniper3, new_liste_tower);
+	    }
 	    if (t.niveau == 1) {
 	      sniper2 = towerup_init(t, sniper2);
 	      new_liste_tower = liste_cons_tower(sniper2, new_liste_tower);

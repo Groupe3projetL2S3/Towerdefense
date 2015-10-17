@@ -267,7 +267,7 @@ void tower_select(liste_tower *T,  int event_button_x, int event_button_y);
 int tower_posay(liste_tower *T, int event_button_x, int event_button_y);
 void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3, int *case4, int event_button_x, int event_button_y);
 s_Tower towerup_init(s_Tower s, s_Tower s_up);
-void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower magic2, int event_button_x, int event_button_y);
+void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, int event_button_x, int event_button_y);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, s_Tir t, SDL_Surface *screen, liste_mob M);
@@ -294,7 +294,7 @@ s_Sell sell_init(s_Sell s, int taillew, int tailleh);
 void sell_affichage(liste_tower L, SDL_Surface *screen);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper1, s_Tower sniper2, s_Tower magic1, s_Tower magic2, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover);
 
 
 

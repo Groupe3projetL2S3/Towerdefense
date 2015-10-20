@@ -41,7 +41,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M) {
 	
 	if (collision_box_box(t.box, m.box) && t.cible.numero == m.numero) {
 	  poubelle_tir = liste_cons_tir(t, poubelle_tir);
-	  m.pv = m.pv-1;
+	  m.pv = m.pv-t.dommage;
 	}
 	else {
 	  new_liste_tir = liste_cons_tir(t, new_liste_tir);
@@ -50,6 +50,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M) {
 	tit = tit->next;
       }
       liste_free_tir(&poubelle_tir);
+      liste_inverser_tir(&new_liste_tir);
       *T = new_liste_tir;
       new_liste_tir = NULL;
       liste_free_tir(&new_liste_tir);
@@ -66,6 +67,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M) {
     }
     
     liste_free_mob(&poubelle_mob);
+    liste_inverser_mob(&new_liste_mob);
     *M = new_liste_mob;
     new_liste_mob = NULL;
     liste_free_mob(&new_liste_mob);

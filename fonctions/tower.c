@@ -32,18 +32,26 @@ void tower_affichage(liste_tower L, SDL_Surface *screen) {
 }
 
 
-void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir, SDL_Surface *screen, int temps_jeu, s_Tower s_tower){
+void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, SDL_Surface *screen, int temps_jeu, s_Tower s_tower){
     
   liste_tower it = *L;
   liste_tir tmp = *T;
+  s_Tir tir;
+
   
   while (it != NULL) {
     s_Tower tow = it->t;
     float tir_priorite = 0.0;
     liste_mob mit = *M;
+
+    if(tow.type == TYPE_SNIPER)
+      tir = tir_sniper;
+    if(tow.type == TYPE_MAGIC)
+      tir = tir_magic;
+
     tir.cible.numero = 0;
  
-    if(temps_jeu - tow.temps > 50 && tow.actif){
+    if(temps_jeu - tow.temps > 450 && tow.actif){
 	  
       while(mit != NULL){
 	  
@@ -113,16 +121,20 @@ tower_add(T, magic, case1, case2, case3, case4, event_button_x, event_button_y);
 
 void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y) {
 
-  liste_tower tmp2 = NULL;
+  liste_tower it = *T;
 
-  if (*T != NULL) {
-    tmp2 = *T;
-    if (!tmp2->t.actif){
-      tmp2->t.coords.x = event_motion_x - MAGIC_WIDTH / 2;
-      tmp2->t.coords.y = event_motion_y - MAGIC_HEIGHT / 2 - 16; //pour centrer sur la souris
+  while (it != NULL) {
+    s_Tower t = it->t;
+
+    if (!t.actif){
+      t.coords.x = event_motion_x - MAGIC_WIDTH / 2;
+      t.coords.y = event_motion_y - MAGIC_HEIGHT / 2 - 16; //pour centrer sur la souris
     }
-    *T = tmp2;
-  }  
+
+    it->t = t;
+    it = it->next;
+  }
+
 }
 
 
@@ -201,7 +213,7 @@ s_Tower towerup_init(s_Tower t, s_Tower t_up) {
 }
 
 
-void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, int event_button_x, int event_button_y) {
+void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, int event_button_x, int event_button_y) {
 
   liste_tower new_liste_tower = NULL;
   liste_tower poubelle_tower = NULL;
@@ -209,18 +221,13 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 
   liste_tower tit = *T;
 
-
-  if (!liste_is_empty_tower(tit)) {
-    
-      tit = *T;
-      
       while(tit != NULL) {
 	
 	s_Tower t = tit->t;
-	
+
 	if (t.select == 1 && t.actif == 1 && event_button_x >= (SCREEN_WIDTH - UP_WIDTH) && event_button_y <= UP_HEIGHT && t.niveau < 3 ) {
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
-	  if (t.type == SNIPER) {
+	  if (t.type == TYPE_SNIPER) {
 	    if (t.niveau == 2) {
 	      sniper3 = towerup_init(t, sniper3);
 	      new_liste_tower = liste_cons_tower(sniper3, new_liste_tower);
@@ -230,23 +237,32 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 	      new_liste_tower = liste_cons_tower(sniper2, new_liste_tower);
 	    }
 	  }
+	  if (t.type == TYPE_MAGIC) {
+	    if (t.niveau == 2) {
+	      magic3 = towerup_init(t, magic3);
+	      new_liste_tower = liste_cons_tower(magic3, new_liste_tower);
+	    }
+	    if (t.niveau == 1) {
+	      magic2 = towerup_init(t, magic2);
+	      new_liste_tower = liste_cons_tower(magic2, new_liste_tower);
+	    }
+	  }
 	}	    
-	else if (t.select == 1 && t.actif == 1 && event_button_x >= SCREEN_WIDTH - SELL_WIDTH
-		 && event_button_y <= SELL_HEIGHT + UP_HEIGHT
-		 && event_button_y > UP_HEIGHT) {
+	else if (t.select == 1 && t.actif == 1 && event_button_x >= SCREEN_WIDTH - SELL_WIDTH && event_button_y <= SELL_HEIGHT + UP_HEIGHT && event_button_y > UP_HEIGHT) {
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
 	}
 	else {
 	  new_liste_tower = liste_cons_tower(t, new_liste_tower);
 	}
+	printf("%d ll \n",t.actif);
 	tit->t = t;
 	tit = tit->next;
       }
       liste_free_tower(&poubelle_tower);
+      liste_inverser_tower(&new_liste_tower);
       *T = new_liste_tower;
       new_liste_tower = NULL;
       liste_free_tower(&new_liste_tower);
 
-  }
 }
       

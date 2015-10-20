@@ -144,7 +144,7 @@ void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen) {
 	s_Mob m = it->m;
 	m = mob_deplacement(m);
 	m = mob_animation(m);
-
+	printf(" %d = %lf \n",m.numero, m.priorite);
 
 
 	m.rcSprite.x = (int) m.coords.x;

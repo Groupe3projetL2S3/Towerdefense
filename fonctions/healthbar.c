@@ -88,13 +88,12 @@ if (vie >= 0 && vie < 5){
 void healthbar_affichage(liste_mob L, SDL_Surface *screen) {
 
   liste_mob it = L;
-  float marge = 3.0;
   while (it != NULL) {
     s_Mob m = it->m;
 	
     
-    m.healthbar.rcSprite.x = (int) m.coords.x - marge;
-    m.healthbar.rcSprite.y = (int) m.coords.y - marge;
+    m.healthbar.rcSprite.x = (int) m.coords.x + m.rcSrc.w/2 - m.healthbar.rcSrc.w/2;
+    m.healthbar.rcSprite.y = (int) m.coords.y - m.healthbar.rcSrc.h;
 
     m.healthbar = healthbar_animation(m.healthbar, m);
 

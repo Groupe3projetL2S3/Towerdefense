@@ -36,6 +36,22 @@ liste_mob liste_tail_mob(liste_mob L) {
 }
 
 
+void liste_inverser_mob(liste_mob * L) {
+  liste_mob tmp = NULL;
+  liste_mob it = *L;
+
+  while (!liste_is_empty_mob(it)) {
+    s_Mob m = it->m;
+
+    tmp = liste_cons_mob(m, tmp);
+    it->m = m;
+    it = it->next;
+  }
+  *L = tmp;
+}
+
+
+
 /* free  */
 
 void liste_free_mob(liste_mob * L) {
@@ -87,6 +103,19 @@ liste_tower liste_tail_tower(liste_tower L) {
   return (L->next);
 }
 
+void liste_inverser_tower(liste_tower * L) {
+  liste_tower tmp = NULL;
+  liste_tower it = *L;
+
+  while (!liste_is_empty_tower(it)) {
+    s_Tower t = it->t;
+
+    tmp = liste_cons_tower(t, tmp);
+    it->t = t;
+    it = it->next;
+  }
+  *L = tmp;
+}
 
 /* free  */
 
@@ -135,6 +164,19 @@ liste_tir liste_tail_tir(liste_tir L) {
   return (L->next);
 }
 
+void liste_inverser_tir(liste_tir * L) {
+  liste_tir tmp = NULL;
+  liste_tir it = *L;
+
+  while (!liste_is_empty_tir(it)) {
+    s_Tir t = it->t;
+
+    tmp = liste_cons_tir(t, tmp);
+    it->t = t;
+    it = it->next;
+  }
+  *L = tmp;
+}
 
 /* free  */
 

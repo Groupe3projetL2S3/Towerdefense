@@ -59,10 +59,13 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
     case SDL_MOUSEBUTTONDOWN:    
       switch(event.button.button){
 	
-      case SDL_BUTTON_LEFT: 
-	tower_menu(sniper1, magic1, T, event.button.x, event.button.y, map, map_o, case1, case2, case3, case4);     
+      case SDL_BUTTON_LEFT:
+	tower_menu(sniper1, magic1, T, event.button.x, event.button.y, map, map_o, case1, case2, case3, case4);
 	tower_select(T, event.button.x, event.button.y);
 	tower_gestion(T, sniper2, sniper3, magic2, event.button.x, event.button.y);
+	break;
+      case SDL_BUTTON_RIGHT: 
+
 	break;
       }
       keys[event.button.button] = 1;      

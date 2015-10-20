@@ -193,7 +193,9 @@ s_Tower towerup_init(s_Tower t, s_Tower t_up) {
   t_up.coords = t.coords;
   t_up.niveau = t.niveau + 1;
   t_up.type = t.type;
-
+  t_up.actif = t.actif;
+  t_up.select = t.select;
+  t_up.temps = t.temps;
 
   return t_up;
 }
@@ -216,12 +218,9 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 	
 	s_Tower t = tit->t;
 	
-	
-	if (t.select == 1 && event_button_x >= (SCREEN_WIDTH - UP_WIDTH)
-	    && event_button_y <= UP_HEIGHT) {
+	if (t.select == 1 && t.actif == 1 && event_button_x >= (SCREEN_WIDTH - UP_WIDTH) && event_button_y <= UP_HEIGHT && t.niveau < 3 ) {
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
 	  if (t.type == SNIPER) {
-	    printf("t.niveau avant up : %d \n", t.niveau);
 	    if (t.niveau == 2) {
 	      sniper3 = towerup_init(t, sniper3);
 	      new_liste_tower = liste_cons_tower(sniper3, new_liste_tower);
@@ -231,9 +230,8 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 	      new_liste_tower = liste_cons_tower(sniper2, new_liste_tower);
 	    }
 	  }
-	}
-	    
-	else if (t.select == 1 && event_button_x >= SCREEN_WIDTH - SELL_WIDTH
+	}	    
+	else if (t.select == 1 && t.actif == 1 && event_button_x >= SCREEN_WIDTH - SELL_WIDTH
 		 && event_button_y <= SELL_HEIGHT + UP_HEIGHT
 		 && event_button_y > UP_HEIGHT) {
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);

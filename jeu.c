@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
 
   sniper1.sell.sell = Load_image("Images/sell.bmp");
   sniper2.sell.sell = sniper1.sell.sell;
-  sniper2.sell.sell = sniper1.sell.sell;
+  sniper3.sell.sell = sniper1.sell.sell;
   magic1.sell.sell = sniper1.sell.sell;
   magic2.sell.sell = sniper1.sell.sell;
 

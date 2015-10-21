@@ -38,6 +38,7 @@ int main(int argc, char* argv[])
 
   s_Tir tir_sniper;
   s_Tir tir_magic;
+  s_Tir tir_fire;
 
   liste_mob liste_mob = NULL;
   liste_tower liste_tower = NULL;
@@ -82,6 +83,7 @@ int main(int argc, char* argv[])
 
   tir_magic.tir = Load_image("Images/tir_magic.bmp");
   tir_sniper.tir = Load_image("Images/sprite_fleche.bmp");
+  tir_fire.tir = Load_image("Images/tir.bmp");
 
   creep.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
   zombie.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
@@ -151,6 +153,7 @@ int main(int argc, char* argv[])
 
   SDL_SetColorKey(tir_magic.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(tir_sniper.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(tir_fire.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkeyN);
 
   SDL_SetColorKey(sniper1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(magic1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
@@ -162,9 +165,9 @@ int main(int argc, char* argv[])
   /* ******************** boucle principale ******************* */
   
   
-  creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED, CREEP_PV);
-  zombie = mob_spawn(zombie, map, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, ZOMBIE_SPEED, ZOMBIE_PV);
-  ender = mob_spawn(ender, map, ENDER_WIDTH, ENDER_HEIGHT, ENDER_SPEED, ENDER_PV);
+  creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED, CREEP_PV, CREEP_TYPE);
+  zombie = mob_spawn(zombie, map, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, ZOMBIE_SPEED, ZOMBIE_PV, ZOMBIE_TYPE);
+  ender = mob_spawn(ender, map, ENDER_WIDTH, ENDER_HEIGHT, ENDER_SPEED, ENDER_PV, ENDER_TYPE);
 
   sniper1 = tower_init(sniper1, SNIPER_WIDTH, SNIPER_HEIGHT, TYPE_SNIPER);
   magic1 = tower_init(magic1, MAGIC_WIDTH, MAGIC_HEIGHT, TYPE_MAGIC);
@@ -173,13 +176,14 @@ int main(int argc, char* argv[])
 
   tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
   tir_sniper = tir_init(tir_sniper, TIR_WIDTH, TIR_HEIGHT);
+  tir_fire = tir_init(tir_fire, TIR_WIDTH, TIR_HEIGHT);
 
   creep.healthbar = healthbar_init(creep.healthbar, HB_WIDTH, HB_HEIGHT);
   zombie.healthbar = healthbar_init(zombie.healthbar, HB_WIDTH, HB_HEIGHT);
   ender.healthbar = healthbar_init(ender.healthbar, HB_WIDTH, HB_HEIGHT);
 
   sniper1.range = Range_init(sniper1.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
-  sniper2.range = Range_init(sniper2.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE ); 
+  sniper2.range = Range_init(sniper2.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
   sniper3.range = Range_init(sniper3.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE ); 
   magic1.range = Range_init(magic1.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
   magic2.range = Range_init(magic2.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
@@ -276,7 +280,8 @@ int main(int argc, char* argv[])
 
       /* fonction */
       collision_tir_mob(&liste_tir, &liste_mob);
-      tower_tir(&liste_tower, &liste_mob, &liste_tir, tir_magic, tir_sniper, screen, temps_jeu, sniper1);
+      tower_tir(&liste_tower, &liste_mob, &liste_tir, tir_magic, tir_sniper, tir_fire, screen, temps_jeu, sniper1);
+      mob_slow(&liste_mob, &liste_tower, colorkey);
       
       SDL_Flip(screen);
 

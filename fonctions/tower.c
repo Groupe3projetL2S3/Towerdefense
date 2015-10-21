@@ -32,7 +32,7 @@ void tower_affichage(liste_tower L, SDL_Surface *screen) {
 }
 
 
-void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper,SDL_Surface *screen, int temps_jeu, s_Tower s_tower){
+void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, s_Tir tir_fire, SDL_Surface *screen, int temps_jeu, s_Tower s_tower){
     
   liste_tower it = *L;
   liste_tir tmp = *T;
@@ -44,14 +44,22 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
     float tir_priorite = 0.0;
     liste_mob mit = *M;
 
-    if(tow.type == TYPE_SNIPER)
+    if(tow.type == TYPE_SNIPER){
       tir = tir_sniper;
-    if(tow.type == TYPE_MAGIC)
+      tir.type = TYPE_SNIPER;
+      }
+    if(tow.type == TYPE_MAGIC){
       tir = tir_magic;
-    if(tow.type == TYPE_FIRE)
-      tir = tir_magic;
-    if(tow.type == TYPE_SLOW)
-      tir = tir_magic;
+      tir.type = TYPE_MAGIC;
+      }
+    if(tow.type == TYPE_FIRE){
+      tir = tir_fire;
+      tir.type = TYPE_FIRE;
+      }
+    if(tow.type == TYPE_SLOW){
+      tir.type = TYPE_SLOW;
+      }
+
     tir.cible.numero = 0;
  
     if(temps_jeu - tow.temps > 500 && tow.actif){
@@ -62,17 +70,26 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
 	  
 	if( abs((tow.coords.x + tow.rcSprite.w/2) - (mo.coords.x + mo.rcSprite.w/2)) < DISTANCE_MAGIC_TOWER && abs((tow.coords.y+tow.rcSprite.h/2)-(mo.coords.y+mo.rcSprite.h/2)) < DISTANCE_MAGIC_TOWER){
 	     
-	  if(mo.priorite > tir_priorite && mo.coords.x > 10){
+	  if (tow.type == TYPE_MAGIC || tow.type == TYPE_SNIPER) {
+	    if(mo.priorite > tir_priorite && mo.coords.x > 10){
+	      tir = tir_spawn(tir, tow);
+	      tir = direction_tir(tir, mo);
+	      tir.cible = mo;
+	    }
+	    tir_priorite = mo.priorite;	     
+	  }
+	  if (tow.type == TYPE_FIRE) {
 	    tir = tir_spawn(tir, tow);
 	    tir = direction_tir(tir, mo);
 	    tir.cible = mo;
+	    tmp = liste_cons_tir(tir, tmp);
 	  }
-	  tir_priorite = mo.priorite;	     
 	}
+
 	mit->m = mo;
 	mit = mit->next;	      
       }
-      if(tir.cible.numero > 0 )
+      if(tir.cible.numero > 0 && tir.type != TYPE_SLOW)
 	tmp = liste_cons_tir(tir,tmp);
 
       tow.temps = temps_jeu;
@@ -300,3 +317,4 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 
 }
       
+

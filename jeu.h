@@ -18,16 +18,19 @@
 #define CREEP_HEIGHT 32
 #define CREEP_SPEED 0.7
 #define CREEP_PV 60
+#define CREEP_TYPE 1
 
 #define ZOMBIE_WIDTH 16
 #define ZOMBIE_HEIGHT 32
 #define ZOMBIE_SPEED 0.3
 #define ZOMBIE_PV 200
+#define ZOMBIE_TYPE 2
 
 #define ENDER_WIDTH 16
 #define ENDER_HEIGHT 40
 #define ENDER_SPEED 0.5
 #define ENDER_PV 100
+#define ENDER_TYPE 3
 
 #define MAGIC_WIDTH 32
 #define MAGIC_HEIGHT 48
@@ -53,13 +56,13 @@
 #define RANGE_SNIPER1_SIZE 140
 #define TYPE_SNIPER 1
 
-#define DISTANCE_MAGIC_TOWER 240
+#define DISTANCE_MAGIC_TOWER 70
 #define TYPE_MAGIC 2
 
-#define DISTANCE_FIRE_TOWER 240
+#define DISTANCE_FIRE_TOWER 70
 #define TYPE_FIRE 3
 
-#define DISTANCE_SLOW_TOWER 240
+#define DISTANCE_SLOW_TOWER 70
 #define TYPE_SLOW 4
 
 #define TAB_MAX 1000
@@ -140,8 +143,10 @@ typedef struct
   s_Healthbar healthbar;
   int animation;
   int numero;
+  int type;
   int pv_max;
   int pv;
+  int slow;
   float priorite;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
@@ -268,17 +273,17 @@ int PrintMap(Map* map,SDL_Surface* screen);
 int FreeMap(Map* map);
 float SeekSpawn(Map *map);
 
-s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int map_pv);
+s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int map_pv, int type);
 s_Mob mob_deplacement(s_Mob s_mob);
 s_Mob mob_parcours(s_Mob s_mob, Map *map);
 s_Mob mob_animation(s_Mob s_mob);
 void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
 void mob_add(int *i, s_Mob mob, liste_mob *L);
-
+void mob_slow(liste_mob *M, liste_tower *T, int colorkey);
 
 s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
-void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
+void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, s_Tir tir_fire, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
 void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4);
 void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y);
 void tower_select(liste_tower *T,  int event_button_x, int event_button_y);

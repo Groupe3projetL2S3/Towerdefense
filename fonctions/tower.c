@@ -32,7 +32,7 @@ void tower_affichage(liste_tower L, SDL_Surface *screen) {
 }
 
 
-void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, SDL_Surface *screen, int temps_jeu, s_Tower s_tower){
+void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper,SDL_Surface *screen, int temps_jeu, s_Tower s_tower){
     
   liste_tower it = *L;
   liste_tir tmp = *T;
@@ -48,7 +48,10 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
       tir = tir_sniper;
     if(tow.type == TYPE_MAGIC)
       tir = tir_magic;
-
+    if(tow.type == TYPE_FIRE)
+      tir = tir_magic;
+    if(tow.type == TYPE_SLOW)
+      tir = tir_magic;
     tir.cible.numero = 0;
  
     if(temps_jeu - tow.temps > 450 && tow.actif){
@@ -82,7 +85,7 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
 }
 
 
-void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4) {
+void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4) {
 
   liste_tower tmp2 = NULL;
   int posay;
@@ -93,9 +96,18 @@ void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button
   }
   else if (event_button_x >= 177 && event_button_x <= 231 
 	   && event_button_y >= 439 && event_button_y <= 493 && *case2){
-tower_add(T, magic, case1, case2, case3, case4, event_button_x, event_button_y);
+    tower_add(T, magic, case1, case2, case3, case4, event_button_x, event_button_y);
+  } 
+  else if (event_button_x >= 345 && event_button_x <= 399 
+	   && event_button_y >= 439 && event_button_y <= 493 && *case3){
+    tower_add(T, fire, case1, case2, case3, case4, event_button_x, event_button_y);
+  } 
+  else if (event_button_x >= 513&& event_button_x <= 567
+	   && event_button_y >= 439 && event_button_y <= 493 && *case4){
+    tower_add(T, slow, case1, case2, case3, case4, event_button_x, event_button_y);
+  } 
 
-  } else {
+else {
     if(*T == NULL)
       return;
 
@@ -112,6 +124,8 @@ tower_add(T, magic, case1, case2, case3, case4, event_button_x, event_button_y);
 	  tmp2->t.actif = 1;
 	  *case1 = 1;
 	  *case2 = 1;
+	  *case3 = 1;
+	  *case4 = 1;
 	}
 	*T = tmp2;
       }
@@ -213,7 +227,7 @@ s_Tower towerup_init(s_Tower t, s_Tower t_up) {
 }
 
 
-void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, int event_button_x, int event_button_y) {
+void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, s_Tower fire2, s_Tower fire3, s_Tower slow2, s_Tower slow3, int event_button_x, int event_button_y) {
 
   liste_tower new_liste_tower = NULL;
   liste_tower poubelle_tower = NULL;
@@ -245,6 +259,26 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 	    if (t.niveau == 1) {
 	      magic2 = towerup_init(t, magic2);
 	      new_liste_tower = liste_cons_tower(magic2, new_liste_tower);
+	    }
+	  }
+	  if (t.type == TYPE_FIRE) {
+	    if (t.niveau == 2) {
+	      fire3 = towerup_init(t, fire3);
+	      new_liste_tower = liste_cons_tower(fire3, new_liste_tower);
+	    }
+	    if (t.niveau == 1) {
+	      fire2 = towerup_init(t, fire2);
+	      new_liste_tower = liste_cons_tower(fire2, new_liste_tower);
+	    }
+	  }
+	  if (t.type == TYPE_SLOW) {
+	    if (t.niveau == 2) {
+	      slow3 = towerup_init(t, slow3);
+	      new_liste_tower = liste_cons_tower(slow3, new_liste_tower);
+	    }
+	    if (t.niveau == 1) {
+	      slow2 = towerup_init(t, slow2);
+	      new_liste_tower = liste_cons_tower(slow2, new_liste_tower);
 	    }
 	  }
 	}	    

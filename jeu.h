@@ -30,6 +30,10 @@
 #define MAGIC_HEIGHT 48
 #define SNIPER_WIDTH 32
 #define SNIPER_HEIGHT 48
+#define FIRE_WIDTH 32
+#define FIRE_HEIGHT 48
+#define SLOW_WIDTH 32
+#define SLOW_HEIGHT 48
 
 #define TIR_WIDTH 16
 #define TIR_HEIGHT 16
@@ -48,6 +52,12 @@
 
 #define DISTANCE_MAGIC_TOWER 240
 #define TYPE_MAGIC 2
+
+#define DISTANCE_FIRE_TOWER 240
+#define TYPE_FIRE 3
+
+#define DISTANCE_SLOW_TOWER 240
+#define TYPE_SLOW 4
 
 #define TAB_MAX 1000
 
@@ -266,13 +276,13 @@ void mob_add(int *i, s_Mob mob, liste_mob *L);
 s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
-void tower_menu(s_Tower sniper, s_Tower magic, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4);
+void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4);
 void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y);
 void tower_select(liste_tower *T,  int event_button_x, int event_button_y);
 int tower_posay(liste_tower *T, int event_button_x, int event_button_y);
 void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3, int *case4, int event_button_x, int event_button_y);
 s_Tower towerup_init(s_Tower t, s_Tower t_up);
-void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, int event_button_x, int event_button_y);
+void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, s_Tower fire2, s_Tower fire3, s_Tower slow2, s_Tower slow3, int event_button_x, int event_button_y);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, SDL_Surface *screen, liste_mob M);
@@ -299,7 +309,7 @@ s_Sell sell_init(s_Sell s, int taillew, int tailleh);
 void sell_affichage(liste_tower L, SDL_Surface *screen);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3,Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover);
 
 
 

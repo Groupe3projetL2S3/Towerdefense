@@ -22,12 +22,19 @@ int main(int argc, char* argv[])
   s_Mob creep;
   s_Mob zombie;
   s_Mob ender;
+
   s_Tower sniper1;
   s_Tower sniper2;
   s_Tower sniper3;
   s_Tower magic1;
   s_Tower magic2;
   s_Tower magic3;
+  s_Tower fire1;
+  s_Tower fire2;
+  s_Tower fire3;
+  s_Tower slow1;
+  s_Tower slow2;
+  s_Tower slow3;
 
   s_Tir tir_sniper;
   s_Tir tir_magic;
@@ -66,6 +73,12 @@ int main(int argc, char* argv[])
   magic1.tower = Load_image("Images/Tower/tower_magic1.bmp");
   magic2.tower = Load_image("Images/Tower/tower_magic2.bmp");
   magic3.tower = Load_image("Images/Tower/tower_magic3.bmp");
+  fire1.tower = Load_image("Images/Tower/tower_fire1.bmp");
+  fire2.tower = Load_image("Images/Tower/tower_fire2.bmp");
+  fire3.tower = Load_image("Images/Tower/tower_fire3.bmp");
+  slow1.tower = Load_image("Images/Tower/tower_slow1.bmp");
+  slow2.tower = Load_image("Images/Tower/tower_slow2.bmp");
+  slow3.tower = Load_image("Images/Tower/tower_slow3.bmp");
 
   tir_magic.tir = Load_image("Images/tir.bmp");
   tir_sniper.tir = Load_image("Images/sprite_fleche.bmp");
@@ -81,6 +94,12 @@ int main(int argc, char* argv[])
   magic1.up.up = sniper1.up.up;
   magic2.up.up = sniper1.up.up;
   magic3.up.up = sniper1.up.up;
+  fire1.up.up = sniper1.up.up;
+  fire2.up.up = sniper1.up.up;
+  fire3.up.up = sniper1.up.up;
+  slow1.up.up = sniper1.up.up;
+  slow2.up.up = sniper1.up.up;
+  slow3.up.up = sniper1.up.up;
 
   sniper1.sell.sell = Load_image("Images/sell.bmp");
   sniper2.sell.sell = sniper1.sell.sell;
@@ -88,6 +107,12 @@ int main(int argc, char* argv[])
   magic1.sell.sell = sniper1.sell.sell;
   magic2.sell.sell = sniper1.sell.sell;
   magic3.sell.sell = sniper1.sell.sell;
+  fire1.sell.sell = sniper1.sell.sell;
+  fire2.sell.sell = sniper1.sell.sell;
+  fire3.sell.sell = sniper1.sell.sell;
+  slow1.sell.sell = sniper1.sell.sell;
+  slow2.sell.sell = sniper1.sell.sell;
+  slow3.sell.sell = sniper1.sell.sell;
 
   sniper1.range.range = Load_image("Images/range_sniper1.bmp");
   sniper2.range.range = sniper1.range.range;
@@ -95,7 +120,12 @@ int main(int argc, char* argv[])
   magic1.range.range = sniper1.range.range;
   magic2.range.range = sniper1.range.range;
   magic3.range.range = sniper1.range.range;
-
+  fire1.range.range = sniper1.range.range;
+  fire2.range.range = sniper1.range.range;
+  fire3.range.range = sniper1.range.range;
+  slow1.range.range = sniper1.range.range;
+  slow2.range.range = sniper1.range.range;
+  slow3.range.range = sniper1.range.range;
   /* ********************   colorkey ******************* */
 
   colorkey =  SDL_MapRGB(screen->format, 255, 0, 255);
@@ -112,12 +142,20 @@ int main(int argc, char* argv[])
   SDL_SetColorKey(magic1.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(magic2.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(magic3.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(fire1.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(fire2.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(fire3.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(slow1.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(slow2.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(slow3.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
 
   SDL_SetColorKey(tir_magic.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkeyN);
   SDL_SetColorKey(tir_sniper.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
 
   SDL_SetColorKey(sniper1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(magic1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(fire1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(slow1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   char key[SDLK_LAST] = {0};
 
   
@@ -130,6 +168,9 @@ int main(int argc, char* argv[])
 
   sniper1 = tower_init(sniper1, SNIPER_WIDTH, SNIPER_HEIGHT, TYPE_SNIPER);
   magic1 = tower_init(magic1, MAGIC_WIDTH, MAGIC_HEIGHT, TYPE_MAGIC);
+  fire1 = tower_init(fire1, FIRE_WIDTH, FIRE_HEIGHT, TYPE_FIRE);
+  slow1 = tower_init(slow1, SLOW_WIDTH, SLOW_HEIGHT, TYPE_SLOW);
+
   tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
   tir_sniper = tir_init(tir_sniper, TIR_WIDTH, TIR_HEIGHT);
 
@@ -143,22 +184,38 @@ int main(int argc, char* argv[])
   magic1.range = Range_init(magic1.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
   magic2.range = Range_init(magic2.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
   magic3.range = Range_init(magic3.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
-  
+  fire1.range = Range_init(fire1.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
+  fire2.range = Range_init(fire2.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
+  fire3.range = Range_init(fire3.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
+  slow1.range = Range_init(slow1.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
+  slow2.range = Range_init(slow2.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
+  slow3.range = Range_init(slow3.range, RANGE_SNIPER1_SIZE , RANGE_SNIPER1_SIZE );
 
   sniper1.up = upgrade_init(sniper1.up, UP_WIDTH, UP_HEIGHT);
   sniper2.up = upgrade_init(sniper2.up, UP_WIDTH, UP_HEIGHT);
   sniper3.up = upgrade_init(sniper3.up, UP_WIDTH, UP_HEIGHT);
   magic1.up = upgrade_init(magic1.up, UP_WIDTH, UP_HEIGHT);
   magic2.up = upgrade_init(magic2.up, UP_WIDTH, UP_HEIGHT);
-  magic3.up = upgrade_init(magic2.up, UP_WIDTH, UP_HEIGHT);
-  
+  magic3.up = upgrade_init(magic3.up, UP_WIDTH, UP_HEIGHT);
+  fire1.up = upgrade_init(fire1.up, UP_WIDTH, UP_HEIGHT);
+  fire2.up = upgrade_init(fire2.up, UP_WIDTH, UP_HEIGHT);
+  fire3.up = upgrade_init(fire3.up, UP_WIDTH, UP_HEIGHT);
+  slow1.up = upgrade_init(slow1.up, UP_WIDTH, UP_HEIGHT);
+  slow2.up = upgrade_init(slow2.up, UP_WIDTH, UP_HEIGHT);
+  slow3.up = upgrade_init(slow3.up, UP_WIDTH, UP_HEIGHT);
+
   sniper1.sell = sell_init(sniper1.sell, SELL_WIDTH, SELL_HEIGHT);
   sniper2.sell = sell_init(sniper2.sell, SELL_WIDTH, SELL_HEIGHT);
   sniper3.sell = sell_init(sniper3.sell, SELL_WIDTH, SELL_HEIGHT);
   magic1.sell = sell_init(magic1.sell, SELL_WIDTH, SELL_HEIGHT);
   magic2.sell = sell_init(magic2.sell, SELL_WIDTH, SELL_HEIGHT);
-  magic3.sell = sell_init(magic2.sell, SELL_WIDTH, SELL_HEIGHT);
-
+  magic3.sell = sell_init(magic3.sell, SELL_WIDTH, SELL_HEIGHT);
+  fire1.sell = sell_init(fire1.sell, SELL_WIDTH, SELL_HEIGHT);
+  fire2.sell = sell_init(fire2.sell, SELL_WIDTH, SELL_HEIGHT);
+  fire3.sell = sell_init(fire3.sell, SELL_WIDTH, SELL_HEIGHT);
+  slow1.sell = sell_init(slow1.sell, SELL_WIDTH, SELL_HEIGHT);
+  slow2.sell = sell_init(slow2.sell, SELL_WIDTH, SELL_HEIGHT);
+  slow3.sell = sell_init(slow3.sell, SELL_WIDTH, SELL_HEIGHT);
   /* boucle de jeu */
   gameover = 0;
   while (!gameover)
@@ -170,7 +227,7 @@ int main(int argc, char* argv[])
       SDL_Init(SDL_INIT_VIDEO);
       
       /* look for an event */
-      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, sniper1, sniper2, sniper3, magic1, magic2, magic3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover);
+      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover);
 
       /* draw the map */
       PrintMap(map,screen);
@@ -189,6 +246,14 @@ int main(int argc, char* argv[])
       magic1.rcSprite.y = 439;
       SDL_BlitSurface(magic1.tower, NULL, screen, &magic1.rcSprite );
 	
+      fire1.rcSprite.x = 357;
+      fire1.rcSprite.y = 439;
+      SDL_BlitSurface(fire1.tower, NULL, screen, &fire1.rcSprite );
+
+      slow1.rcSprite.x = 525;
+      slow1.rcSprite.y = 439;
+      SDL_BlitSurface(slow1.tower, NULL, screen, &slow1.rcSprite );
+
 
       /* draw mobs */
       mob_affichage(liste_mob, map, screen);

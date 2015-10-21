@@ -287,7 +287,7 @@ int main(int argc, char* argv[])
 
       /* update the screen */
       SDL_UpdateRect(screen, 0, 0, 0, 0);
-      SDL_Delay(5);
+      SDL_Delay(1);
       
       
     }

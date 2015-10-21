@@ -24,6 +24,7 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int 
   s_mob.type = type;
 
   s_mob.slow = 0;
+  s_mob.lvl_slow = 0;
   s_mob.animation = 0;
   s_mob.priorite = 0.0;
   
@@ -31,9 +32,16 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int 
 }
 s_Mob mob_deplacement(s_Mob s_mob) { 
 
+  if(!s_mob.slow){
   s_mob.coords.x = s_mob.coords.x + s_mob.vit.x;
   s_mob.coords.y = s_mob.coords.y + s_mob.vit.y;
+  }
+  if(s_mob.slow){
+    s_mob.coords.x = s_mob.coords.x + s_mob.vit.x/s_mob.lvl_slow;
+    s_mob.coords.y = s_mob.coords.y + s_mob.vit.y/s_mob.lvl_slow;
+  }
 
+  printf("%lf   %lf \n",s_mob.vit.x/s_mob.lvl_slow,s_mob.vit.y/s_mob.lvl_slow );
   s_mob.priorite += fabs(s_mob.vit.x) + fabs(s_mob.vit.y);
 
 
@@ -174,65 +182,56 @@ void mob_add(int *i, s_Mob mob, liste_mob *L) {
 
 void mob_slow(liste_mob *M, liste_tower *T, int colorkey) {
   
+  liste_mob mit = *M;
+  while (mit != NULL) {
 
-  liste_tower tit = *T;
-  while (tit != NULL) {
-    s_Tower tow = tit->t;
-    if (tow.type == TYPE_SLOW && tow.actif){
-    liste_mob mit = *M;
-      while (mit != NULL) {
-	s_Mob mo = mit->m;
+    s_Mob mo = mit->m;
+    mo.slow = 0;
 
-	if( abs((tow.coords.x + tow.rcSprite.w/2) - (mo.coords.x + mo.rcSprite.w / 2)) < DISTANCE_SLOW_TOWER && 
-	    abs((tow.coords.y + tow.rcSprite.h/2) - (mo.coords.y + mo.rcSprite.h / 2)) < DISTANCE_SLOW_TOWER){
-	
-	  if (mo.type == CREEP_TYPE && !mo.slow) {
-	    mo.mob = Load_image("Images/Mobs/sprite_creeper_slow.bmp");
-	    mo.vit.x = mo.vit.x/2;
-	    mo.vit.y = mo.vit.y/2;
+    liste_tower tit = *T;
+      while (tit != NULL) {
+	s_Tower tow = tit->t;
+	if (tow.type == TYPE_SLOW && tow.actif){
+	  if( abs((tow.coords.x + tow.rcSprite.w/2) - (mo.coords.x + mo.rcSprite.w/2)) < DISTANCE_SLOW_TOWER && 
+	      abs((tow.coords.y + tow.rcSprite.h/2) - (mo.coords.y + mo.rcSprite.h/2)) < DISTANCE_SLOW_TOWER){
+	    mo.lvl_slow = tow.niveau +1;
 	    mo.slow = 1;
 	  }
-	  if (mo.type == ZOMBIE_TYPE && !mo.slow) {
-	    mo.mob = Load_image("Images/Mobs/sprite_zombie_slow.bmp");
-	    mo.vit.x = mo.vit.x/2;
-	    mo.vit.y = mo.vit.y/2;
-	    mo.slow = 1;
-	  }
-	  if (mo.type == ENDER_TYPE && !mo.slow) {
-	    mo.mob = Load_image("Images/Mobs/sprite_enderman_slow.bmp");
-	    mo.vit.x = mo.vit.x/2;
-	    mo.vit.y = mo.vit.y/2;
-	    mo.slow = 1;
-	  }
-
-	  SDL_SetColorKey(mo.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
 	}
-	else {
-	  if (mo.type == CREEP_TYPE && mo.slow) {
-	    mo.mob = Load_image("Images/Mobs/sprite_creeper.bmp");
-	    mo.vit.x = mo.vit.x*2;
-	    mo.vit.y = mo.vit.y*2;
-	    mo.slow = 0;
-	  }
-	  if (mo.type == ZOMBIE_TYPE && mo.slow) {
-	    mo.mob = Load_image("Images/Mobs/sprite_zombie.bmp");
-	    mo.vit.x = mo.vit.x*2;
-	    mo.vit.y = mo.vit.y*2;
-	    mo.slow = 0;
-	  }
-	  if (mo.type == ENDER_TYPE && mo.slow) {
-	    mo.mob = Load_image("Images/Mobs/sprite_enderman.bmp");
-	    mo.vit.x = mo.vit.x*2;
-	    mo.vit.y = mo.vit.y*2;
-	    mo.slow = 0;
-	  }
-	  SDL_SetColorKey(mo.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);	
-	}
-	mit->m = mo;
-	mit = mit->next;
+	tit->t = tow;
+	tit = tit->next;  
       }
-    }
-    tit->t = tow;
-    tit = tit->next;    
+
+
+      if(mo.slow){
+	
+	if (mo.type == CREEP_TYPE) {
+	  mo.mob = Load_image("Images/Mobs/sprite_creeper_slow.bmp");
+	}
+	if (mo.type == ZOMBIE_TYPE) {
+	  mo.mob = Load_image("Images/Mobs/sprite_zombie_slow.bmp");
+	}
+	if (mo.type == ENDER_TYPE) {
+	  mo.mob = Load_image("Images/Mobs/sprite_enderman_slow.bmp");
+	}	
+      } 
+
+      else {
+	if (mo.type == CREEP_TYPE) {
+	  mo.mob = Load_image("Images/Mobs/sprite_creeper.bmp");	  
+	}
+	if (mo.type == ZOMBIE_TYPE) {
+	  mo.mob = Load_image("Images/Mobs/sprite_zombie.bmp");
+	}
+	if (mo.type == ENDER_TYPE) {
+	  mo.mob = Load_image("Images/Mobs/sprite_enderman.bmp");
+	}
+	mo.lvl_slow = 0;
+      }
+
+
+      SDL_SetColorKey(mo.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+      mit->m = mo;
+      mit = mit->next;
   }
 }

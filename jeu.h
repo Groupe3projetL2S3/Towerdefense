@@ -147,6 +147,7 @@ typedef struct
   int pv_max;
   int pv;
   int slow;
+  int lvl_slow;
   float priorite;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;

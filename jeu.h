@@ -17,14 +17,17 @@
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
 #define CREEP_SPEED 0.7
+#define CREEP_PV 60
 
 #define ZOMBIE_WIDTH 16
 #define ZOMBIE_HEIGHT 32
 #define ZOMBIE_SPEED 0.3
+#define ZOMBIE_PV 200
 
 #define ENDER_WIDTH 16
 #define ENDER_HEIGHT 40
 #define ENDER_SPEED 0.5
+#define ENDER_PV 100
 
 #define MAGIC_WIDTH 32
 #define MAGIC_HEIGHT 48
@@ -265,7 +268,7 @@ int PrintMap(Map* map,SDL_Surface* screen);
 int FreeMap(Map* map);
 float SeekSpawn(Map *map);
 
-s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit);
+s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int map_pv);
 s_Mob mob_deplacement(s_Mob s_mob);
 s_Mob mob_parcours(s_Mob s_mob, Map *map);
 s_Mob mob_animation(s_Mob s_mob);

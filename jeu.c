@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
   slow2.tower = Load_image("Images/Tower/tower_slow2.bmp");
   slow3.tower = Load_image("Images/Tower/tower_slow3.bmp");
 
-  tir_magic.tir = Load_image("Images/tir.bmp");
+  tir_magic.tir = Load_image("Images/tir_magic.bmp");
   tir_sniper.tir = Load_image("Images/sprite_fleche.bmp");
 
   creep.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
   SDL_SetColorKey(slow2.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(slow3.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
 
-  SDL_SetColorKey(tir_magic.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkeyN);
+  SDL_SetColorKey(tir_magic.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(tir_sniper.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
 
   SDL_SetColorKey(sniper1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
@@ -162,9 +162,9 @@ int main(int argc, char* argv[])
   /* ******************** boucle principale ******************* */
   
   
-  creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED);
-  zombie = mob_spawn(zombie, map, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, ZOMBIE_SPEED);
-  ender = mob_spawn(ender, map, ENDER_WIDTH, ENDER_HEIGHT, ENDER_SPEED);
+  creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED, CREEP_PV);
+  zombie = mob_spawn(zombie, map, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, ZOMBIE_SPEED, ZOMBIE_PV);
+  ender = mob_spawn(ender, map, ENDER_WIDTH, ENDER_HEIGHT, ENDER_SPEED, ENDER_PV);
 
   sniper1 = tower_init(sniper1, SNIPER_WIDTH, SNIPER_HEIGHT, TYPE_SNIPER);
   magic1 = tower_init(magic1, MAGIC_WIDTH, MAGIC_HEIGHT, TYPE_MAGIC);
@@ -263,11 +263,11 @@ int main(int argc, char* argv[])
       upgrade_affichage(liste_tower, screen);
       sell_affichage(liste_tower, screen);
       
-      /* draw towers */
-      cible(&liste_tir, liste_mob);
+      /* draw towers */     
       tower_affichage(liste_tower ,screen);
 
       /* draw shoots */
+      cible(&liste_tir, liste_mob);
       tir_affichage(liste_tir, screen, liste_mob);
       disparition_tir(&liste_tir, liste_mob);
 

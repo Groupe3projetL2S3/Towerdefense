@@ -106,11 +106,11 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
   t.coords.x = to.coords.x + to.rcSprite.w/2;
   t.coords.y = to.coords.y + to.rcSprite.h/2;
   if (to.type == TYPE_SNIPER){
-    t.dommage = 0; // a définir la puissance selon le type 
+    t.dommage = 5; // a définir la puissance selon le type 
     t.type = to.type;
   }
   if (to.type == TYPE_MAGIC){
-    t.dommage = 1; // a définir la puissance selon le type 
+    t.dommage = 0; // a définir la puissance selon le type 
     t.type = to.type;
   }
 
@@ -160,8 +160,8 @@ s_Tir direction_tir(s_Tir t, s_Mob mob) { //à faire appel quand il spawn
 
 s_Tir deplacement_tir(s_Tir t) { //à faire appel dans affichage
 
-  t.coords.x += t.vit.x*6;
-  t.coords.y += t.vit.y*6;
+  t.coords.x += t.vit.x*1.5;
+  t.coords.y += t.vit.y*1.5;
 
   t.box.x = t.coords.x;
   t.box.y = t.coords.y;
@@ -196,6 +196,7 @@ void disparition_tir(liste_tir *T, liste_mob M) {
     it = it->next;
   }
   liste_free_tir(&poubelle_tir);
+  liste_inverser_tir(&new_liste_tir);
   *T = new_liste_tir;
   new_liste_tir = NULL;
   liste_free_tir(&new_liste_tir);     
@@ -206,22 +207,21 @@ void cible(liste_tir *L, liste_mob M){
 
   liste_tir it = *L;
   liste_tir new_liste_tir = NULL;
-  liste_mob mit = M;
+  
   int cible_valide = 0;
 
-  if (!liste_is_empty_tir(it) && !liste_is_empty_mob(mit)){
-    
-    
+       
     while (it != NULL) {
       s_Tir t = it->t;
-      
-      
+
+
+      liste_mob mit = M;
       while(mit != NULL){
 	
 	s_Mob m = mit->m;
 	
 	if(m.numero == t.cible.numero){
-	  t = direction_tir(t, m);
+	  t.cible = m;
 	  cible_valide = 1;
 	}
 	
@@ -233,13 +233,17 @@ void cible(liste_tir *L, liste_mob M){
       if(cible_valide == 0){
 	t.cible.numero = 0;
       }
+      t = direction_tir(t, t.cible);
       new_liste_tir = liste_cons_tir(t, new_liste_tir);
 
       it->t = t;
       it = it->next;
       
     }
+    liste_inverser_tir(&new_liste_tir);
     *L = new_liste_tir;
+    new_liste_tir = NULL;
+    liste_free_tir(&new_liste_tir);
 
-  }
+  
 }

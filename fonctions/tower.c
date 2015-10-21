@@ -54,7 +54,7 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
       tir = tir_magic;
     tir.cible.numero = 0;
  
-    if(temps_jeu - tow.temps > 450 && tow.actif){
+    if(temps_jeu - tow.temps > 500 && tow.actif){
 	  
       while(mit != NULL){
 	  

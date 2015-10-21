@@ -1,7 +1,7 @@
 #include "../jeu.h"
 
 
-s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit) { //gère l'apparition du mob
+s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int max_pv) { //gère l'apparition du mob
   /* set mob speed */
   s_mob.vit.x = vit;
   s_mob.vit.y = 0.0;
@@ -17,7 +17,7 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit) { //
   s_mob.rcSrc.h = tailleh;
 
   /* initialisation des pv*/
-  s_mob.pv_max = 100; // a définir
+  s_mob.pv_max = max_pv;
   s_mob.pv = s_mob.pv_max;
 
   s_mob.animation = 0;
@@ -144,7 +144,6 @@ void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen) {
 	s_Mob m = it->m;
 	m = mob_deplacement(m);
 	m = mob_animation(m);
-	printf(" %d = %lf \n",m.numero, m.priorite);
 
 
 	m.rcSprite.x = (int) m.coords.x;

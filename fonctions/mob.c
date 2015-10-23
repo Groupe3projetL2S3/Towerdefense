@@ -41,8 +41,6 @@ s_Mob mob_deplacement(s_Mob s_mob) {
     s_mob.coords.y = s_mob.coords.y + s_mob.vit.y/s_mob.lvl_slow;
   }
 
-  printf("%lf   %lf \n",s_mob.vit.x/s_mob.lvl_slow,s_mob.vit.y/s_mob.lvl_slow );
-  s_mob.priorite += fabs(s_mob.vit.x) + fabs(s_mob.vit.y);
 
 
   s_mob.box.x = s_mob.coords.x;

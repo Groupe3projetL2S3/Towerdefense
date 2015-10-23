@@ -53,7 +53,7 @@
 #define SELL_WIDTH 32
 #define SELL_HEIGHT 32
 
-#define RANGE_SNIPER1_SIZE 140
+#define DISTANCE_SNIPER_TOWER 70
 #define TYPE_SNIPER 1
 
 #define DISTANCE_MAGIC_TOWER 70
@@ -106,6 +106,7 @@ typedef struct
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *range;
+  int range_max;
 } s_Range;
 
 typedef struct
@@ -282,7 +283,7 @@ void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
 void mob_add(int *i, s_Mob mob, liste_mob *L);
 void mob_slow(liste_mob *M, liste_tower *T, int colorkey);
 
-s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type);
+s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, s_Tir tir_fire, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
 void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4);

@@ -1,6 +1,6 @@
 #include "../jeu.h"
 
-s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type) {
+s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance) {
  
   t.rcSrc.x = 0;
   t.rcSrc.y = 0;
@@ -10,6 +10,7 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type) {
   t.actif = 0;
   t.select = 0;
   t.niveau = 1;
+  t.range.range_max = distance;
 
   t.temps = 0;
   return t;
@@ -317,4 +318,11 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 
 }
       
+int in_range(s_Range r, s_Mob m){
 
+  float distance;
+
+  distance = sqrt(pow(r.coords.x - m.coords.x, 2) + pow(r.coords.y - m.coords.y, 2));
+  
+  return 0;
+}

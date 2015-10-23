@@ -35,18 +35,22 @@ s_Mob mob_deplacement(s_Mob s_mob) {
   if(!s_mob.slow){
   s_mob.coords.x = s_mob.coords.x + s_mob.vit.x;
   s_mob.coords.y = s_mob.coords.y + s_mob.vit.y;
+
+  s_mob.priorite += fabs(s_mob.vit.x) + fabs(s_mob.vit.y);
   }
   if(s_mob.slow){
     s_mob.coords.x = s_mob.coords.x + s_mob.vit.x/s_mob.lvl_slow;
     s_mob.coords.y = s_mob.coords.y + s_mob.vit.y/s_mob.lvl_slow;
+
+    s_mob.priorite += fabs(s_mob.vit.x/s_mob.lvl_slow) + fabs(s_mob.vit.y/s_mob.lvl_slow);
   }
 
+  
 
-
-  s_mob.box.x = s_mob.coords.x;
-  s_mob.box.y = s_mob.coords.y;
-  s_mob.box.w = s_mob.coords.x + s_mob.rcSrc.w;
-  s_mob.box.h = s_mob.coords.y + s_mob.rcSrc.h;
+  s_mob.box.x = s_mob.coords.x +8;
+  s_mob.box.y = s_mob.coords.y +16;
+  s_mob.box.w = s_mob.coords.x + s_mob.rcSrc.w - 8;
+  s_mob.box.h = s_mob.coords.y + s_mob.rcSrc.h - 16;
   
   return s_mob;
 }
@@ -181,6 +185,7 @@ void mob_add(int *i, s_Mob mob, liste_mob *L) {
 void mob_slow(liste_mob *M, liste_tower *T, int colorkey) {
   
   liste_mob mit = *M;
+  int range;
   while (mit != NULL) {
 
     s_Mob mo = mit->m;
@@ -190,8 +195,8 @@ void mob_slow(liste_mob *M, liste_tower *T, int colorkey) {
       while (tit != NULL) {
 	s_Tower tow = tit->t;
 	if (tow.type == TYPE_SLOW && tow.actif){
-	  if( abs((tow.coords.x + tow.rcSprite.w/2) - (mo.coords.x + mo.rcSprite.w/2)) < DISTANCE_SLOW_TOWER && 
-	      abs((tow.coords.y + tow.rcSprite.h/2) - (mo.coords.y + mo.rcSprite.h/2)) < DISTANCE_SLOW_TOWER){
+	  range = in_range(tow, mo);
+	  if(range){
 	    mo.lvl_slow = tow.niveau +1;
 	    mo.slow = 1;
 	  }

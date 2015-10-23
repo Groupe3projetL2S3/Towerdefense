@@ -1,6 +1,6 @@
 #include "../jeu.h"
 
-s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance) {
+s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, int cadence) {
  
   t.rcSrc.x = 0;
   t.rcSrc.y = 0;
@@ -11,7 +11,7 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance) 
   t.select = 0;
   t.niveau = 1;
   t.range.range_max = distance;
-
+  t.cadence = cadence;
   t.temps = 0;
   return t;
 }
@@ -44,6 +44,7 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
     s_Tower tow = it->t;
     float tir_priorite = 0.0;
     liste_mob mit = *M;
+    int range;
 
     if(tow.type == TYPE_SNIPER){
       tir = tir_sniper;
@@ -63,13 +64,13 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
 
     tir.cible.numero = 0;
  
-    if(temps_jeu - tow.temps > 500 && tow.actif){
+    if(temps_jeu - tow.temps > tow.cadence && tow.actif){ // definir la cadence par tower
 	  
       while(mit != NULL){
-	  
 	s_Mob mo = mit->m;
-	  
-	if( abs((tow.coords.x + tow.rcSprite.w/2) - (mo.coords.x + mo.rcSprite.w/2)) < DISTANCE_MAGIC_TOWER && abs((tow.coords.y+tow.rcSprite.h/2)-(mo.coords.y+mo.rcSprite.h/2)) < DISTANCE_MAGIC_TOWER){
+	range = in_range(tow, mo);
+
+	if(range){
 	     
 	  if (tow.type == TYPE_MAGIC || tow.type == TYPE_SNIPER) {
 	    if(mo.priorite > tir_priorite && mo.coords.x > 10){
@@ -77,22 +78,22 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
 	      tir = direction_tir(tir, mo);
 	      tir.cible = mo;
 	    }
-	    tir_priorite = mo.priorite;	     
-	  }
+	    tir_priorite = mo.priorite;
+	    }
 	  if (tow.type == TYPE_FIRE) {
 	    tir = tir_spawn(tir, tow);
 	    tir = direction_tir(tir, mo);
 	    tir.cible = mo;
 	    tmp = liste_cons_tir(tir, tmp);
-	  }
+	    }
 	}
 
 	mit->m = mo;
 	mit = mit->next;	      
       }
-      if(tir.cible.numero > 0 && tir.type != TYPE_SLOW)
+      if(tir.cible.numero > 0 && tir.type != TYPE_SLOW){
 	tmp = liste_cons_tir(tir,tmp);
-
+      }
       tow.temps = temps_jeu;
     }
     *T = tmp;
@@ -240,6 +241,8 @@ s_Tower towerup_init(s_Tower t, s_Tower t_up) {
   t_up.actif = t.actif;
   t_up.select = t.select;
   t_up.temps = t.temps;
+  t_up.range.range_max = t.range.range_max;
+  t_up.cadence = t.cadence;
 
   return t_up;
 }
@@ -306,7 +309,6 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 	else {
 	  new_liste_tower = liste_cons_tower(t, new_liste_tower);
 	}
-	printf("%d ll \n",t.actif);
 	tit->t = t;
 	tit = tit->next;
       }
@@ -317,12 +319,15 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
       liste_free_tower(&new_liste_tower);
 
 }
-      
-int in_range(s_Range r, s_Mob m){
+    
+int in_range(s_Tower t, s_Mob m){
 
   float distance;
+  distance = sqrt(pow(t.range.coords.x - (m.coords.x + m.rcSrc.w/2), 2) + pow(t.range.coords.y - (m.coords.y + m.rcSrc.h/2), 2));
 
-  distance = sqrt(pow(r.coords.x - m.coords.x, 2) + pow(r.coords.y - m.coords.y, 2));
-  
+  if (distance < t.range.range_max){
+    return 1;
+  }
   return 0;
 }
+

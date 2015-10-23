@@ -106,13 +106,18 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
   t.coords.x = to.coords.x + to.rcSprite.w/2;
   t.coords.y = to.coords.y + to.rcSprite.h/2;
   if (to.type == TYPE_SNIPER){
-    t.dommage = 5; // a définir la puissance selon le type 
+    t.dommage = 1.0; // a définir la puissance selon le type 
     t.type = to.type;
   }
   if (to.type == TYPE_MAGIC){
-    t.dommage = 0; // a définir la puissance selon le type 
+    t.dommage = 5.0; // a définir la puissance selon le type 
     t.type = to.type;
   }
+  if (to.type == TYPE_FIRE){
+    t.dommage = 0.1; // a définir la puissance selon le type 
+    t.type = to.type;
+  }
+
 
   return t;
 }

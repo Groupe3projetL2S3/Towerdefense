@@ -37,6 +37,11 @@ void Range_affichage(liste_tower L, SDL_Surface *screen) {
     s_Tower t = it->t;
 	
     if(t.select){
+
+      t.range.coords.x = t.coords.x + t.rcSrc.w/2;
+      t.range.coords.y = t.coords.y + 2*(t.rcSrc.h/3);
+
+
       t.range.rcSprite.x = (int) t.coords.x - (t.range.rcSrc.w - t.rcSrc.w)/2;
       t.range.rcSprite.y = (int) t.coords.y - (t.range.rcSrc.h - t.rcSrc.h)/2 + t.rcSrc.h/4;
 

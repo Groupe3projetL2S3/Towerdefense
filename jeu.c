@@ -169,11 +169,6 @@ int main(int argc, char* argv[])
   zombie = mob_spawn(zombie, map, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, ZOMBIE_SPEED, ZOMBIE_PV, ZOMBIE_TYPE);
   ender = mob_spawn(ender, map, ENDER_WIDTH, ENDER_HEIGHT, ENDER_SPEED, ENDER_PV, ENDER_TYPE);
 
-  sniper1 = tower_init(sniper1, SNIPER_WIDTH, SNIPER_HEIGHT, TYPE_SNIPER,DISTANCE_SNIPER_TOWER );
-  magic1 = tower_init(magic1, MAGIC_WIDTH, MAGIC_HEIGHT, TYPE_MAGIC, DISTANCE_MAGIC_TOWER);
-  fire1 = tower_init(fire1, FIRE_WIDTH, FIRE_HEIGHT, TYPE_FIRE, DISTANCE_FIRE_TOWER);
-  slow1 = tower_init(slow1, SLOW_WIDTH, SLOW_HEIGHT, TYPE_SLOW, DISTANCE_SLOW_TOWER);
-
   tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
   tir_sniper = tir_init(tir_sniper, TIR_WIDTH, TIR_HEIGHT);
   tir_fire = tir_init(tir_fire, TIR_WIDTH, TIR_HEIGHT);
@@ -182,18 +177,18 @@ int main(int argc, char* argv[])
   zombie.healthbar = healthbar_init(zombie.healthbar, HB_WIDTH, HB_HEIGHT);
   ender.healthbar = healthbar_init(ender.healthbar, HB_WIDTH, HB_HEIGHT);
 
-  sniper1.range = Range_init(sniper1.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  sniper2.range = Range_init(sniper2.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  sniper3.range = Range_init(sniper3.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER ); 
-  magic1.range = Range_init(magic1.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  magic2.range = Range_init(magic2.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  magic3.range = Range_init(magic3.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  fire1.range = Range_init(fire1.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  fire2.range = Range_init(fire2.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  fire3.range = Range_init(fire3.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  slow1.range = Range_init(slow1.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  slow2.range = Range_init(slow2.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
-  slow3.range = Range_init(slow3.range, DISTANCE_SNIPER_TOWER , DISTANCE_SNIPER_TOWER );
+  sniper1.range = Range_init(sniper1.range, DISTANCE_SNIPER_TOWER*2 , DISTANCE_SNIPER_TOWER*2 );
+  sniper2.range = Range_init(sniper2.range, DISTANCE_SNIPER_TOWER*2 , DISTANCE_SNIPER_TOWER*2 );
+  sniper3.range = Range_init(sniper3.range, DISTANCE_SNIPER_TOWER*2 , DISTANCE_SNIPER_TOWER*2 ); 
+  magic1.range = Range_init(magic1.range, DISTANCE_MAGIC_TOWER*2 , DISTANCE_MAGIC_TOWER*2 );
+  magic2.range = Range_init(magic2.range, DISTANCE_MAGIC_TOWER*2 , DISTANCE_MAGIC_TOWER*2 );
+  magic3.range = Range_init(magic3.range, DISTANCE_MAGIC_TOWER*2 , DISTANCE_MAGIC_TOWER*2 );
+  fire1.range = Range_init(fire1.range, DISTANCE_FIRE_TOWER*2 , DISTANCE_FIRE_TOWER*2 );
+  fire2.range = Range_init(fire2.range, DISTANCE_FIRE_TOWER*2 , DISTANCE_FIRE_TOWER*2 );
+  fire3.range = Range_init(fire3.range, DISTANCE_FIRE_TOWER*2 , DISTANCE_FIRE_TOWER*2 );
+  slow1.range = Range_init(slow1.range, DISTANCE_SLOW_TOWER*2 , DISTANCE_SLOW_TOWER*2 );
+  slow2.range = Range_init(slow2.range, DISTANCE_SLOW_TOWER*2 , DISTANCE_SLOW_TOWER*2 );
+  slow3.range = Range_init(slow3.range, DISTANCE_SLOW_TOWER*2 , DISTANCE_SLOW_TOWER*2 );
 
   sniper1.up = upgrade_init(sniper1.up, UP_WIDTH, UP_HEIGHT);
   sniper2.up = upgrade_init(sniper2.up, UP_WIDTH, UP_HEIGHT);
@@ -220,6 +215,13 @@ int main(int argc, char* argv[])
   slow1.sell = sell_init(slow1.sell, SELL_WIDTH, SELL_HEIGHT);
   slow2.sell = sell_init(slow2.sell, SELL_WIDTH, SELL_HEIGHT);
   slow3.sell = sell_init(slow3.sell, SELL_WIDTH, SELL_HEIGHT);
+
+  sniper1 = tower_init(sniper1, SNIPER_WIDTH, SNIPER_HEIGHT, TYPE_SNIPER,DISTANCE_SNIPER_TOWER, CADENCE_SNIPER_TOWER);
+  magic1 = tower_init(magic1, MAGIC_WIDTH, MAGIC_HEIGHT, TYPE_MAGIC, DISTANCE_MAGIC_TOWER, CADENCE_MAGIC_TOWER);
+  fire1 = tower_init(fire1, FIRE_WIDTH, FIRE_HEIGHT, TYPE_FIRE, DISTANCE_FIRE_TOWER, CADENCE_FIRE_TOWER);
+  slow1 = tower_init(slow1, SLOW_WIDTH, SLOW_HEIGHT, TYPE_SLOW, DISTANCE_SLOW_TOWER,0);
+
+
   /* boucle de jeu */
   gameover = 0;
   while (!gameover)

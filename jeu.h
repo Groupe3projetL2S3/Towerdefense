@@ -54,12 +54,15 @@
 #define SELL_HEIGHT 32
 
 #define DISTANCE_SNIPER_TOWER 70
+#define CADENCE_SNIPER_TOWER 500
 #define TYPE_SNIPER 1
 
 #define DISTANCE_MAGIC_TOWER 70
+#define CADENCE_MAGIC_TOWER 1000
 #define TYPE_MAGIC 2
 
 #define DISTANCE_FIRE_TOWER 70
+#define CADENCE_FIRE_TOWER 1
 #define TYPE_FIRE 3
 
 #define DISTANCE_SLOW_TOWER 70
@@ -145,8 +148,8 @@ typedef struct
   int animation;
   int numero;
   int type;
-  int pv_max;
-  int pv;
+  float pv_max;
+  float pv;
   int slow;
   int lvl_slow;
   float priorite;
@@ -162,6 +165,7 @@ typedef struct
   s_Sell sell;
   s_Upgrade up;
   int temps;
+  int cadence;
   int type;
   int actif;
   int select;
@@ -177,7 +181,7 @@ typedef struct
   s_Floatpos coords;
   s_Floatpos vit;
   s_Hitbox box;
-  int dommage;
+  float dommage;
   int animation;
   int type;
   SDL_Rect rcSrc;
@@ -283,7 +287,7 @@ void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
 void mob_add(int *i, s_Mob mob, liste_mob *L);
 void mob_slow(liste_mob *M, liste_tower *T, int colorkey);
 
-s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance);
+s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, int cadence);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, s_Tir tir_fire, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
 void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4);
@@ -311,6 +315,7 @@ int collision_box_box(s_Hitbox box1, s_Hitbox box2);
 
 s_Range Range_init(s_Range r, int taillew, int tailleh);
 void Range_affichage(liste_tower L, SDL_Surface *screen);
+int in_range(s_Tower t, s_Mob m);
 
 s_Upgrade upgrade_init(s_Upgrade up, int taillew, int tailleh);
 void upgrade_affichage(liste_tower L, SDL_Surface *screen);

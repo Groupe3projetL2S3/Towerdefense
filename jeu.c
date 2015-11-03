@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
   map = LoadMap("monde.txt");
   map_objet = LoadMap("objet.txt");
   
-  creep.mob = Load_image("Images/Mobs/sprite_creeper.bmp");
+  creep.mob = Load_image("Images/Mobs/sprite_spider.bmp");
   zombie.mob = Load_image("Images/Mobs/sprite_zombie.bmp");
   ender.mob = Load_image("Images/Mobs/sprite_enderman.bmp");
 

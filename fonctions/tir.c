@@ -218,7 +218,7 @@ void cible(liste_tir *L, liste_mob M){
        
     while (it != NULL) {
       s_Tir t = it->t;
-
+      cible_valide = 0;
 
       liste_mob mit = M;
       while(mit != NULL){

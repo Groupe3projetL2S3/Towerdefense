@@ -37,8 +37,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M) {
       while(tit != NULL) {
 	
 	s_Tir t = tit->t;
-	
-	
+
 	if (collision_box_box(t.box, m.box) && t.cible.numero == m.numero) {
 	  poubelle_tir = liste_cons_tir(t, poubelle_tir);
 	  m.pv = m.pv-t.dommage;
@@ -46,6 +45,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M) {
 	else {
 	  new_liste_tir = liste_cons_tir(t, new_liste_tir);
 	}
+
 	tit->t = t;
 	tit = tit->next;
       }

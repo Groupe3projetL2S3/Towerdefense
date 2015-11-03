@@ -16,7 +16,7 @@
 
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
-#define CREEP_SPEED 0.7
+#define CREEP_SPEED 1.2
 #define CREEP_PV 60
 #define CREEP_TYPE 1
 
@@ -145,7 +145,7 @@ typedef struct
   s_Floatpos vit;
   s_Hitbox box;
   s_Healthbar healthbar;
-  int animation;
+  float animation;
   int numero;
   int type;
   float pv_max;

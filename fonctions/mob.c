@@ -24,7 +24,7 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int 
   s_mob.type = type;
 
   s_mob.slow = 0;
-  s_mob.lvl_slow = 0;
+  s_mob.lvl_slow = 1;
   s_mob.animation = 0.0;
   s_mob.priorite = 0.0;
   
@@ -32,20 +32,11 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int 
 }
 s_Mob mob_deplacement(s_Mob s_mob) { 
 
-  if(!s_mob.slow){
-  s_mob.coords.x = s_mob.coords.x + s_mob.vit.x;
-  s_mob.coords.y = s_mob.coords.y + s_mob.vit.y;
+  s_mob.coords.x = s_mob.coords.x + s_mob.vit.x/s_mob.lvl_slow;
+  s_mob.coords.y = s_mob.coords.y + s_mob.vit.y/s_mob.lvl_slow;
 
-  s_mob.priorite += fabs(s_mob.vit.x) + fabs(s_mob.vit.y);
-  }
-  if(s_mob.slow){
-    s_mob.coords.x = s_mob.coords.x + s_mob.vit.x/s_mob.lvl_slow;
-    s_mob.coords.y = s_mob.coords.y + s_mob.vit.y/s_mob.lvl_slow;
+  s_mob.priorite += fabs(s_mob.vit.x/s_mob.lvl_slow) + fabs(s_mob.vit.y/s_mob.lvl_slow);
 
-    s_mob.priorite += fabs(s_mob.vit.x/s_mob.lvl_slow) + fabs(s_mob.vit.y/s_mob.lvl_slow);
-  }
-
-  
 
   s_mob.box.x = s_mob.coords.x +8;
   s_mob.box.y = s_mob.coords.y +16;
@@ -119,26 +110,26 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
 s_Mob mob_animation(s_Mob s_mob) {
   
   if (s_mob.vit.x > 0) {
-    s_mob.animation += s_mob.vit.x*3;
+    s_mob.animation += (s_mob.vit.x/s_mob.lvl_slow)*3;
     if (s_mob.animation >= 45) 
       s_mob.animation = 0.0;    
     s_mob.rcSrc.x = (int) (s_mob.animation/15)* s_mob.rcSrc.w;
   }
   if (s_mob.vit.x < 0) {
-    s_mob.animation += -s_mob.vit.x*3;
+    s_mob.animation += -(s_mob.vit.x/s_mob.lvl_slow)*3;
     if (s_mob.animation >= 45) 
       s_mob.animation = 0.0;    
     s_mob.rcSrc.x =(3*s_mob.rcSrc.w) +  (int) (s_mob.animation/15)* s_mob.rcSrc.w;
   }
   
   if (s_mob.vit.y > 0) {
-    s_mob.animation += s_mob.vit.y*3;
+    s_mob.animation += (s_mob.vit.y/s_mob.lvl_slow)*3;
     if (s_mob.animation >= 30) 
       s_mob.animation = 0.0;    
     s_mob.rcSrc.x = (6*s_mob.rcSrc.w) + (int) (s_mob.animation/15)* s_mob.rcSrc.w;
   }
   if (s_mob.vit.y < 0) {
-    s_mob.animation += -s_mob.vit.y*3;
+    s_mob.animation += -(s_mob.vit.y/s_mob.lvl_slow)*3;
     if (s_mob.animation >= 30) 
       s_mob.animation = 0.0;    
     s_mob.rcSrc.x = (8*s_mob.rcSrc.w) +  (int) (s_mob.animation/15)* s_mob.rcSrc.w;
@@ -213,12 +204,15 @@ void mob_slow(liste_mob *M, liste_tower *T, int colorkey) {
 	}
 	if (mo.type == ENDER_TYPE) {
 	  mo.mob = Load_image("Images/Mobs/sprite_enderman_slow.bmp");
-	}	
+	}
+	if (mo.type == SPIDER_TYPE) {
+	  mo.mob = Load_image("Images/Mobs/sprite_spider_slow.bmp");
+	}
       } 
 
       else {
 	if (mo.type == CREEP_TYPE) {
-	  mo.mob = Load_image("Images/Mobs/sprite_spider.bmp");	  
+	  mo.mob = Load_image("Images/Mobs/sprite_creeper.bmp");	  
 	}
 	if (mo.type == ZOMBIE_TYPE) {
 	  mo.mob = Load_image("Images/Mobs/sprite_zombie.bmp");
@@ -226,7 +220,11 @@ void mob_slow(liste_mob *M, liste_tower *T, int colorkey) {
 	if (mo.type == ENDER_TYPE) {
 	  mo.mob = Load_image("Images/Mobs/sprite_enderman.bmp");
 	}
-	mo.lvl_slow = 0;
+	if (mo.type == SPIDER_TYPE) {
+	  mo.mob = Load_image("Images/Mobs/sprite_spider.bmp");
+	}
+
+	mo.lvl_slow = 1;
       }
 
 

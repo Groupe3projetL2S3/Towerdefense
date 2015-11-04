@@ -9,14 +9,15 @@ s_Tir tir_init(s_Tir t, int taillew, int tailleh) {
   t.cible.numero = 0;
   t.dommage = 0;
   t.animation = 0;
+  t.vitesse =0.0;
   return t;
 }
 
 s_Tir tir_animation(s_Tir tir){
 
-  tir.animation = 0;
 
   if(tir.type == TYPE_SNIPER){
+    tir.animation = 0;
     float angle, alpha, op, adj;
     int i = 0, boucle = 1;
 
@@ -72,8 +73,15 @@ s_Tir tir_animation(s_Tir tir){
     }
 
   }
-
-
+  if(tir.type == TYPE_MAGIC){
+    
+    tir.animation += 1;  
+    if (tir.animation >= 60) {
+      tir.animation = 0;
+    }
+    tir.rcSrc.x = (tir.animation/10)*tir.rcSrc.w;
+  }
+  
   return tir;
 }
 
@@ -108,14 +116,17 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
   if (to.type == TYPE_SNIPER){
     t.dommage = 1.0; // a définir la puissance selon le type 
     t.type = to.type;
+    t.vitesse = 3.5;
   }
   if (to.type == TYPE_MAGIC){
     t.dommage = 5.0; // a définir la puissance selon le type 
     t.type = to.type;
+    t.vitesse = 2.5;
   }
   if (to.type == TYPE_FIRE){
     t.dommage = 0.1; // a définir la puissance selon le type 
     t.type = to.type;
+    t.vitesse = 2.0;
   }
 
 
@@ -165,8 +176,8 @@ s_Tir direction_tir(s_Tir t, s_Mob mob) { //à faire appel quand il spawn
 
 s_Tir deplacement_tir(s_Tir t) { //à faire appel dans affichage
 
-  t.coords.x += t.vit.x*1.5;
-  t.coords.y += t.vit.y*1.5;
+  t.coords.x += t.vit.x*t.vitesse;
+  t.coords.y += t.vit.y*t.vitesse;
 
   t.box.x = t.coords.x;
   t.box.y = t.coords.y;

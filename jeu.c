@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
   s_Mob creep;
   s_Mob zombie;
   s_Mob ender;
+  s_Mob spider;
 
   s_Tower sniper1;
   s_Tower sniper2;
@@ -64,9 +65,10 @@ int main(int argc, char* argv[])
   map = LoadMap("monde.txt");
   map_objet = LoadMap("objet.txt");
   
-  creep.mob = Load_image("Images/Mobs/sprite_spider.bmp");
+  creep.mob = Load_image("Images/Mobs/sprite_creeper.bmp");
   zombie.mob = Load_image("Images/Mobs/sprite_zombie.bmp");
   ender.mob = Load_image("Images/Mobs/sprite_enderman.bmp");
+  spider.mob = Load_image("Images/Mobs/sprite_spider.bmp");
 
   sniper1.tower = Load_image("Images/Tower/tower_sniper1.bmp");
   sniper2.tower = Load_image("Images/Tower/tower_sniper2.bmp");
@@ -88,6 +90,8 @@ int main(int argc, char* argv[])
   creep.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
   zombie.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
   ender.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
+  spider.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
+
   menu_tower = Load_image("Images/menu_tower.bmp");
 
   sniper1.up.up = Load_image("Images/upgrade.bmp");
@@ -137,6 +141,7 @@ int main(int argc, char* argv[])
   SDL_SetColorKey(creep.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(zombie.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(ender.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(spider.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
 
   SDL_SetColorKey(sniper1.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(sniper2.tower, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
@@ -168,6 +173,7 @@ int main(int argc, char* argv[])
   creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED, CREEP_PV, CREEP_TYPE);
   zombie = mob_spawn(zombie, map, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, ZOMBIE_SPEED, ZOMBIE_PV, ZOMBIE_TYPE);
   ender = mob_spawn(ender, map, ENDER_WIDTH, ENDER_HEIGHT, ENDER_SPEED, ENDER_PV, ENDER_TYPE);
+  spider = mob_spawn(spider, map, SPIDER_WIDTH, SPIDER_HEIGHT, SPIDER_SPEED, SPIDER_PV, SPIDER_TYPE);
 
   tir_magic = tir_init(tir_magic, TIR_WIDTH, TIR_HEIGHT);
   tir_sniper = tir_init(tir_sniper, TIR_WIDTH, TIR_HEIGHT);
@@ -176,6 +182,7 @@ int main(int argc, char* argv[])
   creep.healthbar = healthbar_init(creep.healthbar, HB_WIDTH, HB_HEIGHT);
   zombie.healthbar = healthbar_init(zombie.healthbar, HB_WIDTH, HB_HEIGHT);
   ender.healthbar = healthbar_init(ender.healthbar, HB_WIDTH, HB_HEIGHT);
+  spider.healthbar = healthbar_init(spider.healthbar, HB_WIDTH, HB_HEIGHT);
 
   sniper1.range = Range_init(sniper1.range, DISTANCE_SNIPER_TOWER*2 , DISTANCE_SNIPER_TOWER*2 );
   sniper2.range = Range_init(sniper2.range, DISTANCE_SNIPER_TOWER*2 , DISTANCE_SNIPER_TOWER*2 );
@@ -233,7 +240,7 @@ int main(int argc, char* argv[])
       SDL_Init(SDL_INIT_VIDEO);
       
       /* look for an event */
-      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover);
+      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover);
 
       /* draw the map */
       PrintMap(map,screen);
@@ -331,6 +338,8 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(zombie.mob);
   if (ender.mob != NULL)
     SDL_FreeSurface(ender.mob);
+  if (spider.mob != NULL)
+    SDL_FreeSurface(spider.mob);
 
   if (creep.healthbar.vie != NULL)
     SDL_FreeSurface(creep.healthbar.vie);
@@ -338,6 +347,8 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(zombie.healthbar.vie);
   if (ender.healthbar.vie != NULL)
     SDL_FreeSurface(ender.healthbar.vie);
+  if (spider.healthbar.vie != NULL)
+    SDL_FreeSurface(spider.healthbar.vie);
 
   /* free autres */
 

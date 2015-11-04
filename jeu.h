@@ -16,7 +16,7 @@
 
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
-#define CREEP_SPEED 1.2
+#define CREEP_SPEED 1.0
 #define CREEP_PV 60
 #define CREEP_TYPE 1
 
@@ -31,6 +31,12 @@
 #define ENDER_SPEED 0.5
 #define ENDER_PV 100
 #define ENDER_TYPE 3
+
+#define SPIDER_WIDTH 16
+#define SPIDER_HEIGHT 32
+#define SPIDER_SPEED 1.3
+#define SPIDER_PV 30
+#define SPIDER_TYPE 4
 
 #define MAGIC_WIDTH 32
 #define MAGIC_HEIGHT 48
@@ -62,7 +68,7 @@
 #define TYPE_MAGIC 2
 
 #define DISTANCE_FIRE_TOWER 70
-#define CADENCE_FIRE_TOWER 1
+#define CADENCE_FIRE_TOWER 50
 #define TYPE_FIRE 3
 
 #define DISTANCE_SLOW_TOWER 70
@@ -182,6 +188,7 @@ typedef struct
   s_Floatpos vit;
   s_Hitbox box;
   float dommage;
+  float vitesse;
   int animation;
   int type;
   SDL_Rect rcSrc;
@@ -324,7 +331,7 @@ s_Sell sell_init(s_Sell s, int taillew, int tailleh);
 void sell_affichage(liste_tower L, SDL_Surface *screen);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover);
 
 
 

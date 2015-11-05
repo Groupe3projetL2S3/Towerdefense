@@ -88,11 +88,24 @@ int main(int argc, char* argv[])
   tir_fire.tir = Load_image("Images/tir.bmp");
 
   creep.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
-  zombie.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
-  ender.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
-  spider.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
+  zombie.healthbar.vie = creep.healthbar.vie;
+  ender.healthbar.vie = creep.healthbar.vie;
+  spider.healthbar.vie = creep.healthbar.vie;
 
   menu_tower = Load_image("Images/menu_tower.bmp");
+
+  sniper1.menu.menu = Load_image("Images/menu_select.bmp");
+  sniper2.menu.menu = sniper1.menu.menu;
+  sniper3.menu.menu = sniper1.menu.menu;
+  magic1.menu.menu = sniper1.menu.menu;
+  magic2.menu.menu = sniper1.menu.menu;
+  magic3.menu.menu = sniper1.menu.menu;
+  fire1.menu.menu = sniper1.menu.menu;
+  fire2.menu.menu = sniper1.menu.menu;
+  fire3.menu.menu = sniper1.menu.menu;
+  slow1.menu.menu = sniper1.menu.menu;
+  slow2.menu.menu = sniper1.menu.menu;
+  slow3.menu.menu = sniper1.menu.menu;
 
   sniper1.up.up = Load_image("Images/upgrade.bmp");
   sniper2.up.up = sniper1.up.up;
@@ -120,18 +133,18 @@ int main(int argc, char* argv[])
   slow2.sell.sell = sniper1.sell.sell;
   slow3.sell.sell = sniper1.sell.sell;
 
-  sniper1.range.range = Load_image("Images/range_sniper1.bmp");
-  sniper2.range.range = sniper1.range.range;
-  sniper3.range.range = sniper1.range.range;
-  magic1.range.range = sniper1.range.range;
-  magic2.range.range = sniper1.range.range;
-  magic3.range.range = sniper1.range.range;
-  fire1.range.range = sniper1.range.range;
-  fire2.range.range = sniper1.range.range;
-  fire3.range.range = sniper1.range.range;
-  slow1.range.range = sniper1.range.range;
-  slow2.range.range = sniper1.range.range;
-  slow3.range.range = sniper1.range.range;
+  sniper1.range.range = Load_image("Images/Range/range_90.bmp");
+  sniper2.range.range = Load_image("Images/Range/range_110.bmp");
+  sniper3.range.range = Load_image("Images/Range/range_130.bmp");
+  magic1.range.range = Load_image("Images/Range/range_60.bmp");
+  magic2.range.range = Load_image("Images/Range/range_70.bmp");
+  magic3.range.range = Load_image("Images/Range/range_80.bmp");
+  fire1.range.range = Load_image("Images/Range/range_55.bmp");
+  fire2.range.range = magic1.range.range;
+  fire3.range.range = magic2.range.range;
+  slow1.range.range = fire1.range.range;
+  slow2.range.range = slow1.range.range;
+  slow3.range.range = slow1.range.range;
   /* ********************   colorkey ******************* */
 
   colorkey =  SDL_MapRGB(screen->format, 255, 0, 255);
@@ -161,9 +174,13 @@ int main(int argc, char* argv[])
   SDL_SetColorKey(tir_fire.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkeyN);
 
   SDL_SetColorKey(sniper1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(sniper2.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(sniper3.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(magic1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(magic2.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(magic3.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(fire1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
-  SDL_SetColorKey(slow1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+
   char key[SDLK_LAST] = {0};
 
   
@@ -196,6 +213,19 @@ int main(int argc, char* argv[])
   slow1.range = Range_init(slow1.range, DISTANCE_SLOW_TOWER*2 , DISTANCE_SLOW_TOWER*2 );
   slow2.range = Range_init(slow2.range, DISTANCE_SLOW_TOWER*2 , DISTANCE_SLOW_TOWER*2 );
   slow3.range = Range_init(slow3.range, DISTANCE_SLOW_TOWER*2 , DISTANCE_SLOW_TOWER*2 );
+
+  sniper1.menu = menu_select_init(sniper1.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  sniper2.menu = menu_select_init(sniper2.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  sniper3.menu = menu_select_init(sniper3.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  magic1.menu = menu_select_init(magic1.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  magic2.menu = menu_select_init(magic2.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  magic3.menu = menu_select_init(magic3.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  fire1.menu = menu_select_init(fire1.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  fire2.menu = menu_select_init(fire2.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  fire3.menu = menu_select_init(fire3.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  slow1.menu = menu_select_init(slow1.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  slow2.menu = menu_select_init(slow2.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
+  slow3.menu = menu_select_init(slow3.menu, MENU_SELECT_WIDTH, MENU_SELECT_HEIGHT);
 
   sniper1.up = upgrade_init(sniper1.up, UP_WIDTH, UP_HEIGHT);
   sniper2.up = upgrade_init(sniper2.up, UP_WIDTH, UP_HEIGHT);
@@ -273,6 +303,7 @@ int main(int argc, char* argv[])
 
       /* draw tower select */
       Range_affichage(liste_tower, screen);
+      menu_select_affichage(liste_tower, screen);
       upgrade_affichage(liste_tower, screen);
       sell_affichage(liste_tower, screen);
       
@@ -343,12 +374,6 @@ int main(int argc, char* argv[])
 
   if (creep.healthbar.vie != NULL)
     SDL_FreeSurface(creep.healthbar.vie);
-  if (zombie.healthbar.vie != NULL)
-    SDL_FreeSurface(zombie.healthbar.vie);
-  if (ender.healthbar.vie != NULL)
-    SDL_FreeSurface(ender.healthbar.vie);
-  if (spider.healthbar.vie != NULL)
-    SDL_FreeSurface(spider.healthbar.vie);
 
   /* free autres */
 
@@ -360,6 +385,18 @@ int main(int argc, char* argv[])
 
   if (sniper1.range.range != NULL)
     SDL_FreeSurface(sniper1.range.range);
+  if (sniper2.range.range != NULL)
+    SDL_FreeSurface(sniper2.range.range);
+  if (sniper3.range.range != NULL)
+    SDL_FreeSurface(sniper3.range.range);
+  if (magic1.range.range != NULL)
+    SDL_FreeSurface(magic1.range.range);
+  if (magic2.range.range != NULL)
+    SDL_FreeSurface(magic2.range.range);
+  if (magic3.range.range != NULL)
+    SDL_FreeSurface(magic3.range.range);
+  if (fire1.range.range != NULL)
+    SDL_FreeSurface(fire1.range.range);
 
   if (sniper1.up.up != NULL)
     SDL_FreeSurface(sniper1.up.up);

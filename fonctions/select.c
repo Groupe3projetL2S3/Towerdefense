@@ -10,6 +10,16 @@ s_Range Range_init(s_Range r, int taillew, int tailleh) {
   return r;
 }
 
+s_Menu menu_select_init(s_Menu menu, int taillew, int tailleh) {
+
+  menu.rcSrc.x = 0;
+  menu.rcSrc.y = 0;
+  menu.rcSrc.w = taillew;
+  menu.rcSrc.h = tailleh;
+
+  return menu;
+}
+
 s_Upgrade upgrade_init(s_Upgrade up, int taillew, int tailleh) {
 
   up.rcSrc.x = 0;
@@ -61,8 +71,8 @@ void upgrade_affichage(liste_tower L, SDL_Surface *screen) {
     s_Tower t = it->t;
 	
     if(t.select){
-      t.up.rcSprite.x = (int) SCREEN_WIDTH - UP_WIDTH;
-      t.up.rcSprite.y = 0;
+      t.up.rcSprite.x = MENU_SELECT_WIDTH - UP_WIDTH - 7;
+      t.up.rcSprite.y = 8;
 
       SDL_BlitSurface(t.up.up, &t.up.rcSrc, screen, &t.up.rcSprite);
     }
@@ -78,10 +88,27 @@ void sell_affichage(liste_tower L, SDL_Surface *screen) {
     s_Tower t = it->t;
 	
     if(t.select){
-      t.sell.rcSprite.x = (int) SCREEN_WIDTH - SELL_WIDTH;
-      t.sell.rcSprite.y = UP_HEIGHT;
+      t.sell.rcSprite.x = MENU_SELECT_WIDTH - SELL_WIDTH - 7;
+      t.sell.rcSprite.y = UP_HEIGHT + 12;
 
       SDL_BlitSurface(t.sell.sell, &t.sell.rcSrc, screen, &t.sell.rcSprite);
+    }
+    it->t = t;
+    it = it->next;
+  }
+}
+
+void menu_select_affichage(liste_tower L, SDL_Surface *screen) {
+
+  liste_tower it = L;
+  while (it != NULL) {
+    s_Tower t = it->t;
+	
+    if(t.select){
+      t.menu.rcSprite.x = 0;
+      t.menu.rcSprite.y = 0;
+
+      SDL_BlitSurface(t.menu.menu, &t.menu.rcSrc, screen, &t.menu.rcSprite);
     }
     it->t = t;
     it = it->next;

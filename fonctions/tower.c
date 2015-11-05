@@ -184,11 +184,18 @@ void tower_select(liste_tower *T, int event_button_x, int event_button_y) {
 	&& event_button_y <= t.coords.y + t.rcSrc.h)
       t.select = 1;
     
-    else if (event_button_x >= SCREEN_WIDTH - UP_WIDTH
-	     && event_button_y <= UP_HEIGHT + SELL_HEIGHT
+    else if (event_button_x >= (t.up.rcSprite.x) 
+	     && event_button_x <= (t.up.rcSprite.x + t.up.rcSrc.w) 
+	     && event_button_y >= (t.up.rcSprite.y)
+	     && event_button_y <= (t.up.rcSprite.y + t.up.rcSrc.h) 
 	     && t.select == 1)
       t.select = 1;
-    
+    else if (event_button_x >= (t.sell.rcSprite.x)
+	     && event_button_x <= (t.sell.rcSprite.x + t.sell.rcSrc.w)
+	     && event_button_y >= (t.sell.rcSprite.y)
+	     && event_button_y <= (t.sell.rcSprite.y + t.sell.rcSrc.h)
+	     && t.select == 1)
+      t.select = 1;
     else
       t.select = 0;
 
@@ -232,16 +239,19 @@ void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3
   
 }
 
-s_Tower towerup_init(s_Tower t, s_Tower t_up) {
+s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance) {
   
   t_up.rcSrc = t.rcSrc;
+  t_up.range.rcSrc = t.range.rcSrc;
+  t_up.range.rcSrc.w = distance;
+  t_up.range.rcSrc.h = distance;
   t_up.coords = t.coords;
   t_up.niveau = t.niveau + 1;
   t_up.type = t.type;
   t_up.actif = t.actif;
   t_up.select = t.select;
   t_up.temps = t.temps;
-  t_up.range.range_max = t.range.range_max;
+  t_up.range.range_max = t.range.range_max +10;
   t_up.cadence = t.cadence;
 
   return t_up;
@@ -259,51 +269,59 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
       while(tit != NULL) {
 	
 	s_Tower t = tit->t;
-
-	if (t.select == 1 && t.actif == 1 && event_button_x >= (SCREEN_WIDTH - UP_WIDTH) && event_button_y <= UP_HEIGHT && t.niveau < 3 ) {
+	if (t.select == 1 && t.actif == 1 
+	    && event_button_x >= (t.up.rcSprite.x) 
+	    && event_button_x <= (t.up.rcSprite.x + t.up.rcSrc.w) 
+	    && event_button_y >= (t.up.rcSprite.y)
+	    && event_button_y <= (t.up.rcSprite.y + t.up.rcSrc.h) 
+	    && t.niveau < 3 ) {
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
 	  if (t.type == TYPE_SNIPER) {
 	    if (t.niveau == 2) {
-	      sniper3 = towerup_init(t, sniper3);
+	      sniper3 = towerup_init(t, sniper3, DISTANCE_SNIPER_TOWER3*2);
 	      new_liste_tower = liste_cons_tower(sniper3, new_liste_tower);
 	    }
 	    if (t.niveau == 1) {
-	      sniper2 = towerup_init(t, sniper2);
+	      sniper2 = towerup_init(t, sniper2, DISTANCE_SNIPER_TOWER2*2);
 	      new_liste_tower = liste_cons_tower(sniper2, new_liste_tower);
 	    }
 	  }
 	  if (t.type == TYPE_MAGIC) {
 	    if (t.niveau == 2) {
-	      magic3 = towerup_init(t, magic3);
+	      magic3 = towerup_init(t, magic3, DISTANCE_MAGIC_TOWER3*2);
 	      new_liste_tower = liste_cons_tower(magic3, new_liste_tower);
 	    }
 	    if (t.niveau == 1) {
-	      magic2 = towerup_init(t, magic2);
+	      magic2 = towerup_init(t, magic2, DISTANCE_MAGIC_TOWER2*2);
 	      new_liste_tower = liste_cons_tower(magic2, new_liste_tower);
 	    }
 	  }
 	  if (t.type == TYPE_FIRE) {
 	    if (t.niveau == 2) {
-	      fire3 = towerup_init(t, fire3);
+	      fire3 = towerup_init(t, fire3, DISTANCE_FIRE_TOWER3*2);
 	      new_liste_tower = liste_cons_tower(fire3, new_liste_tower);
 	    }
 	    if (t.niveau == 1) {
-	      fire2 = towerup_init(t, fire2);
+	      fire2 = towerup_init(t, fire2, DISTANCE_FIRE_TOWER2*2);
 	      new_liste_tower = liste_cons_tower(fire2, new_liste_tower);
 	    }
 	  }
 	  if (t.type == TYPE_SLOW) {
 	    if (t.niveau == 2) {
-	      slow3 = towerup_init(t, slow3);
+	      slow3 = towerup_init(t, slow3, DISTANCE_SLOW_TOWER*2);
 	      new_liste_tower = liste_cons_tower(slow3, new_liste_tower);
 	    }
 	    if (t.niveau == 1) {
-	      slow2 = towerup_init(t, slow2);
+	      slow2 = towerup_init(t, slow2, DISTANCE_SLOW_TOWER*2);
 	      new_liste_tower = liste_cons_tower(slow2, new_liste_tower);
 	    }
 	  }
 	}	    
-	else if (t.select == 1 && t.actif == 1 && event_button_x >= SCREEN_WIDTH - SELL_WIDTH && event_button_y <= SELL_HEIGHT + UP_HEIGHT && event_button_y > UP_HEIGHT) {
+	else if (t.select == 1 && t.actif == 1 
+		 && event_button_x >= (t.sell.rcSprite.x)
+		 && event_button_x <= (t.sell.rcSprite.x + t.sell.rcSrc.w)
+		 && event_button_y >= (t.sell.rcSprite.y)
+		 && event_button_y <= (t.sell.rcSprite.y + t.sell.rcSrc.h)) {
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
 	}
 	else {

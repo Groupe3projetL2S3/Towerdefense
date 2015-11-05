@@ -40,10 +40,13 @@
 
 #define MAGIC_WIDTH 32
 #define MAGIC_HEIGHT 48
+
 #define SNIPER_WIDTH 32
 #define SNIPER_HEIGHT 48
+
 #define FIRE_WIDTH 32
 #define FIRE_HEIGHT 48
+
 #define SLOW_WIDTH 32
 #define SLOW_HEIGHT 48
 
@@ -53,25 +56,34 @@
 #define HB_WIDTH 20
 #define HB_HEIGHT 5
 
-#define UP_WIDTH 32
-#define UP_HEIGHT 32
+#define MENU_SELECT_WIDTH 87
+#define MENU_SELECT_HEIGHT 64
 
-#define SELL_WIDTH 32
-#define SELL_HEIGHT 32
+#define UP_WIDTH 22
+#define UP_HEIGHT 22
 
-#define DISTANCE_SNIPER_TOWER 70
+#define SELL_WIDTH 22
+#define SELL_HEIGHT 22
+
+#define DISTANCE_SNIPER_TOWER 90
+#define DISTANCE_SNIPER_TOWER2 110
+#define DISTANCE_SNIPER_TOWER3 130
 #define CADENCE_SNIPER_TOWER 500
 #define TYPE_SNIPER 1
 
-#define DISTANCE_MAGIC_TOWER 70
+#define DISTANCE_MAGIC_TOWER 60
+#define DISTANCE_MAGIC_TOWER2 70
+#define DISTANCE_MAGIC_TOWER3 80
 #define CADENCE_MAGIC_TOWER 1000
 #define TYPE_MAGIC 2
 
-#define DISTANCE_FIRE_TOWER 70
-#define CADENCE_FIRE_TOWER 50
+#define DISTANCE_FIRE_TOWER 55
+#define DISTANCE_FIRE_TOWER2 60
+#define DISTANCE_FIRE_TOWER3 70
+#define CADENCE_FIRE_TOWER 20
 #define TYPE_FIRE 3
 
-#define DISTANCE_SLOW_TOWER 70
+#define DISTANCE_SLOW_TOWER 55
 #define TYPE_SLOW 4
 
 #define TAB_MAX 1000
@@ -136,6 +148,14 @@ typedef struct
 
 typedef struct
 {
+  s_Floatpos coords;
+  SDL_Rect rcSrc;
+  SDL_Rect rcSprite;
+  SDL_Surface *menu;
+} s_Menu;
+
+typedef struct
+{
   int tile_width, tile_height;
   int nbtilesX,nbtilesY;
   SDL_Surface* tileset;
@@ -170,6 +190,7 @@ typedef struct
   s_Range range;
   s_Sell sell;
   s_Upgrade up;
+  s_Menu menu;
   int temps;
   int cadence;
   int type;
@@ -302,7 +323,7 @@ void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y);
 void tower_select(liste_tower *T,  int event_button_x, int event_button_y);
 int tower_posay(liste_tower *T, int event_button_x, int event_button_y);
 void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3, int *case4, int event_button_x, int event_button_y);
-s_Tower towerup_init(s_Tower t, s_Tower t_up);
+s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance);
 void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, s_Tower fire2, s_Tower fire3, s_Tower slow2, s_Tower slow3, int event_button_x, int event_button_y);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
@@ -323,6 +344,9 @@ int collision_box_box(s_Hitbox box1, s_Hitbox box2);
 s_Range Range_init(s_Range r, int taillew, int tailleh);
 void Range_affichage(liste_tower L, SDL_Surface *screen);
 int in_range(s_Tower t, s_Mob m);
+
+s_Menu menu_select_init(s_Menu menu, int taillew, int tailleh);
+void menu_select_affichage(liste_tower L, SDL_Surface *screen);
 
 s_Upgrade upgrade_init(s_Upgrade up, int taillew, int tailleh);
 void upgrade_affichage(liste_tower L, SDL_Surface *screen);

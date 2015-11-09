@@ -17,7 +17,11 @@ int main(int argc, char* argv[])
   int case2 = 1;
   int case3 = 1;
   int case4 = 1;
+
   int gameover;
+  int pause;
+  int menu;
+  int fin;
 
   s_Mob creep;
   s_Mob zombie;
@@ -47,8 +51,13 @@ int main(int argc, char* argv[])
 
   Map* map = NULL;
   Map* map_objet = NULL;
+  Map* map_menu = NULL;
+  Map* map_gameover = NULL;
 
   int temps_jeu = 0;
+  int temps_debut_pause = 0;
+  int temps_menu = 0;
+  int dure_pause = 0;
   int num_mob = 0;
 
   /* set the title bar */
@@ -64,6 +73,8 @@ int main(int argc, char* argv[])
   /* **********************   LOAD IMAGE ******************* */
   map = LoadMap("monde.txt");
   map_objet = LoadMap("objet.txt");
+  map_menu = LoadMap("menu.txt");
+  map_gameover = LoadMap("gameover.txt");
   
   creep.mob = Load_image("Images/Mobs/sprite_creeper.bmp");
   zombie.mob = Load_image("Images/Mobs/sprite_zombie.bmp");
@@ -259,23 +270,64 @@ int main(int argc, char* argv[])
   slow1 = tower_init(slow1, SLOW_WIDTH, SLOW_HEIGHT, TYPE_SLOW, DISTANCE_SLOW_TOWER,0);
 
 
-  /* boucle de jeu */
   gameover = 0;
+  pause = 0;
+  menu = 1;
+  fin = 1;
+
+
+  while(menu){
+    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin);
+    
+
+    PrintMap(map_menu,screen);
+ 
+    temps_menu = temps_jeu;
+    temps_jeu = SDL_GetTicks() - dure_pause + temps_debut_pause;
+
+    
+    
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    SDL_Delay(1);
+  }
+
+  
+
+
+
+  /* boucle de jeu */
+
   while (!gameover)
     {
       
-      temps_jeu = SDL_GetTicks();
-      
       /* initialize SDL */
       SDL_Init(SDL_INIT_VIDEO);
+
+
+      temps_jeu = SDL_GetTicks() + temps_debut_pause - dure_pause - temps_menu;
+      printf("%d \n",temps_jeu);
+
+
+      while(pause){
+	update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin);
+		
+	
+	temps_debut_pause = temps_jeu;
+	dure_pause = SDL_GetTicks();
+	temps_menu = 0;
+	
+	SDL_UpdateRect(screen, 0, 0, 0, 0);
+	SDL_Delay(1);
+      }
+
       
       /* look for an event */
-      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover);
+      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin);
 
       /* draw the map */
       PrintMap(map,screen);
       PrintMap(map_objet,screen);
-
+      
       rcMenu_tower.x = 0;
       rcMenu_tower.y = 416;
       SDL_BlitSurface(menu_tower, NULL, screen, &rcMenu_tower );
@@ -299,6 +351,7 @@ int main(int argc, char* argv[])
 
 
       /* draw mobs */
+      
       mob_affichage(liste_mob, map, screen);
 
       /* draw tower select */
@@ -331,9 +384,26 @@ int main(int argc, char* argv[])
       
       
     }
+
+  while(fin){
+    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin);
+    
+    
+    PrintMap(map_gameover,screen);
+ 
+
+    
+    
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    SDL_Delay(1);
+  }
+
+
   
   FreeMap(map);
   FreeMap(map_objet);
+  FreeMap(map_menu);
+  FreeMap(map_gameover);
   
   /* ****************************************************************************************************************************** */
   /* ***********************************     Clean Up    ************************************************************************** */

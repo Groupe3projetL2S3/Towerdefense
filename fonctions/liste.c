@@ -83,6 +83,17 @@ liste_tower liste_cons_tower(s_Tower t, liste_tower L) {
   return nouveau;
 }
 
+liste_tower liste_tri_tower(liste_tower L) {
+  if(L == NULL)
+    return NULL;
+  if(L->next == NULL)
+    return L;
+  if(L->t.coords.y <= L->next->t.coords.y){
+    return L;
+  }else {
+    return liste_cons_tower(L->next->t,liste_tri_tower(liste_cons_tower(L->t,L->next->next)));
+  }
+}
 
 /* accesseurs */
 

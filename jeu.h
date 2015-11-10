@@ -274,6 +274,8 @@ void liste_free_mob(liste_mob * L);
 /* constructeurs */
 liste_tower liste_new_empty_tower();
 liste_tower liste_cons_tower(s_Tower t, liste_tower L);
+liste_tower liste_tri_tower(liste_tower L);
+
 /* accesseurs */
 int liste_is_empty_tower(liste_tower L);
 s_Tower liste_head_tower(liste_tower L);

@@ -1,0 +1,180 @@
+#tileset
+Images/tileminecraft.bmp
+16 10
+tile0: terrain
+tile1: terrain
+tile2: terrain
+tile3: terrain
+tile4: terrain
+tile5: terrain
+tile6: terrain
+tile7: terrain
+tile8: terrain
+tile9: terrain
+tile10: terrain
+tile11: terrain
+tile12: terrain
+tile13: terrain
+tile14: terrain
+tile15: terrain
+tile16: terrain
+tile17: terrain
+tile18: terrain
+tile19: terrain
+tile20: terrain
+tile21: terrain
+tile22: terrain
+tile23: terrain
+tile24: terrain
+tile25: terrain
+tile26: terrain
+tile27: terrain
+tile28: terrain
+tile29: terrain
+tile30: terrain
+tile31: terrain
+tile32: terrain
+tile33: terrain
+tile34: terrain
+tile35: terrain
+tile36: terrain
+tile37: terrain
+tile38: terrain
+tile39: terrain
+tile40: terrain
+tile41: terrain
+tile42: terrain
+tile43: terrain
+tile44: terrain
+tile45: terrain
+tile46: terrain
+tile47: terrain
+tile48: terrain
+tile49: terrain
+tile50: terrain
+tile51: terrain
+tile52: terrain
+tile53: terrain
+tile54: terrain
+tile55: terrain
+tile56: terrain
+tile57: terrain
+tile58: terrain
+tile59: terrain
+tile60: terrain
+tile61: terrain
+tile62: terrain
+tile63: terrain
+tile64: terrain
+tile65: terrain
+tile66: terrain
+tile67: terrain
+tile68: terrain
+tile69: terrain
+tile70: terrain
+tile71: terrain
+tile72: terrain
+tile73: terrain
+tile74: terrain
+tile75: terrain
+tile76: terrain
+tile77: terrain
+tile78: terrain
+tile79: terrain
+tile80: terrain
+tile81: terrain
+tile82: terrain
+tile83: terrain
+tile84: terrain
+tile85: terrain
+tile86: terrain
+tile87: terrain
+tile88: terrain
+tile89: terrain
+tile90: terrain
+tile91: terrain
+tile92: terrain
+tile93: terrain
+tile94: terrain
+tile95: terrain
+tile96: terrain
+tile97: terrain
+tile98: terrain
+tile99: terrain
+tile100: terrain
+tile101: terrain
+tile102: terrain
+tile103: terrain
+tile104: terrain
+tile105: terrain
+tile106: terrain
+tile107: terrain
+tile108: terrain
+tile109: terrain
+tile110: terrain
+tile111: terrain
+tile112: terrain
+tile113: terrain
+tile114: terrain
+tile115: terrain
+tile116: terrain
+tile117: terrain
+tile118: terrain
+tile119: terrain
+tile120: terrain
+tile121: terrain
+tile122: terrain
+tile123: terrain
+tile124: terrain
+tile125: terrain
+tile126: terrain
+tile127: terrain
+tile128: terrain
+tile129: terrain
+tile130: terrain
+tile131: terrain
+tile132: terrain
+tile133: terrain
+tile134: terrain
+tile135: terrain
+tile136: terrain
+tile137: terrain
+tile138: terrain
+tile139: terrain
+tile140: terrain
+tile141: terrain
+tile142: terrain
+tile143: terrain
+tile144: terrain
+tile145: terrain
+tile146: terrain
+tile147: terrain
+tile148: terrain
+tile149: terrain
+tile150: terrain
+tile151: terrain
+tile152: terrain
+tile153: terrain
+tile154: terrain
+tile155: terrain
+tile156: terrain
+tile157: terrain
+tile158: terrain
+tile159: terrain
+#monde
+21 13
+89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89
+89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89
+89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89
+89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89
+89  88  88  88  89  88  89  89  88  89  88  88  88  89  88  88  88  89  88  88  88
+89  88  89  89  89  88  88  89  88  89  89  88  89  89  88  89  89  89  88  89  88
+89  88  89  89  89  88  88  89  88  89  89  88  89  89  88  89  89  89  88  88  88
+89  88  88  89  89  88  89  88  88  89  89  88  89  89  88  88  89  89  88  88  89
+89  88  89  89  89  88  89  88  88  89  89  88  89  89  88  89  89  89  88  88  89
+89  88  89  89  89  88  89  89  88  89  89  88  89  89  88  89  89  89  88  89  88
+89  88  88  88  89  88  89  89  88  89  89  88  89  89  88  88  88  89  88  89  88
+89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89
+89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89  89
+
+

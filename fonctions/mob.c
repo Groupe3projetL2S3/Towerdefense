@@ -140,8 +140,7 @@ s_Mob mob_animation(s_Mob s_mob) {
 
 void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen) {
 
-      liste_mob it = L;
-      
+  liste_mob it = L;
       while (it != NULL) {
 	s_Mob m = it->m;
 	m = mob_deplacement(m);

@@ -18,11 +18,11 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, 
 
 
 void tower_affichage(liste_tower L, SDL_Surface *screen) {
+  liste_tower it = liste_tri_tower(L);
 
-  liste_tower it = L;
   while (it != NULL) {
     s_Tower t = it->t;
-	
+    printf("%lf \n",t.coords.y);
     t.rcSprite.x = (int) t.coords.x;
     t.rcSprite.y = (int) t.coords.y;
     SDL_BlitSurface(t.tower, &t.rcSrc, screen, &t.rcSprite);
@@ -146,6 +146,7 @@ else {
 	  *case3 = 1;
 	  *case4 = 1;
 	}
+        tmp2 = liste_tri_tower(tmp2);
 	*T = tmp2;
       }
     }
@@ -228,9 +229,11 @@ void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3
   liste_tower tmp2;
   tmp2 = NULL;
   tmp2 = *T;
+  tower.coords.x = event_button_x - SNIPER_WIDTH / 2;
+  tower.coords.y = event_button_y - SNIPER_HEIGHT /2 - 16;
   tmp2 =liste_cons_tower(tower,tmp2);
-  tmp2->t.coords.x = event_button_x - SNIPER_WIDTH / 2;
-  tmp2->t.coords.y = event_button_y - SNIPER_HEIGHT /2 - 16;
+  //tmp2->t.coords.x = event_button_x - SNIPER_WIDTH / 2;
+  //tmp2->t.coords.y = event_button_y - SNIPER_HEIGHT /2 - 16;
   *T = tmp2;
   *case1 = 0;
   *case2 = 0;

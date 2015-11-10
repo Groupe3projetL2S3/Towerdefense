@@ -305,7 +305,7 @@ int main(int argc, char* argv[])
 
 
       temps_jeu = SDL_GetTicks() + temps_debut_pause - dure_pause - temps_menu;
-      printf("%d \n",temps_jeu);
+      //printf("%d \n",temps_jeu);
 
 
       while(pause){
@@ -360,7 +360,8 @@ int main(int argc, char* argv[])
       upgrade_affichage(liste_tower, screen);
       sell_affichage(liste_tower, screen);
       
-      /* draw towers */     
+      /* draw towers */    
+
       tower_affichage(liste_tower ,screen);
 
       /* draw shoots */

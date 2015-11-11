@@ -102,6 +102,7 @@ int FreeMap(Map* map)
   SDL_FreeSurface(map->tileset);
   for(i = 0; i < map->nbtiles_hauteur_monde; i++)
     free(map->monde[i]);
+ 
   free(map->monde);
   free(map->tab_props);
   free(map);

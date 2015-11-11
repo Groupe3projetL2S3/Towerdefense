@@ -3,6 +3,7 @@
 
 #include <math.h> 
 #include <time.h>
+#include <SDL_ttf.h>
 #include <assert.h>
 
 #define ERROR -1
@@ -17,25 +18,25 @@
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
 #define CREEP_SPEED 1.0
-#define CREEP_PV 60
+#define CREEP_PV 15
 #define CREEP_TYPE 1
 
 #define ZOMBIE_WIDTH 16
 #define ZOMBIE_HEIGHT 32
 #define ZOMBIE_SPEED 0.3
-#define ZOMBIE_PV 200
+#define ZOMBIE_PV 50
 #define ZOMBIE_TYPE 2
 
 #define ENDER_WIDTH 16
 #define ENDER_HEIGHT 40
 #define ENDER_SPEED 0.5
-#define ENDER_PV 100
+#define ENDER_PV 25
 #define ENDER_TYPE 3
 
 #define SPIDER_WIDTH 16
 #define SPIDER_HEIGHT 32
 #define SPIDER_SPEED 1.3
-#define SPIDER_PV 30
+#define SPIDER_PV 8
 #define SPIDER_TYPE 4
 
 #define MAGIC_WIDTH 32
@@ -218,6 +219,16 @@ typedef struct
   s_Mob cible;
 } s_Tir;
 
+typedef struct
+{
+  SDL_Rect rctext;
+  SDL_Surface *text;
+  SDL_Color color;
+  TTF_Font *police;
+  int temps;
+  int affiche; 
+}s_Text;
+
 
 
 
@@ -340,7 +351,7 @@ s_Healthbar healthbar_init(s_Healthbar h, int taillew, int tailleh);
 s_Healthbar healthbar_animation(s_Healthbar h, s_Mob mob);
 void healthbar_affichage(liste_mob L, SDL_Surface *screen);
 
-void collision_tir_mob(liste_tir *T, liste_mob *M);
+void collision_tir_mob(liste_tir *T, liste_mob *M, int *points);
 int collision_box_box(s_Hitbox box1, s_Hitbox box2);
 
 s_Range Range_init(s_Range r, int taillew, int tailleh);
@@ -355,9 +366,15 @@ void upgrade_affichage(liste_tower L, SDL_Surface *screen);
 
 s_Sell sell_init(s_Sell s, int taillew, int tailleh);
 void sell_affichage(liste_tower L, SDL_Surface *screen);
+
+int top_score(int *meilleurs_scores, int points);
+s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t);
+void affichage_text(int x, int y, char *tab, s_Text t,SDL_Surface *screen);
 /******************************* SDL *********************************/
 
 void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin);
+
+
 
 
 

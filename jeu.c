@@ -57,6 +57,7 @@ int main(int argc, char* argv[])
   s_Text s_compteur;
   s_Text s_gameover;
   s_Text s_number_level;
+  s_Text s_money;
 
   s_Text s_top1;
   s_Text s_top2;
@@ -82,14 +83,17 @@ int main(int argc, char* argv[])
   int temps_debut_pause = 0;
   int temps_menu = 0;
   int temps_score = 0;
+  int temps_money = 0;
   int dure_pause = 0;
   int num_mob = 0;
   int points = 0;
+  int money = 200;
   
   char tabscore[6] = "SCORE";
   char tabcompteur[11] = "0000000000";
   char tabgameover[12] = "GAME OVER !";
   char tabentrer[19] = "Appuyez sur ENTRER";
+  char tabmoney[10] = "000000000";
 
   char tabtop1[11] = {'0'};
   char tabtop2[11] = {'0'};
@@ -102,7 +106,26 @@ int main(int argc, char* argv[])
   char tabptop3[3] = "3.";
   char tabptop4[3] = "4.";
   char tabptop5[3] = "5.";
+
+  char tabsniper_name[7] = "Sniper";
+  char tabsniper_damages[3] = "1.0";
+  char tabsniper_as[3] = "3.5";
+  char tabsniper_cost[3] = "100";
   
+  char tabmagic_name[6] = "Magic";
+  char tabmagic_damages[3] = "5.0";
+  char tabmagic_as[3] = "2.5";
+  char tabmagic_cost[3] = "100";
+
+  char tabfire_name[5] = "Fire";
+  char tabfire_damages[3] = "0.1";
+  char tabfire_as[3] = "2.0";
+  char tabfire_cost[3] = "100";
+
+  char tabslow_name[5] = "Slow";
+  char tabslow_damages[3] = "0.0";
+  char tabslow_as[3] = "0.0";
+  char tabslow_cost[3] = "100";
 
   /* set the title bar */
   SDL_WM_SetCaption("Tower Defense", "SDL Animation");
@@ -317,8 +340,29 @@ int main(int argc, char* argv[])
   /* Initialize Text game*/
   s_score = text_init(23, 1, Blanc, s_score);
   s_compteur = text_init(23, 1, Blanc, s_compteur);
+  s_money = text_init(23, 1, Blanc, s_money);
 
-  
+  sniper1.s_name = text_init(15, 1, Blanc, sniper1.s_name);
+  sniper1.s_damages = text_init(12, 1, Blanc, sniper1.s_damages);
+  sniper1.s_as = text_init(12, 1, Blanc, sniper1.s_as);
+  sniper1.s_cost = text_init(12, 1, Blanc, sniper1.s_cost);
+
+  magic1.s_name = text_init(15, 1, Blanc, magic1.s_name);
+  magic1.s_damages = text_init(12, 1, Blanc, magic1.s_damages);
+  magic1.s_as = text_init(12, 1, Blanc, magic1.s_as);
+  magic1.s_cost = text_init(12, 1, Blanc, magic1.s_cost);
+
+  fire1.s_name = text_init(15, 1, Blanc, fire1.s_name);
+  fire1.s_damages = text_init(12, 1, Blanc, fire1.s_damages);
+  fire1.s_as = text_init(12, 1, Blanc, fire1.s_as);
+  fire1.s_cost = text_init(12, 1, Blanc, fire1.s_cost);
+
+  slow1.s_name = text_init(15, 1, Blanc, slow1.s_name);
+  slow1.s_damages = text_init(12, 1, Blanc, slow1.s_damages);
+  slow1.s_as = text_init(12, 1, Blanc, slow1.s_as);
+  slow1.s_cost = text_init(12, 1, Blanc, slow1.s_cost);
+
+
   gameover = 0;
   pause = 0;
   menu = 1;
@@ -422,21 +466,50 @@ int main(int argc, char* argv[])
       healthbar_affichage(liste_mob, screen);
 
       /* fonction */
-      collision_tir_mob(&liste_tir, &liste_mob, &points);
+      collision_tir_mob(&liste_tir, &liste_mob, &points, &money);
       tower_tir(&liste_tower, &liste_mob, &liste_tir, tir_magic, tir_sniper, tir_fire, screen, temps_jeu, sniper1);
       mob_slow(&liste_mob, &liste_tower, colorkey);
       
-      /* Affichage "SCORE"  */
-      sprintf(tabcompteur,"%d",points);
+      /* Affichage score et money */
+      sprintf(tabcompteur,"%d", points);
       affichage_text(SCREEN_WIDTH -160, 10, tabscore, s_score, screen);
       affichage_text(SCREEN_WIDTH -62, 10, tabcompteur, s_compteur, screen);
-      
+      sprintf(tabmoney, "%d", money);
+      affichage_text(SCREEN_WIDTH - 62, 35, tabmoney, s_money, screen);
+
       /* Points en fonction du temps */
       if (temps_jeu - temps_score > 1000){
 	points = points + 1;
 	temps_score = temps_jeu;
       }
       
+      /* Money en fonction du temps */
+      if (temps_jeu - temps_money > 5000){
+	money = money + 10;
+	temps_money = temps_jeu;
+      }
+
+      /* Affichage specs tours */
+      affichage_text(70, SCREEN_HEIGHT-74, tabsniper_name, sniper1.s_name, screen);
+      affichage_text(90, SCREEN_HEIGHT-50, tabsniper_damages, sniper1.s_damages, screen);
+      affichage_text(90, SCREEN_HEIGHT-35, tabsniper_as, sniper1.s_as, screen);
+      affichage_text(90, SCREEN_HEIGHT-20, tabsniper_cost, sniper1.s_cost, screen);
+
+      affichage_text(238, SCREEN_HEIGHT-74, tabmagic_name, magic1.s_name, screen);
+      affichage_text(258, SCREEN_HEIGHT-50, tabmagic_damages, magic1.s_damages, screen);
+      affichage_text(258, SCREEN_HEIGHT-35, tabmagic_as, magic1.s_as, screen);
+      affichage_text(258, SCREEN_HEIGHT-20, tabmagic_cost, magic1.s_cost, screen);
+
+      affichage_text(406, SCREEN_HEIGHT-74, tabfire_name, fire1.s_name, screen);
+      affichage_text(426, SCREEN_HEIGHT-50, tabfire_damages, fire1.s_damages, screen);
+      affichage_text(426, SCREEN_HEIGHT-35, tabfire_as, fire1.s_as, screen);
+      affichage_text(426, SCREEN_HEIGHT-20, tabfire_cost, fire1.s_cost, screen);
+
+      affichage_text(574, SCREEN_HEIGHT-74, tabslow_name, slow1.s_name, screen);
+      affichage_text(594, SCREEN_HEIGHT-50, tabslow_damages, slow1.s_damages, screen);
+      affichage_text(594, SCREEN_HEIGHT-35, tabslow_as, slow1.s_as, screen);
+      affichage_text(594, SCREEN_HEIGHT-20, tabslow_cost, slow1.s_cost, screen);
+
       SDL_Flip(screen);
 
       /* update the screen */

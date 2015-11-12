@@ -16,7 +16,7 @@ int collision_box_box(s_Hitbox box1, s_Hitbox box2) {
 
 
 
-void collision_tir_mob(liste_tir *T, liste_mob *M, int *points) {
+void collision_tir_mob(liste_tir *T, liste_mob *M, int *points, int *money) {
 
   liste_tir new_liste_tir=NULL;
   liste_tir poubelle_tir = NULL;
@@ -26,6 +26,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M, int *points) {
   liste_tir tit = *T;
   liste_mob mit = *M;
   int pts = *points;
+  int mny = *money;
 
   if (!liste_is_empty_tir(tit) && !liste_is_empty_mob(mit)) {
     
@@ -59,6 +60,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M, int *points) {
 	new_liste_mob = liste_cons_mob(m, new_liste_mob);
       }
       else{
+	mny = mny + 50;
 	pts = pts + 50;
 	poubelle_mob = liste_cons_mob(m, poubelle_mob);
       }
@@ -73,7 +75,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M, int *points) {
     new_liste_mob = NULL;
     liste_free_mob(&new_liste_mob);
     *points = pts;
-
+    *money = mny;
   }
 }
       

@@ -93,6 +93,16 @@
 
 typedef struct
 {
+  SDL_Rect rctext;
+  SDL_Surface *text;
+  SDL_Color color;
+  TTF_Font *police;
+  int temps;
+  int affiche; 
+}s_Text;
+
+typedef struct
+{
   SDL_Rect R;
   int type;
 } TileProp;
@@ -201,6 +211,10 @@ typedef struct
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tower;
+  s_Text s_name;
+  s_Text s_damages;
+  s_Text s_as;
+  s_Text s_cost;
 } s_Tower;
 
 
@@ -219,15 +233,7 @@ typedef struct
   s_Mob cible;
 } s_Tir;
 
-typedef struct
-{
-  SDL_Rect rctext;
-  SDL_Surface *text;
-  SDL_Color color;
-  TTF_Font *police;
-  int temps;
-  int affiche; 
-}s_Text;
+
 
 
 
@@ -351,7 +357,7 @@ s_Healthbar healthbar_init(s_Healthbar h, int taillew, int tailleh);
 s_Healthbar healthbar_animation(s_Healthbar h, s_Mob mob);
 void healthbar_affichage(liste_mob L, SDL_Surface *screen);
 
-void collision_tir_mob(liste_tir *T, liste_mob *M, int *points);
+void collision_tir_mob(liste_tir *T, liste_mob *M, int *points, int *money);
 int collision_box_box(s_Hitbox box1, s_Hitbox box2);
 
 s_Range Range_init(s_Range r, int taillew, int tailleh);

@@ -367,17 +367,17 @@ int main(int argc, char* argv[])
 
 
   /* Initialize Text game*/
-  s_score = text_init(23, 1, Blanc, s_score);
-  s_compteur = text_init(23, 1, Blanc, s_compteur);
-  s_money = text_init(23, 1, Blanc, s_money);
-  s_health = text_init(23, 1, Blanc, s_health);
+  s_score = text_init(23, MINECRAFT_POLICE, Blanc, s_score);
+  s_compteur = text_init(23, MINECRAFT_POLICE, Blanc, s_compteur);
+  s_money = text_init(23, MINECRAFT_POLICE, Blanc, s_money);
+  s_health = text_init(23, MINECRAFT_POLICE, Blanc, s_health);
 
-  sniper1.s_name = text_init(15, 1, Blanc, sniper1.s_name);
-  sniper1.s_damages = text_init(12, 1, Blanc, sniper1.s_damages);
-  sniper1.s_as = text_init(12, 1, Blanc, sniper1.s_as);
-  sniper1.s_cost = text_init(12, 1, Blanc, sniper1.s_cost);
-  sniper1.s_range = text_init(12, 1, Blanc, sniper1.s_range);
-  sniper1.s_sell = text_init(12, 1, Blanc, sniper1.s_sell);
+  sniper1.s_name = text_init(18, MINECRAFT_POLICE, Blanc, sniper1.s_name);
+  sniper1.s_damages = text_init(15, IMP_POLICE, Blanc, sniper1.s_damages);
+  sniper1.s_as = text_init(15, IMP_POLICE, Blanc, sniper1.s_as);
+  sniper1.s_cost = text_init(15, IMP_POLICE, Blanc, sniper1.s_cost);
+  sniper1.s_range = text_init(15, IMP_POLICE, Blanc, sniper1.s_range);
+  sniper1.s_sell = text_init(15, IMP_POLICE, Blanc, sniper1.s_sell);
   sniper2.s_damages = sniper1.s_damages;
   sniper2.s_as = sniper1.s_as;
   sniper2.s_cost = sniper1.s_cost;
@@ -390,11 +390,11 @@ int main(int argc, char* argv[])
   sniper3.s_sell = sniper1.s_sell;
 
 
-  magic1.s_name = text_init(15, 1, Blanc, magic1.s_name);
-  magic1.s_damages = text_init(12, 1, Blanc, magic1.s_damages);
-  magic1.s_as = text_init(12, 1, Blanc, magic1.s_as);
-  magic1.s_cost = text_init(12, 1, Blanc, magic1.s_cost);
-  magic1.s_range = text_init(12, 1, Blanc, magic1.s_range);
+  magic1.s_name = text_init(18, MINECRAFT_POLICE, Blanc, magic1.s_name);
+  magic1.s_damages = text_init(15, IMP_POLICE, Blanc, magic1.s_damages);
+  magic1.s_as = text_init(15, IMP_POLICE, Blanc, magic1.s_as);
+  magic1.s_cost = text_init(15, IMP_POLICE, Blanc, magic1.s_cost);
+  magic1.s_range = text_init(15,IMP_POLICE , Blanc, magic1.s_range);
   magic2.s_damages = magic1.s_damages;
   magic2.s_as = magic1.s_as;
   magic2.s_cost = magic1.s_cost;
@@ -406,11 +406,11 @@ int main(int argc, char* argv[])
   magic3.s_range = magic1.s_range;
   magic3.s_sell = magic1.s_sell;
 
-  fire1.s_name = text_init(15, 1, Blanc, fire1.s_name);
-  fire1.s_damages = text_init(12, 1, Blanc, fire1.s_damages);
-  fire1.s_as = text_init(12, 1, Blanc, fire1.s_as);
-  fire1.s_cost = text_init(12, 1, Blanc, fire1.s_cost);
-  fire1.s_range = text_init(12, 1, Blanc, fire1.s_range);
+  fire1.s_name = text_init(18, MINECRAFT_POLICE, Blanc, fire1.s_name);
+  fire1.s_damages = text_init(15, IMP_POLICE, Blanc, fire1.s_damages);
+  fire1.s_as = text_init(15, IMP_POLICE, Blanc, fire1.s_as);
+  fire1.s_cost = text_init(15, IMP_POLICE, Blanc, fire1.s_cost);
+  fire1.s_range = text_init(15, IMP_POLICE, Blanc, fire1.s_range);
   fire2.s_damages = fire1.s_damages;
   fire2.s_as = fire1.s_as;
   fire2.s_cost = fire1.s_cost;
@@ -422,11 +422,11 @@ int main(int argc, char* argv[])
   fire3.s_range = fire1.s_range;
   fire3.s_sell = fire1.s_sell;
 
-  slow1.s_name = text_init(15, 1, Blanc, slow1.s_name);
-  slow1.s_damages = text_init(12, 1, Blanc, slow1.s_damages);
-  slow1.s_as = text_init(12, 1, Blanc, slow1.s_as);
-  slow1.s_cost = text_init(12, 1, Blanc, slow1.s_cost);
-  slow1.s_range = text_init(12, 1, Blanc, slow1.s_range);
+  slow1.s_name = text_init(18, MINECRAFT_POLICE, Blanc, slow1.s_name);
+  slow1.s_damages = text_init(15, IMP_POLICE, Blanc, slow1.s_damages);
+  slow1.s_as = text_init(15, IMP_POLICE, Blanc, slow1.s_as);
+  slow1.s_cost = text_init(15, IMP_POLICE, Blanc, slow1.s_cost);
+  slow1.s_range = text_init(15, IMP_POLICE, Blanc, slow1.s_range);
   slow2.s_damages = slow1.s_damages;
   slow2.s_as = slow1.s_as;
   slow2.s_cost = slow1.s_cost;
@@ -576,28 +576,28 @@ int main(int argc, char* argv[])
 
       /* Affichage specs tours */
       affichage_text(70, SCREEN_HEIGHT-74, tabsniper_name, sniper1.s_name, screen);
-      affichage_text(90, SCREEN_HEIGHT-50, tabsniper_damages, sniper1.s_damages, screen);
-      affichage_text(90, SCREEN_HEIGHT-30, tabsniper_as, sniper1.s_as, screen);
-      affichage_text(145, SCREEN_HEIGHT-50, tabsniper_range, sniper1.s_range, screen);
-      affichage_text(145, SCREEN_HEIGHT-30, tabsniper_cost, sniper1.s_cost, screen);
+      affichage_text(90, SCREEN_HEIGHT-55, tabsniper_damages, sniper1.s_damages, screen);
+      affichage_text(90, SCREEN_HEIGHT-35, tabsniper_as, sniper1.s_as, screen);
+      affichage_text(145, SCREEN_HEIGHT-55, tabsniper_range, sniper1.s_range, screen);
+      affichage_text(145, SCREEN_HEIGHT-35, tabsniper_cost, sniper1.s_cost, screen);
 
       affichage_text(238, SCREEN_HEIGHT-74, tabmagic_name, magic1.s_name, screen);
-      affichage_text(258, SCREEN_HEIGHT-50, tabmagic_damages, magic1.s_damages, screen);
-      affichage_text(258, SCREEN_HEIGHT-30, tabmagic_as, magic1.s_as, screen);
-      affichage_text(313, SCREEN_HEIGHT-50, tabmagic_range, magic1.s_range, screen);
-      affichage_text(313, SCREEN_HEIGHT-30, tabmagic_cost, magic1.s_cost, screen);
+      affichage_text(258, SCREEN_HEIGHT-55, tabmagic_damages, magic1.s_damages, screen);
+      affichage_text(258, SCREEN_HEIGHT-35, tabmagic_as, magic1.s_as, screen);
+      affichage_text(313, SCREEN_HEIGHT-55, tabmagic_range, magic1.s_range, screen);
+      affichage_text(313, SCREEN_HEIGHT-35, tabmagic_cost, magic1.s_cost, screen);
 
       affichage_text(406, SCREEN_HEIGHT-74, tabfire_name, fire1.s_name, screen);
-      affichage_text(426, SCREEN_HEIGHT-50, tabfire_damages, fire1.s_damages, screen);
-      affichage_text(426, SCREEN_HEIGHT-30, tabfire_as, fire1.s_as, screen);
-      affichage_text(481, SCREEN_HEIGHT-50, tabfire_range, fire1.s_range, screen);
-      affichage_text(481, SCREEN_HEIGHT-30, tabfire_cost, fire1.s_cost, screen);
+      affichage_text(426, SCREEN_HEIGHT-55, tabfire_damages, fire1.s_damages, screen);
+      affichage_text(426, SCREEN_HEIGHT-35, tabfire_as, fire1.s_as, screen);
+      affichage_text(481, SCREEN_HEIGHT-55, tabfire_range, fire1.s_range, screen);
+      affichage_text(481, SCREEN_HEIGHT-35, tabfire_cost, fire1.s_cost, screen);
 
       affichage_text(574, SCREEN_HEIGHT-74, tabslow_name, slow1.s_name, screen);
-      affichage_text(594, SCREEN_HEIGHT-50, tabslow_damages, slow1.s_damages, screen);
-      affichage_text(594, SCREEN_HEIGHT-30, tabslow_as, slow1.s_as, screen);
-      affichage_text(644, SCREEN_HEIGHT-50, tabslow_range, slow1.s_range, screen);
-      affichage_text(644, SCREEN_HEIGHT-30, tabslow_cost, slow1.s_cost, screen);
+      affichage_text(594, SCREEN_HEIGHT-55, tabslow_damages, slow1.s_damages, screen);
+      affichage_text(594, SCREEN_HEIGHT-35, tabslow_as, slow1.s_as, screen);
+      affichage_text(644, SCREEN_HEIGHT-55, tabslow_range, slow1.s_range, screen);
+      affichage_text(644, SCREEN_HEIGHT-35, tabslow_cost, slow1.s_cost, screen);
       
       /* affichage icones specs */
       rcSword.x = 70;

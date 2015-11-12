@@ -88,6 +88,9 @@
 #define TYPE_SLOW 4
 
 #define TAB_MAX 1000
+#define MINECRAFT_POLICE 1
+#define IMP_POLICE 2
+
 
 /************************** Structs**********************************/
 

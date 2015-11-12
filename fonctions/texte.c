@@ -7,7 +7,12 @@ s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t){
   t.temps = 0;
   t.affiche = 1;
   TTF_Font *police = NULL;
-  police = TTF_OpenFont("font/Minecraft.ttf", taille_police);
+  if(type_police == IMP_POLICE){
+    police = TTF_OpenFont("font/impact.ttf", taille_police);
+  }
+  if(type_police == MINECRAFT_POLICE){
+    police = TTF_OpenFont("font/Minecraft.ttf", taille_police);
+  }
   if(!police) {
     printf("erreur chargement police \n");
     exit(-1);

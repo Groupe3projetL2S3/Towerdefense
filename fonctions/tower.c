@@ -10,6 +10,7 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, 
   t.actif = 0;
   t.select = 0;
   t.niveau = 1;
+  t.price = 100;
   t.range.range_max = distance;
   t.cadence = cadence;
   t.temps = 0;
@@ -22,7 +23,6 @@ void tower_affichage(liste_tower L, SDL_Surface *screen) {
 
   while (it != NULL) {
     s_Tower t = it->t;
-    printf("%lf \n",t.coords.y);
     t.rcSprite.x = (int) t.coords.x;
     t.rcSprite.y = (int) t.coords.y;
     SDL_BlitSurface(t.tower, &t.rcSrc, screen, &t.rcSprite);
@@ -104,26 +104,35 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
 }
 
 
-void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4) {
+void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4, int *money) {
 
   liste_tower tmp2 = NULL;
   int posay;
+  int mny = *money;
 
   if (event_button_x >= 9 && event_button_x <= 63
-      && event_button_y >= 439 && event_button_y <= 493 && *case1){
+      && event_button_y >= 439 && event_button_y <= 493 && *case1
+      && mny >= sniper.price){
     tower_add(T, sniper, case1, case2, case3, case4, event_button_x, event_button_y);
+    mny = mny - sniper.price;
   }
   else if (event_button_x >= 177 && event_button_x <= 231 
-	   && event_button_y >= 439 && event_button_y <= 493 && *case2){
+	   && event_button_y >= 439 && event_button_y <= 493 && *case2
+	   && mny >= magic.price){
     tower_add(T, magic, case1, case2, case3, case4, event_button_x, event_button_y);
+    mny = mny - magic.price;
   } 
   else if (event_button_x >= 345 && event_button_x <= 399 
-	   && event_button_y >= 439 && event_button_y <= 493 && *case3){
+	   && event_button_y >= 439 && event_button_y <= 493 && *case3
+	   && mny >= fire.price){
     tower_add(T, fire, case1, case2, case3, case4, event_button_x, event_button_y);
+    mny = mny - fire.price;
   } 
   else if (event_button_x >= 513&& event_button_x <= 567
-	   && event_button_y >= 439 && event_button_y <= 493 && *case4){
+	   && event_button_y >= 439 && event_button_y <= 493 && *case4
+	   && mny >= slow.price){
     tower_add(T, slow, case1, case2, case3, case4, event_button_x, event_button_y);
+    mny = mny - slow.price;
   } 
 
 else {
@@ -151,6 +160,7 @@ else {
       }
     }
   }
+  *money = mny;
 }
 
 void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y) {
@@ -256,28 +266,30 @@ s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance) {
   t_up.temps = t.temps;
   t_up.range.range_max = t.range.range_max +10;
   t_up.cadence = t.cadence;
+  t_up.price = t.price + 100;
 
   return t_up;
 }
 
 
-void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, s_Tower fire2, s_Tower fire3, s_Tower slow2, s_Tower slow3, int event_button_x, int event_button_y) {
+void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, s_Tower fire2, s_Tower fire3, s_Tower slow2, s_Tower slow3, int event_button_x, int event_button_y, int *money) {
 
   liste_tower new_liste_tower = NULL;
   liste_tower poubelle_tower = NULL;
-
+  int mny = *money;
 
   liste_tower tit = *T;
 
       while(tit != NULL) {
 	
 	s_Tower t = tit->t;
-	if (t.select == 1 && t.actif == 1 
+	if (t.select == 1 && t.actif == 1 && mny >= t.price
 	    && event_button_x >= (t.up.rcSprite.x) 
 	    && event_button_x <= (t.up.rcSprite.x + t.up.rcSrc.w) 
 	    && event_button_y >= (t.up.rcSprite.y)
 	    && event_button_y <= (t.up.rcSprite.y + t.up.rcSrc.h) 
 	    && t.niveau < 3 ) {
+	  mny = mny - t.price;
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
 	  if (t.type == TYPE_SNIPER) {
 	    if (t.niveau == 2) {
@@ -326,6 +338,7 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
 		 && event_button_y >= (t.sell.rcSprite.y)
 		 && event_button_y <= (t.sell.rcSprite.y + t.sell.rcSrc.h)) {
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
+	  mny = mny + (t.price/2);
 	}
 	else {
 	  new_liste_tower = liste_cons_tower(t, new_liste_tower);
@@ -338,7 +351,7 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
       *T = new_liste_tower;
       new_liste_tower = NULL;
       liste_free_tower(&new_liste_tower);
-
+      *money = mny;
 }
     
 int in_range(s_Tower t, s_Mob m){

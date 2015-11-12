@@ -20,9 +20,10 @@ SDL_Surface* Load_image(const char* image) {
 
 
 /* SDL Function */
-void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o,int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin)
+void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o,int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin, int *money)
 {
   SDL_Event event;
+  int mny = *money;
 
   while(SDL_PollEvent(&event)) {
     switch (event.type) {
@@ -86,9 +87,9 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
 	
       case SDL_BUTTON_LEFT:
 	if(!*pause){
-	  tower_menu(sniper1, magic1, fire1, slow1, T, event.button.x, event.button.y, map, map_o, case1, case2, case3, case4);
+	  tower_menu(sniper1, magic1, fire1, slow1, T, event.button.x, event.button.y, map, map_o, case1, case2, case3, case4, &mny);
 	  tower_select(T, event.button.x, event.button.y);
-	  tower_gestion(T, sniper2, sniper3, magic2, magic3, fire2, fire3, slow2, slow3, event.button.x, event.button.y);
+	  tower_gestion(T, sniper2, sniper3, magic2, magic3, fire2, fire3, slow2, slow3, event.button.x, event.button.y, &mny);
 	}
 	break;
       case SDL_BUTTON_RIGHT: 
@@ -104,4 +105,5 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
 
     }
   }
+  *money = mny;
 }

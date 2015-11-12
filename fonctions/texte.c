@@ -3,7 +3,7 @@
 
 s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t){
 
-  TTF_Init();
+
   t.temps = 0;
   t.affiche = 1;
   TTF_Font *police = NULL;

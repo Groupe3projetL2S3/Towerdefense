@@ -67,8 +67,8 @@
 #define SELL_HEIGHT 22
 
 #define DISTANCE_SNIPER_TOWER 90
-#define DISTANCE_SNIPER_TOWER2 120
-#define DISTANCE_SNIPER_TOWER3 140
+#define DISTANCE_SNIPER_TOWER2 110
+#define DISTANCE_SNIPER_TOWER3 130
 #define CADENCE_SNIPER_TOWER 500
 #define TYPE_SNIPER 1
 
@@ -99,7 +99,7 @@ typedef struct
   TTF_Font *police;
   int temps;
   int affiche; 
-}s_Text;
+} s_Text;
 
 typedef struct
 {
@@ -208,6 +208,7 @@ typedef struct
   int actif;
   int select;
   int niveau;
+  int price;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tower;
@@ -215,6 +216,8 @@ typedef struct
   s_Text s_damages;
   s_Text s_as;
   s_Text s_cost;
+  s_Text s_range;
+  s_Text s_sell;
 } s_Tower;
 
 
@@ -337,13 +340,13 @@ void mob_slow(liste_mob *M, liste_tower *T, int colorkey);
 s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, int cadence);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, s_Tir tir_fire, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
-void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4);
+void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4, int *money);
 void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y);
 void tower_select(liste_tower *T,  int event_button_x, int event_button_y);
 int tower_posay(liste_tower *T, int event_button_x, int event_button_y);
 void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3, int *case4, int event_button_x, int event_button_y);
 s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance);
-void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, s_Tower fire2, s_Tower fire3, s_Tower slow2, s_Tower slow3, int event_button_x, int event_button_y);
+void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, s_Tower fire2, s_Tower fire3, s_Tower slow2, s_Tower slow3, int event_button_x, int event_button_y, int *money);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
 void tir_affichage(liste_tir L, SDL_Surface *screen, liste_mob M);
@@ -378,7 +381,7 @@ s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t);
 void affichage_text(int x, int y, char *tab, s_Text t,SDL_Surface *screen);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin, int *money);
 
 
 

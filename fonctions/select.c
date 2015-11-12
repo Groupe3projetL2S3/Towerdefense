@@ -101,85 +101,84 @@ void sell_affichage(liste_tower L, SDL_Surface *screen) {
 void menu_select_affichage(liste_tower L, SDL_Surface *screen) {
 
   /* char des tours de sniper */
-  char tabsniper_name[7] = "Sniper";
   char tabsniper_damages[4] = "1.0";
   char tabsniper_as[4] = "3.5";
-  char tabsniper_cost[4] = "100";
-  char tabsniper_range[4] = "90";
-  char tabsniper_sell[4] = "50";
+  char tabsniper_cost[5] = "100";
+  char tabsniper_range[5] = "90";
+  char tabsniper_sell[5] = "50";
 
   char tabsniper2_damages[4] = "1.0";
   char tabsniper2_as[4] = "3.5";
-  char tabsniper2_range[4] = "110";
-  char tabsniper2_cost[4] = "200";
-  char tabsniper2_sell[4] = "100";
+  char tabsniper2_range[5] = "110";
+  char tabsniper2_cost[5] = "200";
+  char tabsniper2_sell[5] = "100";
 
   char tabsniper3_damages[4] = "1.0";
   char tabsniper3_as[4] = "3.5";
-  char tabsniper3_range[4] = "130";
-  char tabsniper3_cost[4] = "300";
-  char tabsniper3_sell[4] = "150";
+  char tabsniper3_range[5] = "130";
+  char tabsniper3_cost[5] = "300";
+  char tabsniper3_sell[5] = "150";
 
   /* char des tours de magie */
   char tabmagic_name[6] = "Magic";
   char tabmagic_damages[4] = "5.0";
   char tabmagic_as[4] = "2.5";
-  char tabmagic_cost[4] = "100";
-  char tabmagic_range[4] = "60";
-  char tabmagic_sell[4] = "50";
+  char tabmagic_cost[5] = "100";
+  char tabmagic_range[5] = "60";
+  char tabmagic_sell[5] = "50";
 
   char tabmagic2_damages[4] = "5.0";
   char tabmagic2_as[4] = "2.5";
-  char tabmagic2_cost[4] = "200";
-  char tabmagic2_range[4] = "70";
-  char tabmagic2_sell2[4] = "100";
+  char tabmagic2_cost[5] = "200";
+  char tabmagic2_range[5] = "70";
+  char tabmagic2_sell2[5] = "100";
 
   char tabmagic3_damages[4] = "5.0";
   char tabmagic3_as[4] = "2.5";
-  char tabmagic3_cost[4] = "300";
-  char tabmagic3_range[4] = "80";
-  char tabmagic3_sell2[4] = "150";
+  char tabmagic3_cost[5] = "300";
+  char tabmagic3_range[5] = "80";
+  char tabmagic3_sell2[5] = "150";
 
   /* char des tours de feu */
   char tabfire_name[5] = "Fire";
   char tabfire_damages[4] = "0.1";
   char tabfire_as[4] = "2.0";
-  char tabfire_cost[4] = "100";
-  char tabfire_range[4] = "55";
-  char tabfire_sell[4] = "50";
+  char tabfire_cost[5] = "100";
+  char tabfire_range[5] = "55";
+  char tabfire_sell[5] = "50";
 
   char tabfire2_damages[4] = "0.1";
   char tabfire2_as[4] = "2.0";
-  char tabfire2_cost[4] = "200";
-  char tabfire2_range[4] = "60";
-  char tabfire2_sell[4] = "100";
+  char tabfire2_cost[5] = "200";
+  char tabfire2_range[5] = "60";
+  char tabfire2_sell[5] = "100";
 
   char tabfire3_damages[4] = "0.1";
   char tabfire3_as[4] = "2.0";
-  char tabfire3_cost[4] = "300";
-  char tabfire3_range[4] = "70";
-  char tabfire3_sell[4] = "150";
+  char tabfire3_cost[5] = "300";
+  char tabfire3_range[5] = "70";
+  char tabfire3_sell[5] = "150";
 
 
   /* char des tours de slow */
   char tabslow_name[5] = "Slow";
   char tabslow_damages[4] = "0.0";
   char tabslow_as[4] = "2.0";
-  char tabslow_cost[4] = "100";
-  char tabslow_range[4] = "55";
-  char tabslow_sell[4] = "50";
+  char tabslow_cost[5] = "100";
+  char tabslow_range[5] = "55";
+  char tabslow_sell[5] = "50";
 
   char tabslow2_damages[4] = "0.0";
   char tabslow2_as[4] = "3.0";
-  char tabslow2_cost[4] = "200";
-  char tabslow2_range[4] = "55";
-  char tabslow2_sell[4] = "100";
+  char tabslow2_cost[5] = "200";
+  char tabslow2_range[5] = "55";
+  char tabslow2_sell[5] = "100";
 
   char tabslow3_damages[4] = "0.0";
   char tabslow3_as[4] = "4.0";
-  char tabslow3_cost[4] = "300";
-  char tabslow3_range[4] = "55";
-  char tabslow3_sell[4] = "150";
+  char tabslow3_cost[5] = "300";
+  char tabslow3_range[5] = "55";
+  char tabslow3_sell[5] = "150";
 
   liste_tower it = L;
   while (it != NULL) {

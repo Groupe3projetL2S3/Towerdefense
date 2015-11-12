@@ -112,36 +112,36 @@ int main(int argc, char* argv[])
 
   /* char des tours de sniper */
   char tabsniper_name[7] = "Sniper";
-  char tabsniper_damages[3] = "1.0";
-  char tabsniper_as[3] = "3.5";
-  char tabsniper_cost[3] = "100";
-  char tabsniper_range[3] = "90";
-  char tabsniper_sell[3] = "50";
+  char tabsniper_damages[4] = "1.0";
+  char tabsniper_as[4] = "3.5";
+  char tabsniper_cost[5] = "100";
+  char tabsniper_range[5] = "90";
+  char tabsniper_sell[5] = "50";
 
   /* char des tours de magie */
   char tabmagic_name[6] = "Magic";
-  char tabmagic_damages[3] = "5.0";
-  char tabmagic_as[3] = "2.5";
-  char tabmagic_cost[3] = "100";
-  char tabmagic_range[3] = "60";
-  char tabmagic_sell[3] = "50";
+  char tabmagic_damages[4] = "5.0";
+  char tabmagic_as[4] = "2.5";
+  char tabmagic_cost[5] = "100";
+  char tabmagic_range[5] = "60";
+  char tabmagic_sell[5] = "50";
 
   /* char des tours de feu */
   char tabfire_name[5] = "Fire";
-  char tabfire_damages[3] = "0.1";
-  char tabfire_as[3] = "2.0";
-  char tabfire_cost[3] = "100";
-  char tabfire_range[3] = "55";
-  char tabfire_sell[3] = "50";
+  char tabfire_damages[4] = "0.1";
+  char tabfire_as[4] = "2.0";
+  char tabfire_cost[5] = "100";
+  char tabfire_range[5] = "55";
+  char tabfire_sell[5] = "50";
 
 
   /* char des tours de slow */
   char tabslow_name[5] = "Slow";
-  char tabslow_damages[3] = "0.0";
-  char tabslow_as[3] = "2.0";
-  char tabslow_cost[3] = "100";
-  char tabslow_range[3] = "55";
-  char tabslow_sell[3] = "50";
+  char tabslow_damages[4] = "0.0";
+  char tabslow_as[4] = "2.0";
+  char tabslow_cost[5] = "100";
+  char tabslow_range[5] = "55";
+  char tabslow_sell[5] = "50";
 
   /* set the title bar */
   SDL_WM_SetCaption("Tower Defense", "SDL Animation");
@@ -781,7 +781,7 @@ int main(int argc, char* argv[])
     TTF_CloseFont(sniper1.s_cost.police);
   if(sniper1.s_range.police != NULL)
     TTF_CloseFont(sniper1.s_range.police);
-  if(sniper1.s_sell.police != NULL)
+  //if(sniper1.s_sell.police != NULL)
     //TTF_CloseFont(sniper1.s_sell.police);
 
   if(magic1.s_name.police != NULL)
@@ -794,7 +794,7 @@ int main(int argc, char* argv[])
     TTF_CloseFont(magic1.s_cost.police);
   if(magic1.s_range.police != NULL)
     TTF_CloseFont(magic1.s_range.police);
-  if(magic1.s_sell.police != NULL)
+  //if(magic1.s_sell.police != NULL)
     //TTF_CloseFont(magic1.s_sell.police);
 
   if(fire1.s_name.police != NULL)
@@ -807,7 +807,7 @@ int main(int argc, char* argv[])
     TTF_CloseFont(fire1.s_cost.police);
   if(fire1.s_range.police != NULL)
     TTF_CloseFont(fire1.s_range.police);
-  if(fire1.s_sell.police != NULL)
+  //if(fire1.s_sell.police != NULL)
     //TTF_CloseFont(fire1.s_sell.police);
 
   if(slow1.s_name.police != NULL)
@@ -820,7 +820,7 @@ int main(int argc, char* argv[])
     TTF_CloseFont(slow1.s_cost.police);
   if(slow1.s_range.police != NULL)
     TTF_CloseFont(slow1.s_range.police);
-  if(slow1.s_sell.police != NULL)
+  //if(slow1.s_sell.police != NULL)
     //TTF_CloseFont(slow1.s_sell.police);
 
   TTF_Quit();

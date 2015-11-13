@@ -78,6 +78,8 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
 	*pause = 0;
 	*menu = 0;
 	break;
+      case SDLK_m:
+	mny = mny + 1000;
       }
       keys[event.key.keysym.sym] = 1;
       break;

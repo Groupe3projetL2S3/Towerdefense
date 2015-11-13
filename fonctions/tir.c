@@ -114,19 +114,53 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
   t.coords.x = to.coords.x + to.rcSprite.w/2;
   t.coords.y = to.coords.y + to.rcSprite.h/2;
   if (to.type == TYPE_SNIPER){
-    t.dommage = 1.0; // a définir la puissance selon le type 
     t.type = to.type;
-    t.vitesse = 3.5;
+    if (to.niveau == 1) {
+      t.dommage = 2.0;
+      t.vitesse = 3.5;
+    }
+    if (to.niveau == 2) {
+      t.dommage = 7.0;
+      t.vitesse = 3.5;
+      to.cadence = to.cadence * 1.5;
+    }
+    if (to.niveau == 3) {
+      t.dommage = 14.0;
+      t.vitesse = 3.5;
+      to.cadence = to.cadence * 1.5;
+    }
   }
   if (to.type == TYPE_MAGIC){
-    t.dommage = 5.0; // a définir la puissance selon le type 
     t.type = to.type;
-    t.vitesse = 2.5;
+    if (to.niveau == 1) {
+      t.dommage = 5.0;
+      t.vitesse = 2.5;
+    }
+    if (to.niveau == 2) {
+      t.dommage = 11.0;  
+      t.vitesse = 2.5;
+      to.cadence = to.cadence * 1.5;
+    }
+    if (to.niveau == 3) {
+      t.dommage = 27.0;
+      t.vitesse = 2.5;
+      to.cadence = to.cadence * 1.5;
+    }
   }
   if (to.type == TYPE_FIRE){
-    t.dommage = 0.1; // a définir la puissance selon le type 
     t.type = to.type;
-    t.vitesse = 2.0;
+    if (to.niveau == 1) {
+      t.dommage = 0.1;
+      t.vitesse = 2.0;
+    }
+    if (to.niveau == 2) {
+      t.dommage = 0.4;
+      t.vitesse = 2.0;
+    }
+    if (to.niveau == 3) {
+      t.dommage = 1.0;
+      t.vitesse = 2.0;
+    }
   }
 
 

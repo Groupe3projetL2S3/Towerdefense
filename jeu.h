@@ -17,25 +17,25 @@
 
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
-#define CREEP_SPEED 1.0
+#define CREEP_SPEED 0.5*0.7
 #define CREEP_PV 15
 #define CREEP_TYPE 1
 
 #define ZOMBIE_WIDTH 16
 #define ZOMBIE_HEIGHT 32
-#define ZOMBIE_SPEED 0.3
+#define ZOMBIE_SPEED 0.15*0.7
 #define ZOMBIE_PV 50
 #define ZOMBIE_TYPE 2
 
 #define ENDER_WIDTH 16
 #define ENDER_HEIGHT 40
-#define ENDER_SPEED 0.5
-#define ENDER_PV 25
+#define ENDER_SPEED 0.25*0.7
+#define ENDER_PV 30
 #define ENDER_TYPE 3
 
 #define SPIDER_WIDTH 16
 #define SPIDER_HEIGHT 32
-#define SPIDER_SPEED 1.3
+#define SPIDER_SPEED 0.7*0.7
 #define SPIDER_PV 8
 #define SPIDER_TYPE 4
 
@@ -71,21 +71,25 @@
 #define DISTANCE_SNIPER_TOWER3 130
 #define CADENCE_SNIPER_TOWER 500
 #define TYPE_SNIPER 1
+#define PRIX_SNIPER 100
 
 #define DISTANCE_MAGIC_TOWER 60
 #define DISTANCE_MAGIC_TOWER2 70
 #define DISTANCE_MAGIC_TOWER3 80
 #define CADENCE_MAGIC_TOWER 1000
 #define TYPE_MAGIC 2
+#define PRIX_MAGIC 200
 
 #define DISTANCE_FIRE_TOWER 55
 #define DISTANCE_FIRE_TOWER2 60
 #define DISTANCE_FIRE_TOWER3 70
 #define CADENCE_FIRE_TOWER 20
 #define TYPE_FIRE 3
+#define PRIX_FIRE 150
 
 #define DISTANCE_SLOW_TOWER 55
 #define TYPE_SLOW 4
+#define PRIX_SLOW 250
 
 #define TAB_MAX 1000
 #define MINECRAFT_POLICE 1
@@ -196,6 +200,7 @@ typedef struct
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *mob;
+  SDL_Surface *frozen_mob;
 } s_Mob;
 
 typedef struct
@@ -340,7 +345,7 @@ void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
 void mob_add(int *i, s_Mob mob, liste_mob *L);
 void mob_slow(liste_mob *M, liste_tower *T, int colorkey);
 
-s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, int cadence);
+s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, int cadence, int prix);
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, s_Tir tir_fire, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
 void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4, int *money);
@@ -365,13 +370,14 @@ void healthbar_affichage(liste_mob L, SDL_Surface *screen);
 
 void collision_tir_mob(liste_tir *T, liste_mob *M, int *points, int *money);
 int collision_box_box(s_Hitbox box1, s_Hitbox box2);
+void collision_screen_mob(liste_mob *M, int *health, int *gameover);
 
 s_Range Range_init(s_Range r, int taillew, int tailleh);
 void Range_affichage(liste_tower L, SDL_Surface *screen);
 int in_range(s_Tower t, s_Mob m);
 
 s_Menu menu_select_init(s_Menu menu, int taillew, int tailleh);
-void menu_select_affichage(liste_tower L, SDL_Surface *screen);
+void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *sword, SDL_Surface *firerate,SDL_Surface *bow);
 
 s_Upgrade upgrade_init(s_Upgrade up, int taillew, int tailleh);
 void upgrade_affichage(liste_tower L, SDL_Surface *screen);

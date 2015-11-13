@@ -98,87 +98,89 @@ void sell_affichage(liste_tower L, SDL_Surface *screen) {
   }
 }
 
-void menu_select_affichage(liste_tower L, SDL_Surface *screen) {
+void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *sword, SDL_Surface *firerate,SDL_Surface *bow){
 
   /* char des tours de sniper */
-  char tabsniper_damages[4] = "1.0";
-  char tabsniper_as[4] = "3.5";
+  char tabsniper_damages[4] = "2.0";
+  char tabsniper_as[4] = "2.0";
   char tabsniper_cost[5] = "100";
   char tabsniper_range[5] = "90";
   char tabsniper_sell[5] = "50";
 
-  char tabsniper2_damages[4] = "1.0";
-  char tabsniper2_as[4] = "3.5";
+  char tabsniper2_damages[4] = "7.0";
+  char tabsniper2_as[4] = "3.0";
   char tabsniper2_range[5] = "110";
   char tabsniper2_cost[5] = "200";
   char tabsniper2_sell[5] = "100";
 
-  char tabsniper3_damages[4] = "1.0";
-  char tabsniper3_as[4] = "3.5";
+  char tabsniper3_damages[4] = "14.0";
+  char tabsniper3_as[4] = "4.5";
   char tabsniper3_range[5] = "130";
-  char tabsniper3_cost[5] = "300";
-  char tabsniper3_sell[5] = "150";
+  char tabsniper3_cost[5] = "400";
+  char tabsniper3_sell[5] = "200";
 
   /* char des tours de magie */
   char tabmagic_name[6] = "Magic";
   char tabmagic_damages[4] = "5.0";
-  char tabmagic_as[4] = "2.5";
-  char tabmagic_cost[5] = "100";
+  char tabmagic_as[4] = "1.0";
+  char tabmagic_cost[5] = "200";
   char tabmagic_range[5] = "60";
-  char tabmagic_sell[5] = "50";
+  char tabmagic_sell[5] = "100";
 
-  char tabmagic2_damages[4] = "5.0";
-  char tabmagic2_as[4] = "2.5";
-  char tabmagic2_cost[5] = "200";
+  char tabmagic2_damages[4] = "11.0";
+  char tabmagic2_as[4] = "1.5";
+  char tabmagic2_cost[5] = "400";
   char tabmagic2_range[5] = "70";
-  char tabmagic2_sell2[5] = "100";
+  char tabmagic2_sell2[5] = "200";
 
-  char tabmagic3_damages[4] = "5.0";
-  char tabmagic3_as[4] = "2.5";
-  char tabmagic3_cost[5] = "300";
+  char tabmagic3_damages[4] = "27.0";
+  char tabmagic3_as[5] = "2.25";
+  char tabmagic3_cost[5] = "800";
   char tabmagic3_range[5] = "80";
-  char tabmagic3_sell2[5] = "150";
+  char tabmagic3_sell2[5] = "400";
 
   /* char des tours de feu */
   char tabfire_name[5] = "Fire";
   char tabfire_damages[4] = "0.1";
-  char tabfire_as[4] = "2.0";
-  char tabfire_cost[5] = "100";
+  char tabfire_as[5] = "50.0";
+  char tabfire_cost[5] = "150";
   char tabfire_range[5] = "55";
-  char tabfire_sell[5] = "50";
+  char tabfire_sell[5] = "75";
 
-  char tabfire2_damages[4] = "0.1";
-  char tabfire2_as[4] = "2.0";
-  char tabfire2_cost[5] = "200";
+  char tabfire2_damages[4] = "0.4";
+  char tabfire2_as[5] = "50.0";
+  char tabfire2_cost[5] = "300";
   char tabfire2_range[5] = "60";
-  char tabfire2_sell[5] = "100";
+  char tabfire2_sell[5] = "150";
 
-  char tabfire3_damages[4] = "0.1";
-  char tabfire3_as[4] = "2.0";
-  char tabfire3_cost[5] = "300";
+  char tabfire3_damages[4] = "1.0";
+  char tabfire3_as[5] = "50.0";
+  char tabfire3_cost[5] = "600";
   char tabfire3_range[5] = "70";
-  char tabfire3_sell[5] = "150";
+  char tabfire3_sell[5] = "300";
 
 
   /* char des tours de slow */
   char tabslow_name[5] = "Slow";
   char tabslow_damages[4] = "0.0";
-  char tabslow_as[4] = "2.0";
-  char tabslow_cost[5] = "100";
+  char tabslow_as[4] = "0.0";
+  char tabslow_cost[5] = "250";
   char tabslow_range[5] = "55";
-  char tabslow_sell[5] = "50";
+  char tabslow_sell[5] = "125";
 
   char tabslow2_damages[4] = "0.0";
-  char tabslow2_as[4] = "3.0";
-  char tabslow2_cost[5] = "200";
+  char tabslow2_as[4] = "0.0";
+  char tabslow2_cost[5] = "500";
   char tabslow2_range[5] = "55";
-  char tabslow2_sell[5] = "100";
+  char tabslow2_sell[5] = "250";
 
   char tabslow3_damages[4] = "0.0";
-  char tabslow3_as[4] = "4.0";
-  char tabslow3_cost[5] = "300";
+  char tabslow3_as[4] = "0.0";
+  char tabslow3_cost[5] = "1000";
   char tabslow3_range[5] = "55";
-  char tabslow3_sell[5] = "150";
+  char tabslow3_sell[5] = "500";
+
+  SDL_Rect rcSprite;
 
   liste_tower it = L;
   while (it != NULL) {
@@ -190,60 +192,67 @@ void menu_select_affichage(liste_tower L, SDL_Surface *screen) {
 
       SDL_BlitSurface(t.menu.menu, &t.menu.rcSrc, screen, &t.menu.rcSprite);
 
+      rcSprite.x = 10;
+      rcSprite.y = 7;
+      SDL_BlitSurface(sword, NULL, screen, &rcSprite);
+      rcSprite.y = 24;
+      SDL_BlitSurface(firerate, NULL, screen, &rcSprite);
+      rcSprite.y = 41;
+      SDL_BlitSurface(bow, NULL, screen, &rcSprite);
 
       if(t.niveau == 1){
 	if(t.type == TYPE_SNIPER){ 
-	  affichage_text(30, 12, tabsniper_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabsniper_as, t.s_as, screen);
-	  affichage_text(30, 41, tabsniper_range, t.s_range, screen);
+	  affichage_text(30, 6, tabsniper_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabsniper_as, t.s_as, screen);
+	  affichage_text(30, 38, tabsniper_range, t.s_range, screen);
 	} else if(t.type == TYPE_MAGIC){
-	  affichage_text(30, 12, tabmagic_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabmagic_as, t.s_as, screen);
-	  affichage_text(30, 41, tabmagic_range, t.s_range, screen);
+	  affichage_text(30, 6, tabmagic_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabmagic_as, t.s_as, screen);
+	  affichage_text(30, 38, tabmagic_range, t.s_range, screen);
 	} else if(t.type == TYPE_FIRE){  
-	  affichage_text(30, 12, tabfire_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabfire_as, t.s_as, screen);
-	  affichage_text(30, 41, tabfire_range, t.s_range, screen);
+	  affichage_text(30, 6, tabfire_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabfire_as, t.s_as, screen);
+	  affichage_text(30, 38, tabfire_range, t.s_range, screen);
 	} else {
-	  affichage_text(30, 12, tabslow_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabslow_as, t.s_as, screen);
-	  affichage_text(30, 41, tabslow_range, t.s_range, screen);
+	  affichage_text(30, 6, tabslow_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabslow_as, t.s_as, screen);
+	  affichage_text(30, 38, tabslow_range, t.s_range, screen);
 	}
       } else if(t.niveau == 2){
 	if(t.type == TYPE_SNIPER){ 
-	  affichage_text(30, 12, tabsniper2_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabsniper2_as, t.s_as, screen);
-	  affichage_text(30, 41, tabsniper2_range, t.s_range, screen);
+	  affichage_text(30, 6, tabsniper2_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabsniper2_as, t.s_as, screen);
+	  affichage_text(30, 38, tabsniper2_range, t.s_range, screen);
 	} else if(t.type == TYPE_MAGIC){
-	  affichage_text(30, 12, tabmagic2_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabmagic2_as, t.s_as, screen);
-	  affichage_text(30, 41, tabmagic2_range, t.s_range, screen);
+	  affichage_text(30, 6, tabmagic2_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabmagic2_as, t.s_as, screen);
+	  affichage_text(30, 38, tabmagic2_range, t.s_range, screen);
 	} else if(t.type == TYPE_FIRE){  
-	  affichage_text(30, 12, tabfire2_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabfire2_as, t.s_as, screen);
-	  affichage_text(30, 41, tabfire2_range, t.s_range, screen);
+	  affichage_text(30, 6, tabfire2_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabfire2_as, t.s_as, screen);
+	  affichage_text(30, 38, tabfire2_range, t.s_range, screen);
 	} else {
-	  affichage_text(30, 12, tabslow2_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabslow2_as, t.s_as, screen);
-	  affichage_text(30, 41, tabslow2_range, t.s_range, screen);
+	  affichage_text(30, 6, tabslow2_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabslow2_as, t.s_as, screen);
+	  affichage_text(30, 38, tabslow2_range, t.s_range, screen);
 	}
       } else if(t.niveau == 3){
 	if(t.type == TYPE_SNIPER){ 
-	  affichage_text(30, 12, tabsniper3_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabsniper3_as, t.s_as, screen);
-	  affichage_text(30, 41, tabsniper3_range, t.s_range, screen);
+	  affichage_text(30, 6, tabsniper3_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabsniper3_as, t.s_as, screen);
+	  affichage_text(30, 38, tabsniper3_range, t.s_range, screen);
 	} else if(t.type == TYPE_MAGIC){
-	  affichage_text(30, 12, tabmagic3_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabmagic3_as, t.s_as, screen);
-	  affichage_text(30, 41, tabmagic3_range, t.s_range, screen);
+	  affichage_text(30, 6, tabmagic3_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabmagic3_as, t.s_as, screen);
+	  affichage_text(30, 38, tabmagic3_range, t.s_range, screen);
 	} else if(t.type == TYPE_FIRE){  
-	  affichage_text(30, 12, tabfire3_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabfire3_as, t.s_as, screen);
-	  affichage_text(30, 41, tabfire3_range, t.s_range, screen);
+	  affichage_text(30, 6, tabfire3_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabfire3_as, t.s_as, screen);
+	  affichage_text(30, 38, tabfire3_range, t.s_range, screen);
 	} else {
-	  affichage_text(30, 12, tabslow3_damages, t.s_damages, screen);
-	  affichage_text(30, 27, tabslow3_as, t.s_as, screen);
-	  affichage_text(30, 41, tabslow3_range, t.s_range, screen);
+	  affichage_text(30, 6, tabslow3_damages, t.s_damages, screen);
+	  affichage_text(30, 22, tabslow3_as, t.s_as, screen);
+	  affichage_text(30, 38, tabslow3_range, t.s_range, screen);
 	}
       }
     }     

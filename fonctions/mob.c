@@ -149,8 +149,11 @@ void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen) {
 
 	m.rcSprite.x = (int) m.coords.x;
 	m.rcSprite.y = (int) m.coords.y;
-	SDL_BlitSurface(m.mob, &m.rcSrc, screen, &m.rcSprite);
-	
+	if(!m.slow) {
+	  SDL_BlitSurface(m.mob, &m.rcSrc, screen, &m.rcSprite);
+	} else {
+	  SDL_BlitSurface(m.frozen_mob, &m.rcSrc, screen, &m.rcSprite);
+	}
 	m = mob_parcours(m,map);
 	it->m = m;
 	it = it->next;
@@ -192,37 +195,7 @@ void mob_slow(liste_mob *M, liste_tower *T, int colorkey) {
 	tit = tit->next;  
       }
 
-
-      if(mo.slow){
-	
-	if (mo.type == CREEP_TYPE) {
-	  mo.mob = Load_image("Images/Mobs/sprite_creeper_slow.bmp");
-	}
-	if (mo.type == ZOMBIE_TYPE) {
-	  mo.mob = Load_image("Images/Mobs/sprite_zombie_slow.bmp");
-	}
-	if (mo.type == ENDER_TYPE) {
-	  mo.mob = Load_image("Images/Mobs/sprite_enderman_slow.bmp");
-	}
-	if (mo.type == SPIDER_TYPE) {
-	  mo.mob = Load_image("Images/Mobs/sprite_spider_slow.bmp");
-	}
-      } 
-
-      else {
-	if (mo.type == CREEP_TYPE) {
-	  mo.mob = Load_image("Images/Mobs/sprite_creeper.bmp");	  
-	}
-	if (mo.type == ZOMBIE_TYPE) {
-	  mo.mob = Load_image("Images/Mobs/sprite_zombie.bmp");
-	}
-	if (mo.type == ENDER_TYPE) {
-	  mo.mob = Load_image("Images/Mobs/sprite_enderman.bmp");
-	}
-	if (mo.type == SPIDER_TYPE) {
-	  mo.mob = Load_image("Images/Mobs/sprite_spider.bmp");
-	}
-
+      if(!mo.slow){
 	mo.lvl_slow = 1;
       }
 

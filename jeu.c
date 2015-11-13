@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
   /* char des tours de sniper */
   char tabsniper_name[7] = "Sniper";
   char tabsniper_damages[4] = "1.0";
-  char tabsniper_as[4] = "3.5";
+  char tabsniper_as[4] = "2.0";
   char tabsniper_cost[5] = "100";
   char tabsniper_range[5] = "90";
   char tabsniper_sell[5] = "50";
@@ -121,27 +121,27 @@ int main(int argc, char* argv[])
   /* char des tours de magie */
   char tabmagic_name[6] = "Magic";
   char tabmagic_damages[4] = "5.0";
-  char tabmagic_as[4] = "2.5";
-  char tabmagic_cost[5] = "100";
+  char tabmagic_as[4] = "1.0";
+  char tabmagic_cost[5] = "200";
   char tabmagic_range[5] = "60";
-  char tabmagic_sell[5] = "50";
+  char tabmagic_sell[5] = "100";
 
   /* char des tours de feu */
   char tabfire_name[5] = "Fire";
   char tabfire_damages[4] = "0.1";
-  char tabfire_as[4] = "2.0";
-  char tabfire_cost[5] = "100";
+  char tabfire_as[5] = "50.0";
+  char tabfire_cost[5] = "150";
   char tabfire_range[5] = "55";
-  char tabfire_sell[5] = "50";
+  char tabfire_sell[5] = "75";
 
 
   /* char des tours de slow */
   char tabslow_name[5] = "Slow";
   char tabslow_damages[4] = "0.0";
-  char tabslow_as[4] = "2.0";
-  char tabslow_cost[5] = "100";
+  char tabslow_as[4] = "0.0";
+  char tabslow_cost[5] = "250";
   char tabslow_range[5] = "55";
-  char tabslow_sell[5] = "50";
+  char tabslow_sell[5] = "125";
 
   /* set the title bar */
   SDL_WM_SetCaption("Tower Defense", "SDL Animation");
@@ -161,6 +161,10 @@ int main(int argc, char* argv[])
   zombie.mob = Load_image("Images/Mobs/sprite_zombie.bmp");
   ender.mob = Load_image("Images/Mobs/sprite_enderman.bmp");
   spider.mob = Load_image("Images/Mobs/sprite_spider.bmp");
+  creep.frozen_mob = Load_image("Images/Mobs/sprite_creeper_slow.bmp");
+  zombie.frozen_mob = Load_image("Images/Mobs/sprite_zombie_slow.bmp");
+  ender.frozen_mob = Load_image("Images/Mobs/sprite_enderman_slow.bmp");
+  spider.frozen_mob = Load_image("Images/Mobs/sprite_spider_slow.bmp");
 
   sniper1.tower = Load_image("Images/Tower/tower_sniper1.bmp");
   sniper2.tower = Load_image("Images/Tower/tower_sniper2.bmp");
@@ -255,6 +259,10 @@ int main(int argc, char* argv[])
   SDL_SetColorKey(zombie.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(ender.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(spider.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(creep.frozen_mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(zombie.frozen_mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(ender.frozen_mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
+  SDL_SetColorKey(spider.frozen_mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
 
   SDL_SetColorKey(sword, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(firerate, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
@@ -360,10 +368,10 @@ int main(int argc, char* argv[])
   slow2.sell = sell_init(slow2.sell, SELL_WIDTH, SELL_HEIGHT);
   slow3.sell = sell_init(slow3.sell, SELL_WIDTH, SELL_HEIGHT);
 
-  sniper1 = tower_init(sniper1, SNIPER_WIDTH, SNIPER_HEIGHT, TYPE_SNIPER,DISTANCE_SNIPER_TOWER, CADENCE_SNIPER_TOWER);
-  magic1 = tower_init(magic1, MAGIC_WIDTH, MAGIC_HEIGHT, TYPE_MAGIC, DISTANCE_MAGIC_TOWER, CADENCE_MAGIC_TOWER);
-  fire1 = tower_init(fire1, FIRE_WIDTH, FIRE_HEIGHT, TYPE_FIRE, DISTANCE_FIRE_TOWER, CADENCE_FIRE_TOWER);
-  slow1 = tower_init(slow1, SLOW_WIDTH, SLOW_HEIGHT, TYPE_SLOW, DISTANCE_SLOW_TOWER,0);
+  sniper1 = tower_init(sniper1, SNIPER_WIDTH, SNIPER_HEIGHT, TYPE_SNIPER,DISTANCE_SNIPER_TOWER, CADENCE_SNIPER_TOWER, PRIX_SNIPER);
+  magic1 = tower_init(magic1, MAGIC_WIDTH, MAGIC_HEIGHT, TYPE_MAGIC, DISTANCE_MAGIC_TOWER, CADENCE_MAGIC_TOWER, PRIX_MAGIC);
+  fire1 = tower_init(fire1, FIRE_WIDTH, FIRE_HEIGHT, TYPE_FIRE, DISTANCE_FIRE_TOWER, CADENCE_FIRE_TOWER, PRIX_FIRE);
+  slow1 = tower_init(slow1, SLOW_WIDTH, SLOW_HEIGHT, TYPE_SLOW, DISTANCE_SLOW_TOWER,0, PRIX_SLOW);
 
 
   /* Initialize Text game*/
@@ -523,7 +531,7 @@ int main(int argc, char* argv[])
 
       /* draw tower select */
       Range_affichage(liste_tower, screen);
-      menu_select_affichage(liste_tower, screen);
+      menu_select_affichage(liste_tower, screen, sword, firerate, bow);
       upgrade_affichage(liste_tower, screen);
       sell_affichage(liste_tower, screen);
       
@@ -543,6 +551,7 @@ int main(int argc, char* argv[])
       collision_tir_mob(&liste_tir, &liste_mob, &points, &money);
       tower_tir(&liste_tower, &liste_mob, &liste_tir, tir_magic, tir_sniper, tir_fire, screen, temps_jeu, sniper1);
       mob_slow(&liste_mob, &liste_tower, colorkey);
+      collision_screen_mob(&liste_mob, &health, &gameover);
       
       /* Affichage score, money, health */
 
@@ -568,12 +577,6 @@ int main(int argc, char* argv[])
 	temps_score = temps_jeu;
       }
       
-      /* Money en fonction du temps */
-      if (temps_jeu - temps_money > 5000){
-	money = money + 10;
-	temps_money = temps_jeu;
-      }
-
       /* Affichage specs tours */
       affichage_text(70, SCREEN_HEIGHT-74, tabsniper_name, sniper1.s_name, screen);
       affichage_text(90, SCREEN_HEIGHT-55, tabsniper_damages, sniper1.s_damages, screen);
@@ -597,7 +600,7 @@ int main(int argc, char* argv[])
       affichage_text(594, SCREEN_HEIGHT-55, tabslow_damages, slow1.s_damages, screen);
       affichage_text(594, SCREEN_HEIGHT-35, tabslow_as, slow1.s_as, screen);
       affichage_text(644, SCREEN_HEIGHT-55, tabslow_range, slow1.s_range, screen);
-      affichage_text(644, SCREEN_HEIGHT-35, tabslow_cost, slow1.s_cost, screen);
+      affichage_text(640, SCREEN_HEIGHT-35, tabslow_cost, slow1.s_cost, screen);
       
       /* affichage icones specs */
       rcSword.x = 70;

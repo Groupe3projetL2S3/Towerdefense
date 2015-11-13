@@ -1,6 +1,6 @@
 #include "../jeu.h"
 
-s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, int cadence) {
+s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, int cadence, int prix) {
  
   t.rcSrc.x = 0;
   t.rcSrc.y = 0;
@@ -10,7 +10,7 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, 
   t.actif = 0;
   t.select = 0;
   t.niveau = 1;
-  t.price = 100;
+  t.price = prix;
   t.range.range_max = distance;
   t.cadence = cadence;
   t.temps = 0;
@@ -264,9 +264,23 @@ s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance) {
   t_up.actif = t.actif;
   t_up.select = t.select;
   t_up.temps = t.temps;
-  t_up.range.range_max = t.range.range_max +10;
-  t_up.cadence = t.cadence;
-  t_up.price = t.price + 100;
+  if(t.type == TYPE_SNIPER)
+    t_up.range.range_max = t.range.range_max +20;
+  if(t.type == TYPE_MAGIC)
+    t_up.range.range_max = t.range.range_max +10;
+  if(t.type == TYPE_FIRE){
+    if(t.niveau == 1)
+      t_up.range.range_max = t.range.range_max +5;
+    else
+      t_up.range.range_max = t.range.range_max +10;
+  }
+  if(t.type == TYPE_SLOW)
+    t_up.range.range_max = t.range.range_max;
+  if(t.type == TYPE_FIRE)
+    t_up.cadence = t.cadence;
+  else
+    t_up.cadence = t.cadence/1.5;
+  t_up.price = t.price*2;
 
   return t_up;
 }
@@ -283,54 +297,62 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
       while(tit != NULL) {
 	
 	s_Tower t = tit->t;
-	if (t.select == 1 && t.actif == 1 && mny >= t.price
+	if (t.select == 1 && t.actif == 1 && mny >= t.price*2
 	    && event_button_x >= (t.up.rcSprite.x) 
 	    && event_button_x <= (t.up.rcSprite.x + t.up.rcSrc.w) 
 	    && event_button_y >= (t.up.rcSprite.y)
 	    && event_button_y <= (t.up.rcSprite.y + t.up.rcSrc.h) 
 	    && t.niveau < 3 ) {
-	  mny = mny - t.price;
 	  poubelle_tower = liste_cons_tower(t, poubelle_tower);
 	  if (t.type == TYPE_SNIPER) {
 	    if (t.niveau == 2) {
 	      sniper3 = towerup_init(t, sniper3, DISTANCE_SNIPER_TOWER3*2);
 	      new_liste_tower = liste_cons_tower(sniper3, new_liste_tower);
+	      mny = mny - sniper3.price;
 	    }
 	    if (t.niveau == 1) {
 	      sniper2 = towerup_init(t, sniper2, DISTANCE_SNIPER_TOWER2*2);
 	      new_liste_tower = liste_cons_tower(sniper2, new_liste_tower);
+	      mny = mny - sniper2.price;
 	    }
 	  }
 	  if (t.type == TYPE_MAGIC) {
 	    if (t.niveau == 2) {
-	      magic3 = towerup_init(t, magic3, DISTANCE_MAGIC_TOWER3*2);
+	      magic3 = towerup_init(t, magic3, DISTANCE_MAGIC_TOWER3*2); 
 	      new_liste_tower = liste_cons_tower(magic3, new_liste_tower);
+	      mny = mny - magic3.price;
 	    }
 	    if (t.niveau == 1) {
 	      magic2 = towerup_init(t, magic2, DISTANCE_MAGIC_TOWER2*2);
 	      new_liste_tower = liste_cons_tower(magic2, new_liste_tower);
+	      mny = mny - magic2.price;
 	    }
 	  }
 	  if (t.type == TYPE_FIRE) {
 	    if (t.niveau == 2) {
 	      fire3 = towerup_init(t, fire3, DISTANCE_FIRE_TOWER3*2);
 	      new_liste_tower = liste_cons_tower(fire3, new_liste_tower);
+	      mny = mny - fire3.price;
 	    }
 	    if (t.niveau == 1) {
 	      fire2 = towerup_init(t, fire2, DISTANCE_FIRE_TOWER2*2);
 	      new_liste_tower = liste_cons_tower(fire2, new_liste_tower);
+	      mny = mny - fire2.price;
 	    }
 	  }
 	  if (t.type == TYPE_SLOW) {
 	    if (t.niveau == 2) {
 	      slow3 = towerup_init(t, slow3, DISTANCE_SLOW_TOWER*2);
 	      new_liste_tower = liste_cons_tower(slow3, new_liste_tower);
+	      mny = mny - slow3.price;
 	    }
 	    if (t.niveau == 1) {
 	      slow2 = towerup_init(t, slow2, DISTANCE_SLOW_TOWER*2);
 	      new_liste_tower = liste_cons_tower(slow2, new_liste_tower);
+	      mny = mny - slow2.price;
 	    }
 	  }
+	  //mny = mny - t.price;
 	}	    
 	else if (t.select == 1 && t.actif == 1 
 		 && event_button_x >= (t.sell.rcSprite.x)

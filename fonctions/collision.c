@@ -41,7 +41,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M, int *points, int *money) {
 
 	if (collision_box_box(t.box, m.box) && t.cible.numero == m.numero) {
 	  poubelle_tir = liste_cons_tir(t, poubelle_tir);
-	  m.pv = m.pv-t.dommage;
+	  m.pv = m.pv - t.dommage;
 	}
 	else {
 	  new_liste_tir = liste_cons_tir(t, new_liste_tir);
@@ -79,6 +79,39 @@ void collision_tir_mob(liste_tir *T, liste_mob *M, int *points, int *money) {
   }
 }
       
-
-      
+void collision_screen_mob(liste_mob *M, int *health, int *gameover) {
   
+  liste_mob new_liste_mob = NULL;
+  liste_mob poubelle_mob = NULL;
+
+
+  liste_mob mit = *M;
+  int hlth = *health;
+  int go = *gameover;
+  int marge = 5;
+
+  while (mit != NULL) {      
+    s_Mob m = mit->m;
+     
+    if(m.coords.x > SCREEN_WIDTH + marge) {
+      poubelle_mob = liste_cons_mob(m, poubelle_mob);
+      hlth = hlth - 1;
+    } else {
+      new_liste_mob = liste_cons_mob(m, new_liste_mob);
+    }
+
+    mit->m = m;
+    mit = mit->next;
+  }
+    
+  if(hlth <= 0) {
+    go = 1;
+  }
+  liste_free_mob(&poubelle_mob);
+  liste_inverser_mob(&new_liste_mob);
+  *M = new_liste_mob;
+  new_liste_mob = NULL;
+  liste_free_mob(&new_liste_mob);
+  *health = hlth;
+  *gameover = go;
+}

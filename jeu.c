@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
   char tabsniper_as[4] = "2.0";
   char tabsniper_cost[5] = "100";
   char tabsniper_range[5] = "90";
-  char tabsniper_sell[5] = "50";
+  //char tabsniper_sell[5] = "50";
 
   /* char des tours de magie */
   char tabmagic_name[6] = "Magic";
@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
   char tabmagic_as[4] = "1.0";
   char tabmagic_cost[5] = "200";
   char tabmagic_range[5] = "60";
-  char tabmagic_sell[5] = "100";
+  //char tabmagic_sell[5] = "100";
 
   /* char des tours de feu */
   char tabfire_name[5] = "Fire";
@@ -131,7 +131,7 @@ int main(int argc, char* argv[])
   char tabfire_as[5] = "50.0";
   char tabfire_cost[5] = "300";
   char tabfire_range[5] = "55";
-  char tabfire_sell[5] = "75";
+  //char tabfire_sell[5] = "75";
 
 
   /* char des tours de slow */
@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
   char tabslow_as[4] = "0.0";
   char tabslow_cost[5] = "250";
   char tabslow_range[5] = "55";
-  char tabslow_sell[5] = "125";
+  //char tabslow_sell[5] = "125";
 
   /* set the title bar */
   SDL_WM_SetCaption("Tower Defense", "SDL Animation");
@@ -452,7 +452,7 @@ int main(int argc, char* argv[])
 
 
   while(menu){
-    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money);
+    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
     
 
     rcMenujeu.x = 0;
@@ -483,7 +483,7 @@ int main(int argc, char* argv[])
 
 
       while(pause){
-	update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money);
+	update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
 		
 	
 	temps_debut_pause = temps_jeu;
@@ -496,7 +496,7 @@ int main(int argc, char* argv[])
 
       
       /* look for an event */
-      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money);
+      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
 
       /* draw the map */
       PrintMap(map,screen);
@@ -800,7 +800,7 @@ int main(int argc, char* argv[])
   while(fin){
 
 
-    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money);
+    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
     
     rcMenumort.x = 0;
     rcMenumort.y = 0;

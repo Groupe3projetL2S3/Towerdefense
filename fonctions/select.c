@@ -64,6 +64,7 @@ void Range_affichage(liste_tower L, SDL_Surface *screen) {
   }
 }
 
+
 void upgrade_affichage(liste_tower L, SDL_Surface *screen) {
 
   liste_tower it = L;
@@ -98,84 +99,110 @@ void sell_affichage(liste_tower L, SDL_Surface *screen) {
   }
 }
 
+void up_sell_motion(liste_tower *L, int event_motion_x, int event_motion_y, SDL_Surface *screen) {
+  
+  char sell_price[6] = "sprix";
+  SDL_Color Blanc = {255,255,255};
+
+  liste_tower it = *L;
+  while (it != NULL) {
+    s_Tower t = it->t;
+	
+    if(t.select 
+       && event_motion_x >= t.sell.rcSprite.x
+       && event_motion_x <= t.sell.rcSprite.x + SELL_WIDTH
+       && event_motion_y >= t.sell.rcSprite.y
+       && event_motion_y <= t.sell.rcSprite.y + SELL_HEIGHT) {
+
+      printf("PENIS \n");
+      t.s_sell = text_init(15, IMP_POLICE, Blanc, t.s_sell);
+      affichage_text(80, 45, sell_price, t.s_sell, screen);
+      
+    }
+    it->t = t;
+    it = it->next;
+  }
+}
+
+
 void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *sword, SDL_Surface *firerate,SDL_Surface *bow){
 
   /* char des tours de sniper */
   char tabsniper_damages[4] = "2.0";
   char tabsniper_as[4] = "2.0";
-  char tabsniper_cost[5] = "100";
+  //char tabsniper_cost[5] = "100";
   char tabsniper_range[5] = "90";
-  char tabsniper_sell[5] = "50";
+  //char tabsniper_sell[5] = "50";
 
   char tabsniper2_damages[4] = "7.0";
   char tabsniper2_as[4] = "3.0";
   char tabsniper2_range[5] = "110";
-  char tabsniper2_cost[5] = "200";
-  char tabsniper2_sell[5] = "100";
+  //char tabsniper2_cost[5] = "200";
+  //char tabsniper2_sell[5] = "100";
 
   char tabsniper3_damages[4] = "14.0";
   char tabsniper3_as[4] = "4.5";
   char tabsniper3_range[5] = "130";
-  char tabsniper3_cost[5] = "400";
-  char tabsniper3_sell[5] = "200";
+  //char tabsniper3_cost[5] = "400";
+  //char tabsniper3_sell[5] = "200";
 
   /* char des tours de magie */
   char tabmagic_damages[4] = "5.0";
   char tabmagic_as[4] = "1.0";
-  char tabmagic_cost[5] = "200";
+  //char tabmagic_cost[5] = "200";
   char tabmagic_range[5] = "60";
-  char tabmagic_sell[5] = "100";
+  //char tabmagic_sell[5] = "100";
 
   char tabmagic2_damages[4] = "11.0";
   char tabmagic2_as[4] = "1.5";
-  char tabmagic2_cost[5] = "400";
+  //char tabmagic2_cost[5] = "400";
   char tabmagic2_range[5] = "70";
-  char tabmagic2_sell2[5] = "200";
+  //char tabmagic2_sell2[5] = "200";
 
   char tabmagic3_damages[4] = "27.0";
   char tabmagic3_as[5] = "2.25";
-  char tabmagic3_cost[5] = "800";
+  //char tabmagic3_cost[5] = "800";
   char tabmagic3_range[5] = "80";
-  char tabmagic3_sell2[5] = "400";
+  //char tabmagic3_sell2[5] = "400";
 
   /* char des tours de feu */
   char tabfire_damages[4] = "0.1";
   char tabfire_as[5] = "50.0";
-  char tabfire_cost[5] = "300";
+  //char tabfire_cost[5] = "300";
   char tabfire_range[5] = "55";
-  char tabfire_sell[5] = "75";
+  //char tabfire_sell[5] = "75";
 
   char tabfire2_damages[4] = "0.4";
   char tabfire2_as[5] = "50.0";
-  char tabfire2_cost[5] = "600";
+  //char tabfire2_cost[5] = "600";
   char tabfire2_range[5] = "60";
-  char tabfire2_sell[5] = "150";
+  //char tabfire2_sell[5] = "150";
 
   char tabfire3_damages[4] = "1.0";
   char tabfire3_as[5] = "50.0";
-  char tabfire3_cost[5] = "1200";
+  //char tabfire3_cost[5] = "1200";
   char tabfire3_range[5] = "70";
-  char tabfire3_sell[5] = "300";
+  //char tabfire3_sell[5] = "300";
 
 
   /* char des tours de slow */
   char tabslow_damages[4] = "0.0";
   char tabslow_as[4] = "0.0";
-  char tabslow_cost[5] = "250";
+  //char tabslow_cost[5] = "250";
   char tabslow_range[5] = "55";
-  char tabslow_sell[5] = "125";
+  //char tabslow_sell[5] = "125";
 
   char tabslow2_damages[4] = "0.0";
   char tabslow2_as[4] = "0.0";
-  char tabslow2_cost[5] = "500";
+  //char tabslow2_cost[5] = "500";
   char tabslow2_range[5] = "55";
-  char tabslow2_sell[5] = "250";
+  //char tabslow2_sell[5] = "250";
 
   char tabslow3_damages[4] = "0.0";
   char tabslow3_as[4] = "0.0";
-  char tabslow3_cost[5] = "1000";
+  //char tabslow3_cost[5] = "1000";
   char tabslow3_range[5] = "55";
-  char tabslow3_sell[5] = "500";
+  //char tabslow3_sell[5] = "500";
 
   SDL_Rect rcSprite;
 

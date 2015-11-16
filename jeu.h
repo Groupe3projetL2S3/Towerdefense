@@ -225,6 +225,7 @@ typedef struct
   s_Text s_as;
   s_Text s_cost;
   s_Text s_range;
+  s_Text s_up;
   s_Text s_sell;
 } s_Tower;
 
@@ -386,13 +387,14 @@ void upgrade_affichage(liste_tower L, SDL_Surface *screen);
 
 s_Sell sell_init(s_Sell s, int taillew, int tailleh);
 void sell_affichage(liste_tower L, SDL_Surface *screen);
+void up_sell_motion(liste_tower *L, int event_motion_x, int event_motion_y, SDL_Surface *screen);
 
 void top_score(int *meilleurs_scores, int points);
 s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t);
 void affichage_text(int x, int y, char *tab, s_Text t,SDL_Surface *screen);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin, int *money);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin, int *money, SDL_Surface *screen);
 
 
 

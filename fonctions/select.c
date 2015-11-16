@@ -106,7 +106,7 @@ void up_sell_motion(liste_tower *L, int event_motion_x, int event_motion_y, SDL_
   while (it != NULL) {
     s_Tower t = it->t;
 	
-    if(t.select 
+    if(t.select && t.actif
        && event_motion_x >= t.sell.rcSprite.x
        && event_motion_x <= t.sell.rcSprite.x + SELL_WIDTH
        && event_motion_y >= t.sell.rcSprite.y

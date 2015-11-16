@@ -1,0 +1,95 @@
+Projet L2 Info, Université de Lorraine, 2015.
+
+Bienvenue dans l'univers de Minecraft ! Les mobs envahissent votre terrain !
+
+Introduction :
+  
+  Qu'est-ce qu'un TowerDefense ?
+    
+    Le tower defense (souvent abrégée en TD) est un type de jeu vidéo où l’objectif est de défendre une zone contre des vagues successives d’ennemis se déplaçant suivant un itinéraire ou non, en construisant et en améliorant progressivement des tours défensives. (source wikipédia)
+
+Principe :
+
+  Les tours sont utilisées pour éliminer des ennemis en tirant sur chacun de ceux à leur portée. Chaque ennemi tué rapporte des points qui serviront à la construction ou l’amélioration de tours sur la carte de jeu.
+
+Les tours sont souvent différenciées par :
+
+    leur coût,
+    les dégâts qu’elles causent,
+    leur vitesse d’attaque,
+    leur portée d’attaque,
+    leur type d’attaque,
+    et certaines capacités spécifiques (par exemple ralentir le déplacement des ennemis).
+
+De même, les divers éléments qui parcourent la carte se singularisent souvent par :
+
+    leur résistance,
+    leur vitesse de déplacement,
+    leur immunité contre certains types d’attaques,
+
+Les tours ne peuvent être placées que le long de l’itinéraire des ennemis. Le but est alors de trouver le placement optimal et la meilleure combinaison de tours. (source wikipédia)
+
+Description :
+  
+  Notre tower defense est réalisé à partir de plusieurs fichiers(main, map, mob, ...) dont leur role est propre à leur nom.
+  
+  1. Chargement de la map
+  
+    La map est constituée de quatre fichiers(monde.txt, tabmonde.txt, objet.txt et tabobjet.txt) 
+monde.txt/objet.txt : Ces fichiers sont composés de plusieurs parties :
+
+    #tileset : sans réelle importantce, juste un indicateur.
+    Images/xxxxx : Nom du tileset à charger (ou se trouvent les textures).
+    16 10 : Largeur et hauteur du tileset (en nombre de tiles), il y aura donc 160 tiles différentes dans l'image.
+    tile0 à tile159 : Toutes ses lignes correspondent  à chaque tile, relié à sa propriété (terrain, chemin, obstacle)
+    	terrain : On peut y poser les tours, les mobs ne peuvent pas aller dessus
+	chemin : Interdit aux tours, les mobs passent ici
+	obstacle : Ni les mobs, ni les tours ne sont acceptées
+    21 13 : Largeur et hauteur du monde créé (en tiles)
+    xxxxxxxx.txt : fichier contenant le tableau de tiles (pour créer la map)
+
+tabxxxxx.txt : Fichier contenant le tableau de tiles.
+
+  2. Comment créer votre monde ?
+
+    Créer son monde est en soi assez simple. Il vous suffit de trouver un ou deux tilesets (images rassemblant plusieurs tiles) puis de les charger dans le fichier jeu.c. Il vous faudra alors crée les deux fichiers txt (par tileset) correspondants en suivant le schéma ci-dessus.
+    L'idée de charger deux tileset est utile pour crée du relief, par exemple ajouter des arbres et des barrières sur les textures de base.
+    
+  3. Les tours
+
+     Les tours sont caractérisées par leurs dégats, vitesse d'attaque, range et prix à l'achat, on dispose de quatres types de tours, chacune de 3 niveaux différents :
+
+     Sniper : Ces tours ont de faibles dégats mais une grosse portée ainsi qu'une grande vitesse d'attaque
+     Magic : Ces tours ont de bons dégats, une faible portée et une vitesse d'attaque moyenne
+     Fire : Ces tours ont de très faibles dégats compensés par une énorme vitesse d'attaque, elles peuvent aussi attaquer plusieurs ennemis en meme temps ! Leur range reste faible
+     Slow : Ces tours n'ont aucun dégat, mais elles réduisent la vitesse de déplacement des ennemis, ce n'est pas négligeable ! Du fait de leur faible portée, il faut les placer de façon strtégique !
+
+  4. Les ennemis
+
+     Les ennemis sont tous différents : plus ou moins rapides, plus ou moins résistants, il y en a pour tous les gouts !
+
+     Creepers : Ces bipèdes verts sont standards, ni trop rapide/résistants, ni trop lents/faibles
+     Zombies : Tous droit sortis d'entre les morts, ils sont très lents mais difficile à abattre !
+     Spiders : Ces petites betes sont très fragiles, mais très rapides ! Attention à ne pas se faire surprendre
+     Endermen : Ces géants noirs sont lents et très résistants, mieux vaut ne pas les croiser !
+
+  5. Interface
+
+     En partie, vous disposez d'un petit menu en bas de la fenetre, c'est ici qui vous pourrez faire vos achats. Chaque tour est affichée avec ses caractériques et son prix (petit diamant). Vous n'avez qu'à cliquer sur une tour et elle sera ajoutée à la liste, puis vous pourrez la poser ou bon vous semble. 
+     Vous pouvez également selectionner une tour existante, un menu contextuel s'ouvrira en haut à gauche de la fenetre. Ce petit menu regroupe les caractéristiques de la tour ainsi que deux bouton :
+     
+     Upgrade : Ce bouton vert vous permet d'améliorer la tour, mais ce n'est pas gratuit ! Vous pouvez améliorer chaque tour deux fois.
+     Sell : Ce bouton rouge vous permet de vendre une tour, vous serez alors remboursé d'un montant égal à la moitié de la valeur de la tour.
+
+     Plusieurs autres indications sont affichées à l'écran, comme votre score et votre argent (en haut à droite) et vos points de vie (centré en haut). Une fois vos points de vie écoulés, vous serez dirigé sur le menu de fin de jeu, affichant vos cinq meilleurs scores (sauvegardés dans un fichier txt).
+
+
+  6. Les touches
+
+     Depuis le menu, il suffit d'appuyer sur la touche "Entrée" pour commencer à jouer. Vous pouvez mettre le jeu en pause en appuyant sur la touche P et vous suicider en appuyant sur la touche T.
+
+     
+
+
+    
+

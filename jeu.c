@@ -12,11 +12,7 @@ int main(int argc, char* argv[])
   SDL_Surface *screen = NULL, *menu_tower = NULL, *menu_jeu = NULL, *menu_mort = NULL, *diamondbig = NULL, *diamondlittle = NULL, *bow = NULL, *sword = NULL, *firerate = NULL, *heart = NULL;
   SDL_Rect rcMenu_tower, rcMenujeu, rcMenumort, rcDiamondbig, rcDiamondlittle, rcBow, rcSword, rcFirerate, rcHeart;
   SDL_Color Blanc = {255,255,255};
-  SDL_Color Rouge = {255,0,0};
-  SDL_Color Cyan = {0, 255, 255};
-  SDL_Color Bleu = {0, 0, 255};
-  SDL_Color Sang = {133, 6, 6};
-  
+
   TTF_Init();
 
   int colorkey, colorkeyN;
@@ -56,7 +52,6 @@ int main(int argc, char* argv[])
   s_Text s_score;
   s_Text s_compteur;
   s_Text s_gameover;
-  s_Text s_number_level;
   s_Text s_money;
   s_Text s_health;
 
@@ -84,17 +79,21 @@ int main(int argc, char* argv[])
   int temps_debut_pause = 0;
   int temps_menu = 0;
   int temps_score = 0;
-  int temps_money = 0;
   int dure_pause = 0;
   int num_mob = 0;
   int points = 0;
   int money = 200;
   int health = 20;
+  int wave = 0;
+  int nb_mobs = 0;
+  int max_mobs = 0;
+  int intervalle_mob = 0;
+  int intervalle_wave = 0;
+  int next_wave = wave +1;
   
   char tabscore[6] = "SCORE";
   char tabcompteur[11] = "0000000000";
   char tabgameover[12] = "GAME OVER !";
-  char tabentrer[19] = "Appuyez sur ENTRER";
   char tabmoney[10] = "000000000";
   char tabhealth[3] = "00";
 
@@ -130,7 +129,7 @@ int main(int argc, char* argv[])
   char tabfire_name[5] = "Fire";
   char tabfire_damages[4] = "0.1";
   char tabfire_as[5] = "50.0";
-  char tabfire_cost[5] = "150";
+  char tabfire_cost[5] = "300";
   char tabfire_range[5] = "55";
   char tabfire_sell[5] = "75";
 
@@ -548,6 +547,97 @@ int main(int argc, char* argv[])
       healthbar_affichage(liste_mob, screen);
 
       /* fonction */
+      printf("%d \n %d n \n",wave, next_wave);
+
+      if(wave < next_wave){
+	if(temps_jeu - intervalle_mob > 1000 && nb_mobs < max_mobs){
+	  if(wave == 1){
+	    mob_add(&num_mob, creep, &liste_mob);
+	  }
+	  if(wave == 2){
+	    if(nb_mobs < max_mobs/2)
+	      mob_add(&num_mob, spider, &liste_mob);
+	    else
+	      mob_add(&num_mob, creep, &liste_mob);
+	  }
+	  if(wave == 3){
+	    if(nb_mobs < max_mobs/3)
+	      mob_add(&num_mob, spider, &liste_mob);
+	    else
+	      mob_add(&num_mob, creep, &liste_mob);
+	  }
+	  if(wave == 4){
+	    if(nb_mobs < max_mobs*2/3)
+	      mob_add(&num_mob, creep, &liste_mob);
+	    else
+	      mob_add(&num_mob, zombie, &liste_mob);
+	  }
+	  if(wave == 5){
+	    if(nb_mobs < max_mobs/4)
+	      mob_add(&num_mob, spider, &liste_mob);
+	    if(nb_mobs >= max_mobs/4 && nb_mobs < max_mobs*3/4)
+	      mob_add(&num_mob, creep, &liste_mob);
+	    if(nb_mobs >= max_mobs*3/4)
+	      mob_add(&num_mob, zombie, &liste_mob);
+	  }
+	  if(wave == 6){
+	    if(nb_mobs < max_mobs/2)
+	      mob_add(&num_mob, creep, &liste_mob);
+	    if(nb_mobs >= max_mobs/2 && nb_mobs < max_mobs*3/4)
+	      mob_add(&num_mob, ender, &liste_mob);
+	    if(nb_mobs >= max_mobs*3/4)
+	      mob_add(&num_mob, zombie, &liste_mob);
+	  }
+	  if(wave == 7){
+	    if(nb_mobs < max_mobs*2/5)
+	      mob_add(&num_mob, spider, &liste_mob);
+	    if(nb_mobs >= max_mobs*2/5 && nb_mobs < max_mobs*3/5)
+	      mob_add(&num_mob, creep, &liste_mob);
+	    if(nb_mobs >= max_mobs*3/5 && nb_mobs < max_mobs*4/5)
+	      mob_add(&num_mob, ender, &liste_mob);
+	    if(nb_mobs >= max_mobs*4/5)
+	      mob_add(&num_mob, zombie, &liste_mob);
+	  }
+	  if(wave == 8){
+	    if(nb_mobs < max_mobs*1/5)
+	      mob_add(&num_mob, spider, &liste_mob);
+	    if(nb_mobs >= max_mobs*1/5 && nb_mobs < max_mobs*3/5)
+	      mob_add(&num_mob, creep, &liste_mob);
+	    if(nb_mobs >= max_mobs*3/5 && nb_mobs < max_mobs*4/5)
+	      mob_add(&num_mob, ender, &liste_mob);
+	    if(nb_mobs >= max_mobs*4/5)
+	      mob_add(&num_mob, zombie, &liste_mob);
+	  }  
+	  intervalle_mob = temps_jeu;
+	  nb_mobs ++;
+	}
+
+	if(liste_is_empty_mob(liste_mob) && nb_mobs == max_mobs)
+	  {
+	    wave = wave +1;
+	    intervalle_wave = temps_jeu;
+	  }
+      }
+      	
+      if(wave == next_wave && temps_jeu - intervalle_wave > 5000 ){
+	nb_mobs = 0;
+	if(wave == 1 || wave == 2)
+	  max_mobs = 20;
+	if(wave == 3 || wave == 4)
+	  max_mobs = 30;
+	if(wave == 5 || wave == 6)
+	  max_mobs = 40;
+	if(wave == 7 || wave == 8)
+	  max_mobs = 50;
+	if(wave > 8){
+	  wave = 5;
+	  // buff des monstres !!!
+	}
+	next_wave = wave +1;
+      }
+
+      printf("%d mm\n",max_mobs);
+
       collision_tir_mob(&liste_tir, &liste_mob, &points, &money);
       tower_tir(&liste_tower, &liste_mob, &liste_tir, tir_magic, tir_sniper, tir_fire, screen, temps_jeu, sniper1);
       mob_slow(&liste_mob, &liste_tower, colorkey);

@@ -17,25 +17,25 @@
 
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
-#define CREEP_SPEED 0.5*0.7
+#define CREEP_SPEED 0.5
 #define CREEP_PV 15
 #define CREEP_TYPE 1
 
 #define ZOMBIE_WIDTH 16
 #define ZOMBIE_HEIGHT 32
-#define ZOMBIE_SPEED 0.15*0.7
+#define ZOMBIE_SPEED 0.15
 #define ZOMBIE_PV 50
 #define ZOMBIE_TYPE 2
 
 #define ENDER_WIDTH 16
 #define ENDER_HEIGHT 40
-#define ENDER_SPEED 0.25*0.7
-#define ENDER_PV 30
+#define ENDER_SPEED 0.35
+#define ENDER_PV 40
 #define ENDER_TYPE 3
 
 #define SPIDER_WIDTH 16
 #define SPIDER_HEIGHT 32
-#define SPIDER_SPEED 0.7*0.7
+#define SPIDER_SPEED 0.7
 #define SPIDER_PV 8
 #define SPIDER_TYPE 4
 
@@ -85,7 +85,7 @@
 #define DISTANCE_FIRE_TOWER3 70
 #define CADENCE_FIRE_TOWER 20
 #define TYPE_FIRE 3
-#define PRIX_FIRE 150
+#define PRIX_FIRE 300
 
 #define DISTANCE_SLOW_TOWER 55
 #define TYPE_SLOW 4
@@ -332,7 +332,9 @@ void liste_free_tir(liste_tir * L);
 /**************************Headers**********************************/
 
 SDL_Surface* Load_image(const char* image);
-Map* LoadMap(const char* Fichier);
+Map* LoadMap(const char* monde);
+void LoadMap_structure(FILE* Fichier,Map* map);
+void LoadMap_tiles(FILE* Fichier,Map* map);
 int PrintMap(Map* map,SDL_Surface* screen);
 int FreeMap(Map* map);
 float SeekSpawn(Map *map);
@@ -385,7 +387,7 @@ void upgrade_affichage(liste_tower L, SDL_Surface *screen);
 s_Sell sell_init(s_Sell s, int taillew, int tailleh);
 void sell_affichage(liste_tower L, SDL_Surface *screen);
 
-int top_score(int *meilleurs_scores, int points);
+void top_score(int *meilleurs_scores, int points);
 s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t);
 void affichage_text(int x, int y, char *tab, s_Text t,SDL_Surface *screen);
 /******************************* SDL *********************************/

@@ -60,7 +60,7 @@ void collision_tir_mob(liste_tir *T, liste_mob *M, int *points, int *money) {
 	new_liste_mob = liste_cons_mob(m, new_liste_mob);
       }
       else{
-	mny = mny + 50;
+	mny = mny + 10;
 	pts = pts + 50;
 	poubelle_mob = liste_cons_mob(m, poubelle_mob);
       }

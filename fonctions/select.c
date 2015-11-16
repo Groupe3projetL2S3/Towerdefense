@@ -120,7 +120,6 @@ void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *swor
   char tabsniper3_sell[5] = "200";
 
   /* char des tours de magie */
-  char tabmagic_name[6] = "Magic";
   char tabmagic_damages[4] = "5.0";
   char tabmagic_as[4] = "1.0";
   char tabmagic_cost[5] = "200";
@@ -140,28 +139,26 @@ void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *swor
   char tabmagic3_sell2[5] = "400";
 
   /* char des tours de feu */
-  char tabfire_name[5] = "Fire";
   char tabfire_damages[4] = "0.1";
   char tabfire_as[5] = "50.0";
-  char tabfire_cost[5] = "150";
+  char tabfire_cost[5] = "300";
   char tabfire_range[5] = "55";
   char tabfire_sell[5] = "75";
 
   char tabfire2_damages[4] = "0.4";
   char tabfire2_as[5] = "50.0";
-  char tabfire2_cost[5] = "300";
+  char tabfire2_cost[5] = "600";
   char tabfire2_range[5] = "60";
   char tabfire2_sell[5] = "150";
 
   char tabfire3_damages[4] = "1.0";
   char tabfire3_as[5] = "50.0";
-  char tabfire3_cost[5] = "600";
+  char tabfire3_cost[5] = "1200";
   char tabfire3_range[5] = "70";
   char tabfire3_sell[5] = "300";
 
 
   /* char des tours de slow */
-  char tabslow_name[5] = "Slow";
   char tabslow_damages[4] = "0.0";
   char tabslow_as[4] = "0.0";
   char tabslow_cost[5] = "250";

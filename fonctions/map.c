@@ -29,6 +29,7 @@ void LoadMap_tiles(FILE* Fichier,Map* map) //Sous fonction qui charge les tiles 
 	    map->tab_props[nbtile].type = OBSTACLE;
 	}
     }
+  fscanf(Fichier, "%d %d", &map->nbtiles_largeur_monde, &map->nbtiles_hauteur_monde); //largeur et hauteur du tableau monde
 }
 
 
@@ -37,8 +38,8 @@ void LoadMap_structure(FILE* Fichier,Map* map) //Charge les tiles dans le tablea
 {
   int i,j;
   char tab[TAB_MAX];  
-  fscanf(Fichier, "%s", tab); // On change de partie du Fichier (#monde)
-  fscanf(Fichier, "%d %d", &map->nbtiles_largeur_monde, &map->nbtiles_hauteur_monde); //largeur et hauteur du tableau monde
+  fscanf(Fichier, "%s", tab); // On change de fichier
+  Fichier = fopen(tab, "r");
   map->monde = malloc(map->nbtiles_largeur_monde * sizeof(Uint16*));
   for(i = 0; i < map->nbtiles_largeur_monde; i++)
     map->monde[i] = malloc(map->nbtiles_hauteur_monde * sizeof(Uint16));

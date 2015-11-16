@@ -5,7 +5,7 @@ CC = gcc
 
 
 jeu: $(FONCTIONS) jeu.h
-	$(CC) -o jeu  $(FONCTIONS) -g `sdl-config --cflags --libs ` -lm -lSDL_ttf	 
+	$(CC) -o jeu  $(FONCTIONS) -g -Wall -Wno-switch `sdl-config --cflags --libs ` -lm -lSDL_ttf	 
 clean:
 	rm jeu
 

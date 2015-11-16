@@ -37,7 +37,7 @@ void affichage_text(int x, int y, char *tab, s_Text t,SDL_Surface *screen){ //af
 }
 
 
-int top_score(int *meilleurs_scores, int points) {
+void top_score(int *meilleurs_scores, int points) {
 
   FILE *fichier = NULL;
   

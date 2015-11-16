@@ -217,6 +217,8 @@ typedef struct
   int select;
   int niveau;
   int price;
+  int print_sell;
+  int print_up;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tower;

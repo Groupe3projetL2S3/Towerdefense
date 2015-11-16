@@ -401,6 +401,7 @@ int main(int argc, char* argv[])
   magic1.s_damages = text_init(15, IMP_POLICE, Blanc, magic1.s_damages);
   magic1.s_as = text_init(15, IMP_POLICE, Blanc, magic1.s_as);
   magic1.s_cost = text_init(15, IMP_POLICE, Blanc, magic1.s_cost);
+  magic1.s_sell = text_init(15, IMP_POLICE, Blanc, magic1.s_sell);
   magic1.s_range = text_init(15,IMP_POLICE , Blanc, magic1.s_range);
   magic2.s_damages = magic1.s_damages;
   magic2.s_as = magic1.s_as;
@@ -417,6 +418,7 @@ int main(int argc, char* argv[])
   fire1.s_damages = text_init(15, IMP_POLICE, Blanc, fire1.s_damages);
   fire1.s_as = text_init(15, IMP_POLICE, Blanc, fire1.s_as);
   fire1.s_cost = text_init(15, IMP_POLICE, Blanc, fire1.s_cost);
+  fire1.s_sell = text_init(15, IMP_POLICE, Blanc, fire1.s_sell);
   fire1.s_range = text_init(15, IMP_POLICE, Blanc, fire1.s_range);
   fire2.s_damages = fire1.s_damages;
   fire2.s_as = fire1.s_as;
@@ -433,6 +435,7 @@ int main(int argc, char* argv[])
   slow1.s_damages = text_init(15, IMP_POLICE, Blanc, slow1.s_damages);
   slow1.s_as = text_init(15, IMP_POLICE, Blanc, slow1.s_as);
   slow1.s_cost = text_init(15, IMP_POLICE, Blanc, slow1.s_cost);
+  slow1.s_sell = text_init(15, IMP_POLICE, Blanc, slow1.s_sell);
   slow1.s_range = text_init(15, IMP_POLICE, Blanc, slow1.s_range);
   slow2.s_damages = slow1.s_damages;
   slow2.s_as = slow1.s_as;

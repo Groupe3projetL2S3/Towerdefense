@@ -8,10 +8,9 @@ int collision_box_box(s_Hitbox box1, s_Hitbox box2) {
       || (box2.w <= box1.x) /*G*/
       || (box2.y >= box1.h) /*B*/ 
       || (box2.h <= box1.y)) /*H*/
-    
     return 0;
-  else
-    return 1;
+
+  return 1;
 }
 
 

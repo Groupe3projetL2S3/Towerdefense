@@ -18,7 +18,7 @@
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
 #define CREEP_SPEED 0.5
-#define CREEP_PV 15
+#define CREEP_PV 12
 #define CREEP_TYPE 1
 
 #define ZOMBIE_WIDTH 16
@@ -30,7 +30,7 @@
 #define ENDER_WIDTH 16
 #define ENDER_HEIGHT 40
 #define ENDER_SPEED 0.35
-#define ENDER_PV 40
+#define ENDER_PV 35
 #define ENDER_TYPE 3
 
 #define SPIDER_WIDTH 16
@@ -382,7 +382,7 @@ void Range_affichage(liste_tower L, SDL_Surface *screen);
 int in_range(s_Tower t, s_Mob m);
 
 s_Menu menu_select_init(s_Menu menu, int taillew, int tailleh);
-void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *sword, SDL_Surface *firerate,SDL_Surface *bow);
+void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *sword, SDL_Surface *firerate,SDL_Surface *bow, SDL_Surface *diamondlittle);
 
 s_Upgrade upgrade_init(s_Upgrade up, int taillew, int tailleh);
 void upgrade_affichage(liste_tower L, SDL_Surface *screen);
@@ -397,9 +397,6 @@ void affichage_text(int x, int y, char *tab, s_Text t,SDL_Surface *screen);
 /******************************* SDL *********************************/
 
 void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin, int *money, SDL_Surface *screen);
-
-
-
 
 
 

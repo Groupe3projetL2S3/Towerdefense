@@ -9,8 +9,8 @@
 
 int main(int argc, char* argv[])
 {
-  SDL_Surface *screen = NULL, *menu_tower = NULL, *menu_jeu = NULL, *menu_mort = NULL, *diamondbig = NULL, *diamondlittle = NULL, *bow = NULL, *sword = NULL, *firerate = NULL, *heart = NULL;
-  SDL_Rect rcMenu_tower, rcMenujeu, rcMenumort, rcDiamondbig, rcDiamondlittle, rcBow, rcSword, rcFirerate, rcHeart;
+  SDL_Surface *screen = NULL, *menu_tower = NULL, *menu_jeu = NULL, *menu_pause = NULL,*menu_mort = NULL, *diamondbig = NULL, *diamondlittle = NULL, *bow = NULL, *sword = NULL, *firerate = NULL, *heart = NULL;
+  SDL_Rect rcMenu_tower, rcMenujeu, rcMenupause, rcMenumort, rcDiamondbig, rcDiamondlittle, rcBow, rcSword, rcFirerate, rcHeart;
   SDL_Color Blanc = {255,255,255};
 
   TTF_Init();
@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
 
   int gameover;
   int pause;
+  int print_pause;
   int menu;
   int fin;
 
@@ -111,11 +112,11 @@ int main(int argc, char* argv[])
 
   /* char des tours de sniper */
   char tabsniper_name[7] = "Sniper";
-  char tabsniper_damages[4] = "1.0";
+  char tabsniper_damages[4] = "2.0";
   char tabsniper_as[4] = "2.0";
   char tabsniper_cost[5] = "100";
   char tabsniper_range[5] = "90";
-  //char tabsniper_sell[5] = "50";
+
 
   /* char des tours de magie */
   char tabmagic_name[6] = "Magic";
@@ -123,7 +124,7 @@ int main(int argc, char* argv[])
   char tabmagic_as[4] = "1.0";
   char tabmagic_cost[5] = "200";
   char tabmagic_range[5] = "60";
-  //char tabmagic_sell[5] = "100";
+
 
   /* char des tours de feu */
   char tabfire_name[5] = "Fire";
@@ -131,7 +132,7 @@ int main(int argc, char* argv[])
   char tabfire_as[5] = "50.0";
   char tabfire_cost[5] = "300";
   char tabfire_range[5] = "55";
-  //char tabfire_sell[5] = "75";
+
 
 
   /* char des tours de slow */
@@ -140,7 +141,7 @@ int main(int argc, char* argv[])
   char tabslow_as[4] = "0.0";
   char tabslow_cost[5] = "250";
   char tabslow_range[5] = "55";
-  //char tabslow_sell[5] = "125";
+
 
   /* set the title bar */
   SDL_WM_SetCaption("Tower Defense", "SDL Animation");
@@ -155,7 +156,7 @@ int main(int argc, char* argv[])
   /* **********************   LOAD IMAGE ******************* */
   map = LoadMap("monde.txt");
   map_objet = LoadMap("objet.txt");
-  
+
   creep.mob = Load_image("Images/Mobs/sprite_creeper.bmp");
   zombie.mob = Load_image("Images/Mobs/sprite_zombie.bmp");
   ender.mob = Load_image("Images/Mobs/sprite_enderman.bmp");
@@ -178,6 +179,7 @@ int main(int argc, char* argv[])
   slow2.tower = Load_image("Images/Tower/tower_slow2.bmp");
   slow3.tower = Load_image("Images/Tower/tower_slow3.bmp");
 
+
   tir_magic.tir = Load_image("Images/tir_magic.bmp");
   tir_sniper.tir = Load_image("Images/sprite_fleche.bmp");
   tir_fire.tir = Load_image("Images/tir.bmp");
@@ -189,6 +191,7 @@ int main(int argc, char* argv[])
 
   menu_tower = Load_image("Images/ATH/menu_tower.bmp");
   menu_jeu = Load_image("Images/menu.bmp");
+  menu_pause = Load_image("Images/pause.bmp");
   menu_mort = Load_image("Images/mort.bmp");
   sword = Load_image("Images/ATH/sword.bmp");
   firerate = Load_image("Images/ATH/firerate.bmp");
@@ -235,6 +238,7 @@ int main(int argc, char* argv[])
   slow1.sell.sell = sniper1.sell.sell;
   slow2.sell.sell = sniper1.sell.sell;
   slow3.sell.sell = sniper1.sell.sell;
+
 
   sniper1.range.range = Load_image("Images/Range/range_90.bmp");
   sniper2.range.range = Load_image("Images/Range/range_110.bmp");
@@ -450,6 +454,7 @@ int main(int argc, char* argv[])
 
   gameover = 0;
   pause = 0;
+  print_pause = 1;
   menu = 1;
   fin = 1;
 
@@ -488,7 +493,14 @@ int main(int argc, char* argv[])
       while(pause){
 	update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
 		
-	
+	if(print_pause){ // pour que l'image ne s'affiche qu'une seul fois
+	  rcMenupause.x = 0;
+	  rcMenupause.y = 0;
+	  SDL_SetAlpha(menu_pause, SDL_SRCALPHA, 70);
+	  SDL_BlitSurface(menu_pause, NULL, screen, &rcMenupause );
+	  print_pause = 0;
+	}
+
 	temps_debut_pause = temps_jeu;
 	dure_pause = SDL_GetTicks();
 	temps_menu = 0;
@@ -496,7 +508,7 @@ int main(int argc, char* argv[])
 	SDL_UpdateRect(screen, 0, 0, 0, 0);
 	SDL_Delay(1);
       }
-
+      print_pause = 1;
       
       /* look for an event */
       update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
@@ -533,7 +545,7 @@ int main(int argc, char* argv[])
 
       /* draw tower select */
       Range_affichage(liste_tower, screen);
-      menu_select_affichage(liste_tower, screen, sword, firerate, bow);
+      menu_select_affichage(liste_tower, screen, sword, firerate, bow, diamondlittle);
       upgrade_affichage(liste_tower, screen);
       sell_affichage(liste_tower, screen);
       
@@ -550,8 +562,15 @@ int main(int argc, char* argv[])
       healthbar_affichage(liste_mob, screen);
 
       /* fonction */
-      printf("%d \n %d n \n",wave, next_wave);
 
+      collision_tir_mob(&liste_tir, &liste_mob, &points, &money);
+      tower_tir(&liste_tower, &liste_mob, &liste_tir, tir_magic, tir_sniper, tir_fire, screen, temps_jeu, sniper1);
+      mob_slow(&liste_mob, &liste_tower, colorkey);
+      collision_screen_mob(&liste_mob, &health, &gameover);
+
+
+      printf("%d \n %d n \n",wave, next_wave);
+      
       if(wave < next_wave){
 	if(temps_jeu - intervalle_mob > 1000 && nb_mobs < max_mobs){
 	  if(wave == 1){
@@ -638,13 +657,8 @@ int main(int argc, char* argv[])
 	}
 	next_wave = wave +1;
       }
+      
 
-      printf("%d mm\n",max_mobs);
-
-      collision_tir_mob(&liste_tir, &liste_mob, &points, &money);
-      tower_tir(&liste_tower, &liste_mob, &liste_tir, tir_magic, tir_sniper, tir_fire, screen, temps_jeu, sniper1);
-      mob_slow(&liste_mob, &liste_tower, colorkey);
-      collision_screen_mob(&liste_mob, &health, &gameover);
       
       /* Affichage score, money, health */
 
@@ -877,8 +891,8 @@ int main(int argc, char* argv[])
     TTF_CloseFont(sniper1.s_cost.police);
   if(sniper1.s_range.police != NULL)
     TTF_CloseFont(sniper1.s_range.police);
-  //if(sniper1.s_sell.police != NULL)
-    //TTF_CloseFont(sniper1.s_sell.police);
+  if(sniper1.s_sell.police != NULL)
+    TTF_CloseFont(sniper1.s_sell.police);
 
   if(magic1.s_name.police != NULL)
     TTF_CloseFont(magic1.s_name.police);
@@ -890,8 +904,8 @@ int main(int argc, char* argv[])
     TTF_CloseFont(magic1.s_cost.police);
   if(magic1.s_range.police != NULL)
     TTF_CloseFont(magic1.s_range.police);
-  //if(magic1.s_sell.police != NULL)
-    //TTF_CloseFont(magic1.s_sell.police);
+  if(magic1.s_sell.police != NULL)
+    TTF_CloseFont(magic1.s_sell.police);
 
   if(fire1.s_name.police != NULL)
     TTF_CloseFont(fire1.s_name.police);
@@ -903,8 +917,8 @@ int main(int argc, char* argv[])
     TTF_CloseFont(fire1.s_cost.police);
   if(fire1.s_range.police != NULL)
     TTF_CloseFont(fire1.s_range.police);
-  //if(fire1.s_sell.police != NULL)
-    //TTF_CloseFont(fire1.s_sell.police);
+  if(fire1.s_sell.police != NULL)
+    TTF_CloseFont(fire1.s_sell.police);
 
   if(slow1.s_name.police != NULL)
       TTF_CloseFont(slow1.s_name.police);
@@ -916,8 +930,8 @@ int main(int argc, char* argv[])
     TTF_CloseFont(slow1.s_cost.police);
   if(slow1.s_range.police != NULL)
     TTF_CloseFont(slow1.s_range.police);
-  //if(slow1.s_sell.police != NULL)
-    //TTF_CloseFont(slow1.s_sell.police);
+  if(slow1.s_sell.police != NULL)
+    TTF_CloseFont(slow1.s_sell.police);
 
   TTF_Quit();
 
@@ -976,8 +990,10 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(creep.healthbar.vie);
 
   /* free autres */
-    if (menu_tower != NULL)
-      SDL_FreeSurface(menu_tower);
+  if (menu_tower != NULL)
+    SDL_FreeSurface(menu_tower);
+  if (menu_pause != NULL)
+    SDL_FreeSurface(menu_pause);
   if (tir_magic.tir != NULL)
     SDL_FreeSurface(tir_magic.tir);
 

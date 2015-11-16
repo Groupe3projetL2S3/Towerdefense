@@ -11,6 +11,8 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, 
   t.select = 0;
   t.niveau = 1;
   t.price = prix;
+  t.print_sell = 0;
+  t.print_up = 0;
   t.range.range_max = distance;
   t.cadence = cadence;
   t.temps = 0;
@@ -264,6 +266,8 @@ s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance) {
   t_up.actif = t.actif;
   t_up.select = t.select;
   t_up.temps = t.temps;
+  t_up.print_sell = t.print_sell;
+  t_up.print_up = t.print_up;
   if(t.type == TYPE_SNIPER)
     t_up.range.range_max = t.range.range_max +20;
   if(t.type == TYPE_MAGIC)

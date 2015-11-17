@@ -120,12 +120,12 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
       t.vitesse = 3.5;
     }
     if (to.niveau == 2) {
-      t.dommage = 7.0;
+      t.dommage = 5.0;
       t.vitesse = 3.5;
       to.cadence = to.cadence * 1.5;
     }
     if (to.niveau == 3) {
-      t.dommage = 14.0;
+      t.dommage = 12.0;
       t.vitesse = 3.5;
       to.cadence = to.cadence * 1.5;
     }
@@ -150,15 +150,15 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
   if (to.type == TYPE_FIRE){
     t.type = to.type;
     if (to.niveau == 1) {
-      t.dommage = 0.1;
+      t.dommage = 0.08;
       t.vitesse = 2.0;
     }
     if (to.niveau == 2) {
-      t.dommage = 0.4;
+      t.dommage = 0.3;
       t.vitesse = 2.0;
     }
     if (to.niveau == 3) {
-      t.dommage = 1.0;
+      t.dommage = 0.8;
       t.vitesse = 2.0;
     }
   }

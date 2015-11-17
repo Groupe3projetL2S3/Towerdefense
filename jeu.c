@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
   int dure_pause = 0;
   int num_mob = 0;
   int points = 0;
-  int money = 200;
+  int money = 300;
   int health = 20;
   int wave = 0;
   int nb_mobs = 0;
@@ -128,9 +128,9 @@ int main(int argc, char* argv[])
 
   /* char des tours de feu */
   char tabfire_name[5] = "Fire";
-  char tabfire_damages[4] = "0.1";
+  char tabfire_damages[5] = "0.08";
   char tabfire_as[5] = "50.0";
-  char tabfire_cost[5] = "300";
+  char tabfire_cost[5] = "400";
   char tabfire_range[5] = "55";
 
 
@@ -472,7 +472,7 @@ int main(int argc, char* argv[])
     
     
     SDL_UpdateRect(screen, 0, 0, 0, 0);
-    SDL_Delay(1);
+    SDL_Delay(5);
   }
 
   
@@ -541,7 +541,7 @@ int main(int argc, char* argv[])
 
       /* draw mobs */
       
-      mob_affichage(liste_mob, map, screen);
+      mob_affichage(liste_mob, map, screen, temps_jeu);
 
       /* draw tower select */
       Range_affichage(liste_tower, screen);
@@ -655,6 +655,15 @@ int main(int argc, char* argv[])
 	  wave = 5;
 	  // buff des monstres !!!
 	}
+	creep.pv_max = creep.pv_max*1.3;
+	creep.pv = creep.pv_max;
+	spider.pv_max = spider.pv_max*1.3;
+	spider.pv = spider.pv_max;
+	zombie.pv_max = zombie.pv_max*1.2;
+	zombie.pv = zombie.pv_max;
+	ender.pv_max = ender.pv_max*1.2;
+	ender.pv = ender.pv_max;
+
 	next_wave = wave +1;
       }
       
@@ -780,7 +789,7 @@ int main(int argc, char* argv[])
 
       /* update the screen */
       SDL_UpdateRect(screen, 0, 0, 0, 0);
-      SDL_Delay(1);
+      SDL_Delay(5);
       
     }
    
@@ -842,7 +851,7 @@ int main(int argc, char* argv[])
     
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
-    SDL_Delay(1);
+    SDL_Delay(5);
 
   }
   /* ****************************************************************************************************************************** */

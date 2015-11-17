@@ -27,6 +27,7 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int 
   s_mob.lvl_slow = 1;
   s_mob.animation = 0.0;
   s_mob.priorite = 0.0;
+  s_mob.temps_deplacement = 0;
   
   return s_mob;
 }
@@ -138,13 +139,17 @@ s_Mob mob_animation(s_Mob s_mob) {
 }
 
 
-void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen) {
+void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen, int temps_jeu) {
 
   liste_mob it = L;
       while (it != NULL) {
 	s_Mob m = it->m;
-	m = mob_deplacement(m);
-	m = mob_animation(m);
+	if(temps_jeu - m.temps_deplacement > 20){
+	  m = mob_deplacement(m);
+	  m = mob_animation(m);
+	  m.temps_deplacement = temps_jeu;
+	}
+
 
 
 	m.rcSprite.x = (int) m.coords.x;
@@ -158,6 +163,7 @@ void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen) {
 	it->m = m;
 	it = it->next;
       }
+
 }
 
 void mob_add(int *i, s_Mob mob, liste_mob *L) {

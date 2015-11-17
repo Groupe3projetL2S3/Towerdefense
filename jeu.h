@@ -17,25 +17,25 @@
 
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
-#define CREEP_SPEED 0.5
-#define CREEP_PV 12
+#define CREEP_SPEED 1.0
+#define CREEP_PV 10
 #define CREEP_TYPE 1
 
 #define ZOMBIE_WIDTH 16
 #define ZOMBIE_HEIGHT 32
-#define ZOMBIE_SPEED 0.15
+#define ZOMBIE_SPEED 0.3
 #define ZOMBIE_PV 50
 #define ZOMBIE_TYPE 2
 
 #define ENDER_WIDTH 16
 #define ENDER_HEIGHT 40
-#define ENDER_SPEED 0.35
+#define ENDER_SPEED 0.7
 #define ENDER_PV 35
 #define ENDER_TYPE 3
 
 #define SPIDER_WIDTH 16
 #define SPIDER_HEIGHT 32
-#define SPIDER_SPEED 0.7
+#define SPIDER_SPEED 2.5
 #define SPIDER_PV 8
 #define SPIDER_TYPE 4
 
@@ -85,7 +85,7 @@
 #define DISTANCE_FIRE_TOWER3 70
 #define CADENCE_FIRE_TOWER 20
 #define TYPE_FIRE 3
-#define PRIX_FIRE 300
+#define PRIX_FIRE 400
 
 #define DISTANCE_SLOW_TOWER 55
 #define TYPE_SLOW 4
@@ -196,6 +196,7 @@ typedef struct
   float pv;
   int slow;
   int lvl_slow;
+  int temps_deplacement;
   float priorite;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
@@ -346,7 +347,7 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int 
 s_Mob mob_deplacement(s_Mob s_mob);
 s_Mob mob_parcours(s_Mob s_mob, Map *map);
 s_Mob mob_animation(s_Mob s_mob);
-void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen);
+void mob_affichage(liste_mob L, Map* map, SDL_Surface* screen, int temps_jeu);
 void mob_add(int *i, s_Mob mob, liste_mob *L);
 void mob_slow(liste_mob *M, liste_tower *T, int colorkey);
 

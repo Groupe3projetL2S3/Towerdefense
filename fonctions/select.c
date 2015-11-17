@@ -141,13 +141,13 @@ void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *swor
   char tabsniper_range[5] = "90";
   char tabsniper_sell[5] = "50";
 
-  char tabsniper2_damages[4] = "7.0";
+  char tabsniper2_damages[4] = "5.0";
   char tabsniper2_as[4] = "3.0";
   char tabsniper2_range[5] = "110";
   char tabsniper2_cost[5] = "200";
   char tabsniper2_sell[5] = "100";
 
-  char tabsniper3_damages[5] = "14.0";
+  char tabsniper3_damages[5] = "12.0";
   char tabsniper3_as[4] = "4.5";
   char tabsniper3_range[5] = "130";
   char tabsniper3_cost[5] = "400";
@@ -172,22 +172,22 @@ void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *swor
   char tabmagic3_sell[5] = "400";
 
   /* char des tours de feu */
-  char tabfire_damages[4] = "0.1";
+  char tabfire_damages[5] = "0.08";
   char tabfire_as[5] = "50.0";
   char tabfire_range[5] = "55";
-  char tabfire_sell[5] = "75";
+  char tabfire_sell[5] = "200";
 
-  char tabfire2_damages[4] = "0.4";
+  char tabfire2_damages[5] = "0.3";
   char tabfire2_as[5] = "50.0";
-  char tabfire2_cost[5] = "600";
+  char tabfire2_cost[5] = "800";
   char tabfire2_range[5] = "60";
-  char tabfire2_sell[5] = "300";
+  char tabfire2_sell[5] = "400";
 
-  char tabfire3_damages[4] = "1.0";
+  char tabfire3_damages[5] = "0.8";
   char tabfire3_as[5] = "50.0";
-  char tabfire3_cost[5] = "1200";
+  char tabfire3_cost[5] = "1600";
   char tabfire3_range[5] = "70";
-  char tabfire3_sell[5] = "600";
+  char tabfire3_sell[5] = "800";
 
 
   /* char des tours de slow */

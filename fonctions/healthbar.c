@@ -1,7 +1,8 @@
 #include "../jeu.h"
 
+//initialisation de la structure healhbar
 s_Healthbar healthbar_init(s_Healthbar h, int taillew, int tailleh) {
- 
+  
   h.rcSrc.x = 0;
   h.rcSrc.y = 0;
   h.rcSrc.w = taillew;
@@ -10,8 +11,9 @@ s_Healthbar healthbar_init(s_Healthbar h, int taillew, int tailleh) {
   return h;
 }
 
+//animation de la barre de vie des mobs
 s_Healthbar healthbar_animation(s_Healthbar h, s_Mob mob) {
-
+  
   float tmp1 = 0, tmp2 = 0, vie = 100.0;
   tmp1 = mob.pv_max;
   tmp2 = mob.pv;
@@ -84,9 +86,9 @@ if (vie >= 0 && vie < 5){
 }
 
 
-
+//affichage de la barre de vie des mobs
 void healthbar_affichage(liste_mob L, SDL_Surface *screen) {
-
+  
   liste_mob it = L;
   while (it != NULL) {
     s_Mob m = it->m;

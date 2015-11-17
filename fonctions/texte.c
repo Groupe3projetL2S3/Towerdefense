@@ -1,6 +1,7 @@
 #include "../jeu.h"
 
 
+//initialise la structure text
 s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t){
 
 
@@ -26,6 +27,7 @@ s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t){
   return t;
 }
 
+//affichage des textes
 void affichage_text(int x, int y, char *tab, s_Text t,SDL_Surface *screen){ //affichage du texte
 
   t.text = TTF_RenderText_Solid(t.police,tab,t.color);
@@ -36,7 +38,7 @@ void affichage_text(int x, int y, char *tab, s_Text t,SDL_Surface *screen){ //af
  
 }
 
-
+//gestion des meilleurs scores
 void top_score(int *meilleurs_scores, int points) {
 
   FILE *fichier = NULL;

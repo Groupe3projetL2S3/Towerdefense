@@ -1,5 +1,6 @@
 #include "../jeu.h"
 
+//initialisation de la structure des tirs
 s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, int cadence, int prix) {
  
   t.rcSrc.x = 0;
@@ -19,7 +20,7 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, 
   return t;
 }
 
-
+//affichage des tours
 void tower_affichage(liste_tower L, SDL_Surface *screen) {
   liste_tower it = liste_tri_tower(L);
 
@@ -34,7 +35,7 @@ void tower_affichage(liste_tower L, SDL_Surface *screen) {
   }
 }
 
-
+//gestion des spawns des tirs des tours
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, s_Tir tir_fire, SDL_Surface *screen, int temps_jeu, s_Tower s_tower){
     
   liste_tower it = *L;
@@ -105,7 +106,7 @@ void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_T
   }  
 }
 
-
+//gestion du menu d'achat (en bas de l'écran)
 void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4, int *money) {
 
   liste_tower tmp2 = NULL;
@@ -165,6 +166,7 @@ else {
   *money = mny;
 }
 
+//fonction qui permet à la tour de suivre la souris apres achat
 void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y) {
 
   liste_tower it = *T;
@@ -174,7 +176,7 @@ void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y) {
 
     if (!t.actif){
       t.coords.x = event_motion_x - MAGIC_WIDTH / 2;
-      t.coords.y = event_motion_y - MAGIC_HEIGHT / 2 - 16; //pour centrer sur la souris
+      t.coords.y = event_motion_y - MAGIC_HEIGHT / 2 - TILE_SIZE/2; //pour centrer sur la souris
     }
 
     it->t = t;
@@ -183,7 +185,7 @@ void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y) {
 
 }
 
-
+//gestion de la selection des tours
 void tower_select(liste_tower *T, int event_button_x, int event_button_y) {
 
   liste_tower it = *T;
@@ -217,7 +219,7 @@ void tower_select(liste_tower *T, int event_button_x, int event_button_y) {
   }
 }
 
-
+//fonction qui retourne si la tour est posée ou non
 int tower_posay(liste_tower *T, int event_button_x, int event_button_y){
    liste_tower it = *T;
    int posay = 1;
@@ -235,17 +237,16 @@ int tower_posay(liste_tower *T, int event_button_x, int event_button_y){
   return posay;
 }
 
-
+//ajoute une tour
 void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3, int *case4, int event_button_x, int event_button_y) {
  
   liste_tower tmp2;
   tmp2 = NULL;
   tmp2 = *T;
   tower.coords.x = event_button_x - SNIPER_WIDTH / 2;
-  tower.coords.y = event_button_y - SNIPER_HEIGHT /2 - 16;
+  tower.coords.y = event_button_y - SNIPER_HEIGHT /2 - TILE_SIZE/2;
   tmp2 =liste_cons_tower(tower,tmp2);
-  //tmp2->t.coords.x = event_button_x - SNIPER_WIDTH / 2;
-  //tmp2->t.coords.y = event_button_y - SNIPER_HEIGHT /2 - 16;
+
   *T = tmp2;
   *case1 = 0;
   *case2 = 0;
@@ -254,6 +255,7 @@ void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3
   
 }
 
+//initalisation des tours pour l'upgrade
 s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance) {
   
   t_up.rcSrc = t.rcSrc;
@@ -289,7 +291,7 @@ s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance) {
   return t_up;
 }
 
-
+//gestion des actions sur les tours (upgrade, sell)
 void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, s_Tower fire2, s_Tower fire3, s_Tower slow2, s_Tower slow3, int event_button_x, int event_button_y, int *money) {
 
   liste_tower new_liste_tower = NULL;
@@ -380,6 +382,7 @@ void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower mag
       *money = mny;
 }
     
+//Test si un mob est dans la range d'une tour
 int in_range(s_Tower t, s_Mob m){
 
   float distance;

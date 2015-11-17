@@ -1,5 +1,6 @@
 #include "../jeu.h"
 
+//initialise la structure range
 s_Range Range_init(s_Range r, int taillew, int tailleh) {
  
   r.rcSrc.x = 0;
@@ -10,6 +11,7 @@ s_Range Range_init(s_Range r, int taillew, int tailleh) {
   return r;
 }
 
+//initialise structure du menu
 s_Menu menu_select_init(s_Menu menu, int taillew, int tailleh) {
 
   menu.rcSrc.x = 0;
@@ -20,6 +22,7 @@ s_Menu menu_select_init(s_Menu menu, int taillew, int tailleh) {
   return menu;
 }
 
+//initialise structure upgrade
 s_Upgrade upgrade_init(s_Upgrade up, int taillew, int tailleh) {
 
   up.rcSrc.x = 0;
@@ -29,7 +32,8 @@ s_Upgrade upgrade_init(s_Upgrade up, int taillew, int tailleh) {
 
   return up;
 }
-  
+
+//initialise structure sell  
 s_Sell sell_init(s_Sell s, int taillew, int tailleh) {
 
   s.rcSrc.x = 0;
@@ -40,6 +44,7 @@ s_Sell sell_init(s_Sell s, int taillew, int tailleh) {
   return s;
 }
 
+//affichage des ranges de tours
 void Range_affichage(liste_tower L, SDL_Surface *screen) {
 
   liste_tower it = L;
@@ -64,7 +69,7 @@ void Range_affichage(liste_tower L, SDL_Surface *screen) {
   }
 }
 
-
+//affichage du bouton upgrade
 void upgrade_affichage(liste_tower L, SDL_Surface *screen) {
 
   liste_tower it = L;
@@ -82,6 +87,7 @@ void upgrade_affichage(liste_tower L, SDL_Surface *screen) {
   }
 }
 
+//affichage du bouton sell
 void sell_affichage(liste_tower L, SDL_Surface *screen) {
 
   liste_tower it = L;
@@ -99,6 +105,7 @@ void sell_affichage(liste_tower L, SDL_Surface *screen) {
   }
 }
 
+//affichage de prix d'upgrade/sell si on passe la souris sur le bouton
 void up_sell_motion(liste_tower *L, int event_motion_x, int event_motion_y, SDL_Surface *screen) {
   
 
@@ -132,7 +139,7 @@ void up_sell_motion(liste_tower *L, int event_motion_x, int event_motion_y, SDL_
   }
 }
 
-
+//affichage de petit menu select (en haut a gauche
 void menu_select_affichage(liste_tower L, SDL_Surface *screen, SDL_Surface *sword, SDL_Surface *firerate,SDL_Surface *bow, SDL_Surface *diamondlittle){
 
   /* char des tours de sniper */

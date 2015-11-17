@@ -2,8 +2,8 @@
 
 
 
-
-int collision_box_box(s_Hitbox box1, s_Hitbox box2) {
+//collision entre deux rectangles
+int collision_box_box(s_Hitbox box1, s_Hitbox box2) { 
   if ((box2.x >= box1.w) /*D*/ 
       || (box2.w <= box1.x) /*G*/
       || (box2.y >= box1.h) /*B*/ 
@@ -14,9 +14,9 @@ int collision_box_box(s_Hitbox box1, s_Hitbox box2) {
 }
 
 
-
+//collision entre les tirs et les mobs (utilise box_box ce dessus)
 void collision_tir_mob(liste_tir *T, liste_mob *M, int *points, int *money) {
-
+  
   liste_tir new_liste_tir=NULL;
   liste_tir poubelle_tir = NULL;
   liste_mob new_liste_mob = NULL;
@@ -77,7 +77,8 @@ void collision_tir_mob(liste_tir *T, liste_mob *M, int *points, int *money) {
     *money = mny;
   }
 }
-      
+
+//collisions mobs/bords de l'ecran
 void collision_screen_mob(liste_mob *M, int *health, int *gameover) {
   
   liste_mob new_liste_mob = NULL;

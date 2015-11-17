@@ -1,5 +1,6 @@
 #include "../jeu.h"
 
+//initialise la structure Tir
 s_Tir tir_init(s_Tir t, int taillew, int tailleh) {
  
   t.rcSrc.x = 0;
@@ -13,6 +14,7 @@ s_Tir tir_init(s_Tir t, int taillew, int tailleh) {
   return t;
 }
 
+//animation des tirs
 s_Tir tir_animation(s_Tir tir){
 
 
@@ -85,6 +87,7 @@ s_Tir tir_animation(s_Tir tir){
   return tir;
 }
 
+//affichage des tirs
 void tir_affichage(liste_tir L,  SDL_Surface *screen, liste_mob M) {
 
   if (L == NULL)
@@ -109,7 +112,7 @@ void tir_affichage(liste_tir L,  SDL_Surface *screen, liste_mob M) {
   }
  }
 
-
+//apparition des tirs
 s_Tir tir_spawn(s_Tir t, s_Tower to) { 
   t.coords.x = to.coords.x + to.rcSprite.w/2;
   t.coords.y = to.coords.y + to.rcSprite.h/2;
@@ -167,7 +170,8 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
   return t;
 }
 
-s_Tir direction_tir(s_Tir t, s_Mob mob) { //à faire appel quand il spawn
+//les tirs sont à "tete chercheuse", calcul de la direction
+s_Tir direction_tir(s_Tir t, s_Mob mob) { 
   float alpha;
   s_Mob m;
 
@@ -207,8 +211,8 @@ s_Tir direction_tir(s_Tir t, s_Mob mob) { //à faire appel quand il spawn
   return t;
 }
 
-
-s_Tir deplacement_tir(s_Tir t) { //à faire appel dans affichage
+//deplacement des tirs
+s_Tir deplacement_tir(s_Tir t) {
 
   t.coords.x += t.vit.x*t.vitesse;
   t.coords.y += t.vit.y*t.vitesse;
@@ -221,7 +225,7 @@ s_Tir deplacement_tir(s_Tir t) { //à faire appel dans affichage
   return t;
 }
 
-
+//suppression des tirs si ils touchent un mob
 void disparition_tir(liste_tir *T, liste_mob M) {
 
   liste_tir new_liste_tir=NULL;
@@ -253,6 +257,7 @@ void disparition_tir(liste_tir *T, liste_mob M) {
   
 }
 
+//fonction qui gère le ciblage des tirs en fonction de la position du mob
 void cible(liste_tir *L, liste_mob M){
 
   liste_tir it = *L;

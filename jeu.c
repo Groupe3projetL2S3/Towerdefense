@@ -655,13 +655,13 @@ int main(int argc, char* argv[])
 	  wave = 5;
 	  // buff des monstres !!!
 	}
-	creep.pv_max = creep.pv_max*1.3;
+	creep.pv_max = creep.pv_max*1.25;
 	creep.pv = creep.pv_max;
-	spider.pv_max = spider.pv_max*1.3;
+	spider.pv_max = spider.pv_max*1.25;
 	spider.pv = spider.pv_max;
-	zombie.pv_max = zombie.pv_max*1.2;
+	zombie.pv_max = zombie.pv_max*1.25;
 	zombie.pv = zombie.pv_max;
-	ender.pv_max = ender.pv_max*1.2;
+	ender.pv_max = ender.pv_max*1.25;
 	ender.pv = ender.pv_max;
 
 	next_wave = wave +1;

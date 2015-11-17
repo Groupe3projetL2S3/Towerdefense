@@ -31,24 +31,27 @@ s_Mob mob_spawn(s_Mob s_mob, Map *map, int taillew, int tailleh, float vit, int 
   
   return s_mob;
 }
+
+//deplacement des mobs + initialisatoin hitbox
 s_Mob mob_deplacement(s_Mob s_mob) { 
 
   s_mob.coords.x = s_mob.coords.x + s_mob.vit.x/s_mob.lvl_slow;
   s_mob.coords.y = s_mob.coords.y + s_mob.vit.y/s_mob.lvl_slow;
 
-  s_mob.priorite += fabs(s_mob.vit.x/s_mob.lvl_slow) + fabs(s_mob.vit.y/s_mob.lvl_slow);
+  s_mob.priorite += fabs(s_mob.vit.x/s_mob.lvl_slow) + fabs(s_mob.vit.y/s_mob.lvl_slow); 
 
 
-  s_mob.box.x = s_mob.coords.x +8;
-  s_mob.box.y = s_mob.coords.y +16;
-  s_mob.box.w = s_mob.coords.x + s_mob.rcSrc.w - 8;
-  s_mob.box.h = s_mob.coords.y + s_mob.rcSrc.h - 16;
+  s_mob.box.x = s_mob.coords.x + CREEP_WIDTH/2;
+  s_mob.box.y = s_mob.coords.y + CREEP_HEIGHT/2;
+  s_mob.box.w = s_mob.coords.x + s_mob.rcSrc.w - CREEP_WIDTH/2;
+  s_mob.box.h = s_mob.coords.y + s_mob.rcSrc.h - CREEP_HEIGHT/2;
   
   return s_mob;
 }
 
-s_Mob mob_parcours(s_Mob s_mob, Map *map){
-  
+//IA des mobs pour qu'ils restent sur le chemin
+s_Mob mob_parcours(s_Mob s_mob, Map *map){ 
+
   int x, y, marge, haut, bas, gauche, droite;
   float vit = fabs(s_mob.vit.x + s_mob.vit.y);
  
@@ -62,7 +65,7 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
     bas = map->monde[x][y+1];
     droite = map->monde[x+1][y];
 
-    
+
     if (map->tab_props[droite].type == TERRAIN && map->tab_props[haut].type == TERRAIN && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = vit;
@@ -108,6 +111,7 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
   return s_mob;
 }
 
+//animation des pas des mobs
 s_Mob mob_animation(s_Mob s_mob) {
   
   if (s_mob.vit.x > 0) {
@@ -138,7 +142,7 @@ s_Mob mob_animation(s_Mob s_mob) {
   return s_mob;
 }
 
-
+//affichage des mobs
 void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen, int temps_jeu) {
 
   liste_mob it = L;
@@ -166,6 +170,7 @@ void mob_affichage(liste_mob L, Map *map, SDL_Surface *screen, int temps_jeu) {
 
 }
 
+//fonction pour ajouter un mob à la liste de mobs
 void mob_add(int *i, s_Mob mob, liste_mob *L) {
   int j = 0;
   liste_mob tmp = NULL;
@@ -178,6 +183,7 @@ void mob_add(int *i, s_Mob mob, liste_mob *L) {
   *L = tmp;
 }
 
+//ralentit les mobs affectés par le slow
 void mob_slow(liste_mob *M, liste_tower *T, int colorkey) {
   
   liste_mob mit = *M;

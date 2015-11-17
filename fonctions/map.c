@@ -1,7 +1,9 @@
 #include "../jeu.h"
 
 //Fonctions de LoadMap
-void LoadMap_tiles(FILE* Fichier,Map* map) //Sous fonction qui charge les tiles dans un tableau
+
+//Sous fonction qui charge les tiles dans un tableau
+void LoadMap_tiles(FILE* Fichier,Map* map) 
 {
   int nbtile, i, j;
   char tab[TAB_MAX];  
@@ -33,8 +35,8 @@ void LoadMap_tiles(FILE* Fichier,Map* map) //Sous fonction qui charge les tiles 
 }
 
 
-
-void LoadMap_structure(FILE* Fichier,Map* map) //Charge les tiles dans le tableau final
+//Charge les tiles dans le tableau final
+void LoadMap_structure(FILE* Fichier,Map* map) 
 {
   int i,j;
   char tab[TAB_MAX];  
@@ -60,8 +62,8 @@ void LoadMap_structure(FILE* Fichier,Map* map) //Charge les tiles dans le tablea
 }
 
 
-
-Map* LoadMap(const char* monde) //affecte le Fichier txt à la map
+//affecte le Fichier txt à la map
+Map* LoadMap(const char* monde) 
 {
   FILE* Fichier;
   Map* map;
@@ -78,8 +80,8 @@ Map* LoadMap(const char* monde) //affecte le Fichier txt à la map
   return map;
 }
 
-
-int PrintMap(Map* map,SDL_Surface* screen) //affiche la map
+//affiche la map
+int PrintMap(Map* map,SDL_Surface* screen) 
 {
   int i,j;
   SDL_Rect Rect_dest;
@@ -97,7 +99,8 @@ int PrintMap(Map* map,SDL_Surface* screen) //affiche la map
   return 0;
 }
 
-int FreeMap(Map* map)
+// libère la map
+int FreeMap(Map* map) 
 {
   int i;
   SDL_FreeSurface(map->tileset);
@@ -110,7 +113,8 @@ int FreeMap(Map* map)
   return 0;
 }
 
-float SeekSpawn(Map *map) {
+//fonction pour trouver l'endroit de spawn
+float SeekSpawn(Map *map) { 
   int i;
   float res = 0.0;
   float marge = 40.0;
@@ -119,5 +123,5 @@ float SeekSpawn(Map *map) {
       res = ((i+1)*TILE_SIZE - marge);
     }
   }
-return res;
+  return res;
 }

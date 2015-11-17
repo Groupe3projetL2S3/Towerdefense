@@ -55,6 +55,8 @@ int main(int argc, char* argv[])
   s_Text s_gameover;
   s_Text s_money;
   s_Text s_health;
+  s_Text s_level;
+  s_Text s_vague;
 
   s_Text s_top1;
   s_Text s_top2;
@@ -84,6 +86,7 @@ int main(int argc, char* argv[])
   int num_mob = 0;
   int points = 0;
   int money = 300;
+  int level = 0;
   int health = 20;
   int wave = 0;
   int nb_mobs = 0;
@@ -97,6 +100,8 @@ int main(int argc, char* argv[])
   char tabgameover[12] = "GAME OVER !";
   char tabmoney[10] = "000000000";
   char tabhealth[3] = "00";
+  char tabvague[10] = "Vague :";
+  char tablevel[6] = "00000";
 
   char tabtop1[11] = {'0'};
   char tabtop2[11] = {'0'};
@@ -382,6 +387,8 @@ int main(int argc, char* argv[])
   s_compteur = text_init(23, MINECRAFT_POLICE, Blanc, s_compteur);
   s_money = text_init(23, MINECRAFT_POLICE, Blanc, s_money);
   s_health = text_init(23, MINECRAFT_POLICE, Blanc, s_health);
+  s_level = text_init(23, MINECRAFT_POLICE, Blanc, s_level);
+  s_vague = text_init(23, MINECRAFT_POLICE, Blanc, s_vague);
 
   sniper1.s_name = text_init(18, MINECRAFT_POLICE, Blanc, sniper1.s_name);
   sniper1.s_damages = text_init(15, IMP_POLICE, Blanc, sniper1.s_damages);
@@ -653,17 +660,16 @@ int main(int argc, char* argv[])
 	  max_mobs = 50;
 	if(wave > 8){
 	  wave = 5;
-	  // buff des monstres !!!
 	}
-	creep.pv_max = creep.pv_max*1.25;
+	creep.pv_max = creep.pv_max*1.2;
 	creep.pv = creep.pv_max;
-	spider.pv_max = spider.pv_max*1.25;
+	spider.pv_max = spider.pv_max*1.2;
 	spider.pv = spider.pv_max;
-	zombie.pv_max = zombie.pv_max*1.25;
+	zombie.pv_max = zombie.pv_max*1.2;
 	zombie.pv = zombie.pv_max;
-	ender.pv_max = ender.pv_max*1.25;
+	ender.pv_max = ender.pv_max*1.2;
 	ender.pv = ender.pv_max;
-
+	level += 1;
 	next_wave = wave +1;
       }
       
@@ -686,6 +692,9 @@ int main(int argc, char* argv[])
       affichage_text(SCREEN_WIDTH - 62, 40, tabmoney, s_money, screen);
       sprintf(tabhealth, "%d", health);
       affichage_text(SCREEN_WIDTH/2 + 30, 10, tabhealth, s_health, screen);
+      sprintf(tablevel,"%d", level);
+      affichage_text(SCREEN_WIDTH/4 - 32, 10, tabvague, s_vague, screen);
+      affichage_text(SCREEN_WIDTH/3, 11, tablevel, s_level, screen);
 
       /* Points en fonction du temps */
       if (temps_jeu - temps_score > 1000){

@@ -91,7 +91,7 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
       case SDL_BUTTON_LEFT:
 	if(!*pause){
 	  tower_menu(sniper1, magic1, fire1, slow1, T, event.button.x, event.button.y, map, map_o, case1, case2, case3, case4, &mny);
-	  tower_select(T, event.button.x, event.button.y);
+	  tower_select(*T, event.button.x, event.button.y);
 	  tower_gestion(T, sniper2, sniper3, magic2, magic3, fire2, fire3, slow2, slow3, event.button.x, event.button.y, &mny);
 	}
 	break;
@@ -103,8 +103,8 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
       break; 
 
     case SDL_MOUSEMOTION:
-      tower_motion(T, event.motion.x, event.motion.y);
-      up_sell_motion(T, event.motion.x, event.motion.y, screen);
+      tower_motion(*T, event.motion.x, event.motion.y);
+      up_sell_motion(*T, event.motion.x, event.motion.y, screen);
       break;
 
     }

@@ -575,9 +575,6 @@ int main(int argc, char* argv[])
       mob_slow(&liste_mob, &liste_tower, colorkey);
       collision_screen_mob(&liste_mob, &health, &gameover);
 
-
-      printf("%d \n %d n \n",wave, next_wave);
-      
       if(wave < next_wave){
 	if(temps_jeu - intervalle_mob > 1000 && nb_mobs < max_mobs){
 	  if(wave == 1){

@@ -26,6 +26,7 @@ void tower_affichage(liste_tower L, SDL_Surface *screen) {
 
   while (it != NULL) {
     s_Tower t = it->t;
+    printf("x = %lf,y = %lf \n",t.coords.x,t.coords.y);
     t.rcSprite.x = (int) t.coords.x;
     t.rcSprite.y = (int) t.coords.y;
     SDL_BlitSurface(t.tower, &t.rcSrc, screen, &t.rcSprite);
@@ -157,8 +158,8 @@ else {
 	  *case2 = 1;
 	  *case3 = 1;
 	  *case4 = 1;
+	  tmp2 = liste_tri_tower(tmp2);
 	}
-        tmp2 = liste_tri_tower(tmp2);
 	*T = tmp2;
       }
     }
@@ -167,9 +168,9 @@ else {
 }
 
 //fonction qui permet à la tour de suivre la souris apres achat
-void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y) {
+void tower_motion(liste_tower T, int event_motion_x, int event_motion_y) {
 
-  liste_tower it = *T;
+  liste_tower it = T;
 
   while (it != NULL) {
     s_Tower t = it->t;
@@ -186,13 +187,13 @@ void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y) {
 }
 
 //gestion de la selection des tours
-void tower_select(liste_tower *T, int event_button_x, int event_button_y) {
+void tower_select(liste_tower T, int event_button_x, int event_button_y) {
 
-  liste_tower it = *T;
+  liste_tower it = T;
 
   while (it != NULL) {
     s_Tower t = it->t;
-	
+
     if (event_button_x >= t.coords.x
 	&& event_button_x <= t.coords.x + t.rcSrc.w
 	&& event_button_y >= t.coords.y + t.rcSrc.h-TILE_SIZE

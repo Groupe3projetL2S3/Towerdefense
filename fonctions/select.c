@@ -106,10 +106,10 @@ void sell_affichage(liste_tower L, SDL_Surface *screen) {
 }
 
 //affichage de prix d'upgrade/sell si on passe la souris sur le bouton
-void up_sell_motion(liste_tower *L, int event_motion_x, int event_motion_y, SDL_Surface *screen) {
+void up_sell_motion(liste_tower L, int event_motion_x, int event_motion_y, SDL_Surface *screen) {
   
 
-  liste_tower it = *L;
+  liste_tower it = L;
   while (it != NULL) {
     s_Tower t = it->t;
 	

@@ -18,24 +18,24 @@
 #define CREEP_WIDTH 16
 #define CREEP_HEIGHT 32
 #define CREEP_SPEED 1.0
-#define CREEP_PV 10
+#define CREEP_PV 12
 #define CREEP_TYPE 1
 
 #define ZOMBIE_WIDTH 16
 #define ZOMBIE_HEIGHT 32
-#define ZOMBIE_SPEED 0.3
+#define ZOMBIE_SPEED 0.5
 #define ZOMBIE_PV 50
 #define ZOMBIE_TYPE 2
 
 #define ENDER_WIDTH 16
 #define ENDER_HEIGHT 40
-#define ENDER_SPEED 0.7
+#define ENDER_SPEED 0.9
 #define ENDER_PV 35
 #define ENDER_TYPE 3
 
 #define SPIDER_WIDTH 16
 #define SPIDER_HEIGHT 32
-#define SPIDER_SPEED 2.5
+#define SPIDER_SPEED 2.9
 #define SPIDER_PV 8
 #define SPIDER_TYPE 4
 
@@ -355,8 +355,8 @@ s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, 
 void tower_affichage(liste_tower L, SDL_Surface *screen);
 void tower_tir (liste_tower *L, liste_mob *M, liste_tir *T, s_Tir tir_magic, s_Tir tir_sniper, s_Tir tir_fire, SDL_Surface *screen, int temps_jeu, s_Tower s_tower);
 void tower_menu(s_Tower sniper, s_Tower magic, s_Tower fire, s_Tower slow, liste_tower *T,  int event_button_x, int event_button_y, Map *map, Map *map_o, int *case1, int *case2, int *case3, int *case4, int *money);
-void tower_motion(liste_tower *T, int event_motion_x, int event_motion_y);
-void tower_select(liste_tower *T,  int event_button_x, int event_button_y);
+void tower_motion(liste_tower T, int event_motion_x, int event_motion_y);
+void tower_select(liste_tower T,  int event_button_x, int event_button_y);
 int tower_posay(liste_tower *T, int event_button_x, int event_button_y);
 void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3, int *case4, int event_button_x, int event_button_y);
 s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance);
@@ -390,7 +390,7 @@ void upgrade_affichage(liste_tower L, SDL_Surface *screen);
 
 s_Sell sell_init(s_Sell s, int taillew, int tailleh);
 void sell_affichage(liste_tower L, SDL_Surface *screen);
-void up_sell_motion(liste_tower *L, int event_motion_x, int event_motion_y, SDL_Surface *screen);
+void up_sell_motion(liste_tower L, int event_motion_x, int event_motion_y, SDL_Surface *screen);
 
 void top_score(int *meilleurs_scores, int points);
 s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t);

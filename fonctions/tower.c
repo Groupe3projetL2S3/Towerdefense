@@ -1,6 +1,6 @@
 #include "../jeu.h"
 
-//initialisation de la structure des tirs
+//initialisation de la structure des tours
 s_Tower tower_init(s_Tower t, int taillew, int tailleh, int type, int distance, int cadence, int prix) {
  
   t.rcSrc.x = 0;
@@ -237,7 +237,7 @@ int tower_posay(liste_tower *T, int event_button_x, int event_button_y){
   return posay;
 }
 
-//ajoute une tour
+//ajoute une tour a la liste
 void tower_add(liste_tower *T, s_Tower tower, int *case1, int *case2, int *case3, int *case4, int event_button_x, int event_button_y) {
  
   liste_tower tmp2;

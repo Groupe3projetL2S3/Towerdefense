@@ -257,7 +257,7 @@ void disparition_tir(liste_tir *T, liste_mob M) {
   
 }
 
-//fonction qui gère le ciblage des tirs en fonction de la position du mob
+//fonction qui gère le ciblage des tirs en fonction du mob (trouve la cible pour chaque tirs)
 void cible(liste_tir *L, liste_mob M){
 
   liste_tir it = *L;

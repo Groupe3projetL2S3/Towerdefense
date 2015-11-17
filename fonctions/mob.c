@@ -66,44 +66,52 @@ s_Mob mob_parcours(s_Mob s_mob, Map *map){
     droite = map->monde[x+1][y];
 
 
-    if (map->tab_props[droite].type == TERRAIN && map->tab_props[haut].type == TERRAIN && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
+    if (map->tab_props[droite].type != CHEMIN && map->tab_props[haut].type != CHEMIN && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = vit;
     }
-    if (map->tab_props[droite].type == TERRAIN && map->tab_props[bas].type == TERRAIN && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
+    if (!haut && s_mob.vit.x > 0 && map->tab_props[droite].type != CHEMIN && s_mob.coords.x >= x*TILE_SIZE + marge){
+      s_mob.vit.x = 0;
+      s_mob.vit.y = vit;
+    }
+    if (map->tab_props[droite].type != CHEMIN && map->tab_props[bas].type != CHEMIN && s_mob.vit.x > 0 && s_mob.coords.x >= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = -vit;
     }
 
 
 
-    if (map->tab_props[bas].type == TERRAIN && map->tab_props[droite].type == TERRAIN && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
+    if (map->tab_props[bas].type != CHEMIN && map->tab_props[droite].type != CHEMIN && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
       s_mob.vit.x = -vit;
       s_mob.vit.y = 0;
     }
-    if (map->tab_props[bas].type == TERRAIN && map->tab_props[gauche].type == TERRAIN && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
+    if (map->tab_props[bas].type != CHEMIN && map->tab_props[gauche].type != CHEMIN && s_mob.vit.y > 0 && s_mob.coords.y >= y*TILE_SIZE -marge){
       s_mob.vit.x = vit;
       s_mob.vit.y = 0;
     }
 
 
 
-    if (map->tab_props[haut].type == TERRAIN && map->tab_props[droite].type == TERRAIN && s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
+    if (map->tab_props[haut].type != CHEMIN && map->tab_props[droite].type != CHEMIN && s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
       s_mob.vit.x = -vit;
       s_mob.vit.y = 0;      
     }
-    if (map->tab_props[haut].type == TERRAIN && map->tab_props[gauche].type == TERRAIN &&  s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
+    if (map->tab_props[haut].type != CHEMIN && map->tab_props[gauche].type != CHEMIN &&  s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
+      s_mob.vit.x = vit;
+      s_mob.vit.y = 0;
+    }
+    if (!haut &&  s_mob.vit.y < 0 && s_mob.coords.y <= y*TILE_SIZE - marge){
       s_mob.vit.x = vit;
       s_mob.vit.y = 0;
     }
 
 
 
-    if (map->tab_props[gauche].type == TERRAIN && map->tab_props[haut].type == TERRAIN && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
+    if (map->tab_props[gauche].type != CHEMIN && map->tab_props[haut].type != CHEMIN && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = vit;
     }
-    if (map->tab_props[gauche].type == TERRAIN && map->tab_props[bas].type == TERRAIN && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
+    if (map->tab_props[gauche].type != CHEMIN && map->tab_props[bas].type != CHEMIN && s_mob.vit.x < 0 && s_mob.coords.x <= x*TILE_SIZE + marge){
       s_mob.vit.x = 0;
       s_mob.vit.y = -vit;
     }

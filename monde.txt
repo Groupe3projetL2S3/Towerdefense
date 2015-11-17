@@ -60,7 +60,7 @@ tile55: terrain
 tile56: terrain
 tile57: terrain
 tile58: terrain
-tile59: ostacle
+tile59: obstacle
 tile60: terrain
 tile61: terrain
 tile62: terrain

@@ -54,7 +54,8 @@ tabxxxxx.txt : Fichier contenant le tableau de tiles.
 
     Créer son monde est en soi assez simple. Il vous suffit de trouver un ou deux tilesets (images rassemblant plusieurs tiles) puis de les charger dans le fichier jeu.c. Il vous faudra alors crée les deux fichiers txt (par tileset) correspondants en suivant le schéma ci-dessus.
     L'idée de charger deux tileset est utile pour crée du relief, par exemple ajouter des arbres et des barrières sur les textures de base.
-    
+    Il ne doit y avoir qu'un SEUL chemin, c'est le principe d'un towerdefense    
+
   3. Les tours
 
      Les tours sont caractérisées par leurs dégats, vitesse d'attaque, range et prix à l'achat, on dispose de quatres types de tours, chacune de 3 niveaux différents :

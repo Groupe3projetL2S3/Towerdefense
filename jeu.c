@@ -2,30 +2,27 @@
 #include <stdio.h>
 #include "jeu.h"
 
-
-
 /* ******************************************   MAIN   ********************************************** */
-
 
 int main(int argc, char* argv[])
 {
-  SDL_Surface *screen = NULL, *menu_tower = NULL, *menu_jeu = NULL, *menu_pause = NULL,*menu_mort = NULL, *diamondbig = NULL, *diamondlittle = NULL, *bow = NULL, *sword = NULL, *firerate = NULL, *heart = NULL;
+  SDL_Surface *screen = NULL, *menu_tower = NULL, *menu_jeu = NULL, *menub_jeu = NULL, *menu_pause = NULL,*menu_mort = NULL, *diamondbig = NULL, *diamondlittle = NULL, *bow = NULL, *sword = NULL, *firerate = NULL, *heart = NULL;
   SDL_Rect rcMenu_tower, rcMenujeu, rcMenupause, rcMenumort, rcDiamondbig, rcDiamondlittle, rcBow, rcSword, rcFirerate, rcHeart;
   SDL_Color Blanc = {255,255,255};
 
   TTF_Init();
 
-  int colorkey, colorkeyN;
+  int colorkey;
   int case1 = 1;
   int case2 = 1;
   int case3 = 1;
   int case4 = 1;
 
-  int gameover;
-  int pause;
-  int print_pause;
-  int menu;
-  int fin;
+  int gameover = 0;
+  int pause = 0;
+  int print_pause = 1;
+  int menu = 1;
+  int fin = 1;
 
   s_Mob creep;
   s_Mob zombie;
@@ -48,7 +45,6 @@ int main(int argc, char* argv[])
   s_Tir tir_sniper;
   s_Tir tir_magic;
   s_Tir tir_fire;
-
   
   s_Text s_score;
   s_Text s_compteur;
@@ -78,11 +74,15 @@ int main(int argc, char* argv[])
   Map* map = NULL;
   Map* map_objet = NULL;
 
+  int speedup = 0;
+  int click = 0;
   int temps_jeu = 0;
   int temps_debut_pause = 0;
   int temps_menu = 0;
   int temps_score = 0;
   int dure_pause = 0;
+  int temps_gameover = 0;
+
   int num_mob = 0;
   int points = 0;
   int money = 300;
@@ -122,14 +122,12 @@ int main(int argc, char* argv[])
   char tabsniper_cost[5] = "100";
   char tabsniper_range[5] = "90";
 
-
   /* char des tours de magie */
   char tabmagic_name[6] = "Magic";
   char tabmagic_damages[4] = "5.0";
   char tabmagic_as[4] = "1.0";
   char tabmagic_cost[5] = "200";
   char tabmagic_range[5] = "60";
-
 
   /* char des tours de feu */
   char tabfire_name[5] = "Fire";
@@ -138,15 +136,12 @@ int main(int argc, char* argv[])
   char tabfire_cost[5] = "400";
   char tabfire_range[5] = "55";
 
-
-
   /* char des tours de slow */
   char tabslow_name[5] = "Slow";
   char tabslow_damages[4] = "0.0";
   char tabslow_as[4] = "0.0";
   char tabslow_cost[5] = "250";
   char tabslow_range[5] = "55";
-
 
   /* set the title bar */
   SDL_WM_SetCaption("Tower Defense", "SDL Animation");
@@ -156,7 +151,6 @@ int main(int argc, char* argv[])
   
   /* set keyboard repeat */
   SDL_EnableKeyRepeat(70, 70);
-  
  
   /* **********************   LOAD IMAGE ******************* */
   map = LoadMap("monde.txt");
@@ -184,10 +178,9 @@ int main(int argc, char* argv[])
   slow2.tower = Load_image("Images/Tower/tower_slow2.bmp");
   slow3.tower = Load_image("Images/Tower/tower_slow3.bmp");
 
-
   tir_magic.tir = Load_image("Images/tir_magic.bmp");
   tir_sniper.tir = Load_image("Images/sprite_fleche.bmp");
-  tir_fire.tir = Load_image("Images/tir.bmp");
+  tir_fire.tir = Load_image("Images/fireball.bmp");
 
   creep.healthbar.vie = Load_image("Images/Bighealthbar.bmp");
   zombie.healthbar.vie = creep.healthbar.vie;
@@ -196,6 +189,7 @@ int main(int argc, char* argv[])
 
   menu_tower = Load_image("Images/ATH/menu_tower.bmp");
   menu_jeu = Load_image("Images/menu.bmp");
+  menub_jeu = Load_image("Images/menub.bmp");
   menu_pause = Load_image("Images/pause.bmp");
   menu_mort = Load_image("Images/mort.bmp");
   sword = Load_image("Images/ATH/sword.bmp");
@@ -244,7 +238,6 @@ int main(int argc, char* argv[])
   slow2.sell.sell = sniper1.sell.sell;
   slow3.sell.sell = sniper1.sell.sell;
 
-
   sniper1.range.range = Load_image("Images/Range/range_90.bmp");
   sniper2.range.range = Load_image("Images/Range/range_110.bmp");
   sniper3.range.range = Load_image("Images/Range/range_130.bmp");
@@ -260,7 +253,6 @@ int main(int argc, char* argv[])
   /* ********************   colorkey ******************* */
 
   colorkey =  SDL_MapRGB(screen->format, 255, 0, 255);
-  colorkeyN =  SDL_MapRGB(screen->format, 0, 0, 0);
 
   SDL_SetColorKey(map_objet->tileset, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(creep.mob, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
@@ -294,7 +286,7 @@ int main(int argc, char* argv[])
 
   SDL_SetColorKey(tir_magic.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(tir_sniper.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
-  SDL_SetColorKey(tir_fire.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkeyN);
+  SDL_SetColorKey(tir_fire.tir, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
 
   SDL_SetColorKey(sniper1.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
   SDL_SetColorKey(sniper2.range.range, SDL_SRCCOLORKEY | SDL_RLEACCEL,colorkey);
@@ -307,8 +299,7 @@ int main(int argc, char* argv[])
   char key[SDLK_LAST] = {0};
 
   
-  /* ******************** boucle principale ******************* */
-  
+  /* ******************** boucle principale ******************* */  
   
   creep = mob_spawn(creep, map, CREEP_WIDTH, CREEP_HEIGHT, CREEP_SPEED, CREEP_PV, CREEP_TYPE);
   zombie = mob_spawn(zombie, map, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, ZOMBIE_SPEED, ZOMBIE_PV, ZOMBIE_TYPE);
@@ -407,7 +398,6 @@ int main(int argc, char* argv[])
   sniper3.s_range = sniper1.s_range;
   sniper3.s_sell = sniper1.s_sell;
 
-
   magic1.s_name = text_init(18, MINECRAFT_POLICE, Blanc, magic1.s_name);
   magic1.s_damages = text_init(15, IMP_POLICE, Blanc, magic1.s_damages);
   magic1.s_as = text_init(15, IMP_POLICE, Blanc, magic1.s_as);
@@ -459,35 +449,29 @@ int main(int argc, char* argv[])
   slow3.s_range = slow1.s_range;
   slow3.s_sell = slow1.s_sell;
 
-  gameover = 0;
-  pause = 0;
-  print_pause = 1;
-  menu = 1;
-  fin = 1;
-
+  /************************* Boucle Menu *************************************/
 
   while(menu){
-    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
-    
 
+    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen, &click, &speedup);
+    
     rcMenujeu.x = 0;
     rcMenujeu.y = 0;
-    SDL_BlitSurface(menu_jeu, NULL, screen, &rcMenujeu );
-
+    if(!click) {
+      SDL_BlitSurface(menu_jeu, NULL, screen, &rcMenujeu);
+    }
+    if(click) {
+      SDL_BlitSurface(menub_jeu, NULL, screen, &rcMenujeu);
+    }
     temps_menu = temps_jeu;
     temps_jeu = SDL_GetTicks() - dure_pause + temps_debut_pause;
     
     
     SDL_UpdateRect(screen, 0, 0, 0, 0);
-    SDL_Delay(5);
+    SDL_Delay(1);
   }
 
-  
-
-
-
-  /* boucle de jeu */
-  
+  /*************************************** boucle de jeu ********************/ 
   while (!gameover)
     {
       
@@ -495,10 +479,11 @@ int main(int argc, char* argv[])
       SDL_Init(SDL_INIT_VIDEO);
 
       temps_jeu = SDL_GetTicks() + temps_debut_pause - dure_pause - temps_menu;
-
+      
+      /************************* Boucle Pause **************************/
 
       while(pause){
-	update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
+	update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen, &click, &speedup);
 		
 	if(print_pause){ // pour que l'image ne s'affiche qu'une seul fois
 	  rcMenupause.x = 0;
@@ -513,12 +498,14 @@ int main(int argc, char* argv[])
 	temps_menu = 0;
 	
 	SDL_UpdateRect(screen, 0, 0, 0, 0);
-	SDL_Delay(1);
+	SDL_Delay(5);
       }
+      /********************************************************************/
+
       print_pause = 1;
       
       /* look for an event */
-      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
+      update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen, &click, &speedup);
 
       /* draw the map */
       PrintMap(map,screen);
@@ -528,7 +515,6 @@ int main(int argc, char* argv[])
       rcMenu_tower.y = 416;
       SDL_BlitSurface(menu_tower, NULL, screen, &rcMenu_tower );
       
-
       sniper1.rcSprite.x = 21;
       sniper1.rcSprite.y = 439;
       SDL_BlitSurface(sniper1.tower, NULL, screen, &sniper1.rcSprite );
@@ -545,9 +531,7 @@ int main(int argc, char* argv[])
       slow1.rcSprite.y = 439;
       SDL_BlitSurface(slow1.tower, NULL, screen, &slow1.rcSprite );
 
-
-      /* draw mobs */
-      
+      /* draw mobs */     
       mob_affichage(liste_mob, map, screen, temps_jeu);
 
       /* draw tower select */
@@ -557,19 +541,17 @@ int main(int argc, char* argv[])
       sell_affichage(liste_tower, screen);
       
       /* draw towers */    
-
       tower_affichage(liste_tower ,screen);
 
       /* draw shoots */
-      cible(&liste_tir, liste_mob);
-      tir_affichage(liste_tir, screen, liste_mob);
-      disparition_tir(&liste_tir, liste_mob);
+      tir_affichage(liste_tir, screen, liste_mob, temps_jeu);
 
       /* draw healthbar */
       healthbar_affichage(liste_mob, screen);
 
       /* fonction */
-
+      cible(&liste_tir, liste_mob);
+      disparition_tir(&liste_tir, liste_mob);
       collision_tir_mob(&liste_tir, &liste_mob, &points, &money);
       tower_tir(&liste_tower, &liste_mob, &liste_tir, tir_magic, tir_sniper, tir_fire, screen, temps_jeu, sniper1);
       mob_slow(&liste_mob, &liste_tower, colorkey);
@@ -668,10 +650,7 @@ int main(int argc, char* argv[])
 	ender.pv = ender.pv_max;
 	level += 1;
 	next_wave = wave +1;
-      }
-      
-
-      
+      }          
       /* Affichage score, money, health */
 
       rcDiamondbig.x = SCREEN_WIDTH - 100;
@@ -789,20 +768,13 @@ int main(int argc, char* argv[])
       rcDiamondlittle.y = SCREEN_HEIGHT-33;
       SDL_BlitSurface(diamondlittle, NULL, screen, &rcDiamondlittle );
 
-
-
-      SDL_Flip(screen);
-
       /* update the screen */
+      SDL_Flip(screen);
       SDL_UpdateRect(screen, 0, 0, 0, 0);
       SDL_Delay(5);
       
     }
    
-  FreeMap(map);
-  FreeMap(map_objet);
-
-
   /*  meilleurs score */
   int meilleurs_scores[5] = {0};
   
@@ -829,11 +801,14 @@ int main(int argc, char* argv[])
   sprintf(tabtop4, "%d", meilleurs_scores[3]);
   sprintf(tabtop5, "%d", meilleurs_scores[4]);
   
+  /********************************* Boucle Menu de Fin **********************/
+
   while(fin){
 
-
-    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen);
+    update_events(key,&liste_mob, &liste_tower, creep, zombie, ender, spider,sniper1, sniper2, sniper3, magic1, magic2, magic3, fire1, fire2, fire3, slow1, slow2, slow3, map, map_objet, &num_mob, &case1, &case2, &case3, &case4, &gameover, &pause, &menu, &fin, &money, screen, &click, &speedup);
     
+    temps_gameover = SDL_GetTicks();
+
     rcMenumort.x = 0;
     rcMenumort.y = 0;
     SDL_BlitSurface(menu_mort, NULL, screen, &rcMenumort );
@@ -842,6 +817,27 @@ int main(int argc, char* argv[])
     affichage_text(SCREEN_WIDTH/2 - 130, 120, tabscore, s_score, screen);
     affichage_text(SCREEN_WIDTH/2 + 70, 120, tabcompteur, s_compteur, screen);
     affichage_text(SCREEN_WIDTH/7, SCREEN_HEIGHT/20, tabgameover, s_gameover, screen);
+
+    if(points == meilleurs_scores[0]){
+      s_ptop1 = clignotement_text(s_ptop1,temps_gameover);
+      s_top1 = clignotement_text(s_top1,temps_gameover);
+    }
+    if(points == meilleurs_scores[1]){
+      s_ptop2 = clignotement_text(s_ptop2,temps_gameover);
+      s_top2 = clignotement_text(s_top2,temps_gameover);
+    }
+    if(points == meilleurs_scores[2]){
+      s_ptop3 = clignotement_text(s_ptop3,temps_gameover);
+      s_top3 = clignotement_text(s_top3,temps_gameover);
+    }
+    if(points == meilleurs_scores[3]){
+      s_ptop4 = clignotement_text(s_ptop4,temps_gameover);
+      s_top4 = clignotement_text(s_top4,temps_gameover);
+    }
+    if(points == meilleurs_scores[4]){
+      s_ptop5 = clignotement_text(s_ptop5,temps_gameover);
+      s_top5 = clignotement_text(s_top5,temps_gameover);
+    }
 
     affichage_text(SCREEN_WIDTH/2 -220, 220, tabptop1, s_ptop1, screen); 
     affichage_text(SCREEN_WIDTH/2 -215, 280, tabptop2, s_ptop2, screen); 
@@ -854,7 +850,6 @@ int main(int argc, char* argv[])
     affichage_text(SCREEN_WIDTH/2 -170, 335, tabtop3, s_top3, screen); 
     affichage_text(SCREEN_WIDTH/2 -165, 385, tabtop4, s_top4, screen); 
     affichage_text(SCREEN_WIDTH/2 -160, 430, tabtop5, s_top5, screen);   
-    
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
     SDL_Delay(5);
@@ -863,7 +858,10 @@ int main(int argc, char* argv[])
   /* ****************************************************************************************************************************** */
   /* ***********************************     Clean Up    ************************************************************************** */
   /* ****************************************************************************************************************************** */
- 
+  /* Free des maps */
+  FreeMap(map);
+  FreeMap(map_objet);
+
   /* free TTF */
   if(s_score.police != NULL)
     TTF_CloseFont(s_score.police);
@@ -895,7 +893,10 @@ int main(int argc, char* argv[])
     TTF_CloseFont(s_money.police);
   if(s_health.police != NULL)
     TTF_CloseFont(s_health.police);
-
+  if(s_level.police != NULL)
+    TTF_CloseFont(s_level.police);
+  if(s_vague.police != NULL)
+    TTF_CloseFont(s_vague.police);
   if(sniper1.s_name.police != NULL)
     TTF_CloseFont(sniper1.s_name.police);
   if(sniper1.s_damages.police != NULL)
@@ -989,6 +990,18 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(magic2.tower);
   if (magic3.tower != NULL)
     SDL_FreeSurface(magic3.tower);
+  if (fire1.tower != NULL)
+    SDL_FreeSurface(fire1.tower);
+  if (fire2.tower != NULL)
+    SDL_FreeSurface(fire2.tower);
+  if (fire3.tower != NULL)
+    SDL_FreeSurface(fire3.tower);
+  if (slow1.tower != NULL)
+    SDL_FreeSurface(slow1.tower);
+  if (slow2.tower != NULL)
+    SDL_FreeSurface(slow2.tower);
+  if (slow3.tower != NULL)
+    SDL_FreeSurface(slow3.tower);
 
   /* free mob */
 
@@ -1005,12 +1018,21 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(creep.healthbar.vie);
 
   /* free autres */
+  if (menu_jeu != NULL)
+    SDL_FreeSurface(menu_jeu);
+  if (menub_jeu != NULL)
+    SDL_FreeSurface(menub_jeu);
   if (menu_tower != NULL)
     SDL_FreeSurface(menu_tower);
   if (menu_pause != NULL)
     SDL_FreeSurface(menu_pause);
+  if (tir_sniper.tir != NULL)
+    SDL_FreeSurface(tir_sniper.tir);
   if (tir_magic.tir != NULL)
     SDL_FreeSurface(tir_magic.tir);
+  if (tir_fire.tir != NULL)
+    SDL_FreeSurface(tir_fire.tir);
+  
 
   if (sniper1.range.range != NULL)
     SDL_FreeSurface(sniper1.range.range);
@@ -1032,7 +1054,7 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(sniper1.sell.sell);
 
   SDL_Quit();
-  
+ 
   return 0;
 
 }

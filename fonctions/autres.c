@@ -21,7 +21,7 @@ SDL_Surface* Load_image(const char* image) {
 
 
 //Fonction qui gère TOUS les évènement clavier/souris
-void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o,int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin, int *money, SDL_Surface *screen)
+void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o,int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin, int *money, SDL_Surface *screen, int *click, int *speedup)
 { 
   SDL_Event event;
   int mny = *money;
@@ -74,6 +74,14 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
 	  *pause = 0;
 	}
 	break;
+      case SDLK_k:
+	if (*speedup == 0){
+	  *speedup = 1;
+	}
+        else{
+	  *speedup = 0;
+	}
+	break;
       case SDLK_t:
         *gameover = 1;
 	*pause = 0;
@@ -93,6 +101,12 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
 	  tower_menu(sniper1, magic1, fire1, slow1, T, event.button.x, event.button.y, map, map_o, case1, case2, case3, case4, &mny);
 	  tower_select(*T, event.button.x, event.button.y);
 	  tower_gestion(T, sniper2, sniper3, magic2, magic3, fire2, fire3, slow2, slow3, event.button.x, event.button.y, &mny);
+
+	  if(*menu == 1 && 
+	     event.button.x >= 208 && event.button.x <= 463 &&
+	     event.button.y >= 278 && event.button.y <= 328) {
+	    *menu = 0;
+	  }
 	}
 	break;
       case SDL_BUTTON_RIGHT: 
@@ -105,8 +119,18 @@ void update_events(char* keys, liste_mob *L, liste_tower *T, s_Mob mob, s_Mob mo
     case SDL_MOUSEMOTION:
       tower_motion(*T, event.motion.x, event.motion.y);
       up_sell_motion(*T, event.motion.x, event.motion.y, screen);
+      if(*menu == 1 && 
+	 event.motion.x >= 208 && event.motion.x <= 463 &&
+	 event.motion.y >= 278 && event.motion.y <= 328) {
+	*click = 1;
+      } 
+      if(*menu == 1 && ( 
+	 event.motion.x <= 208 || event.motion.x >= 463 ||
+	 event.motion.y <= 278 || event.motion.y >= 328)) {
+	*click = 0;
+      }
       break;
-
+    
     }
   }
   *money = mny;

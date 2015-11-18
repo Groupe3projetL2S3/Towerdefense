@@ -242,6 +242,7 @@ typedef struct
   float vitesse;
   int animation;
   int type;
+  int temps_deplacement;
   SDL_Rect rcSrc;
   SDL_Rect rcSprite;
   SDL_Surface *tir;
@@ -363,7 +364,7 @@ s_Tower towerup_init(s_Tower t, s_Tower t_up, int distance);
 void tower_gestion(liste_tower *T, s_Tower sniper2, s_Tower sniper3, s_Tower magic2, s_Tower magic3, s_Tower fire2, s_Tower fire3, s_Tower slow2, s_Tower slow3, int event_button_x, int event_button_y, int *money);
 
 s_Tir tir_init(s_Tir t, int taillew, int tailleh);
-void tir_affichage(liste_tir L, SDL_Surface *screen, liste_mob M);
+void tir_affichage(liste_tir L, SDL_Surface *screen, liste_mob M, int temps_jeu);
 s_Tir tir_spawn(s_Tir t, s_Tower to);
 s_Tir direction_tir(s_Tir t, s_Mob mob);
 s_Tir deplacement_tir(s_Tir t);
@@ -395,9 +396,10 @@ void up_sell_motion(liste_tower L, int event_motion_x, int event_motion_y, SDL_S
 void top_score(int *meilleurs_scores, int points);
 s_Text text_init(int taille_police,int type_police, SDL_Color couleur,s_Text t);
 void affichage_text(int x, int y, char *tab, s_Text t,SDL_Surface *screen);
+s_Text clignotement_text(s_Text t, int temps_go);
 /******************************* SDL *********************************/
 
-void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin, int *money, SDL_Surface *screen);
+void update_events(char* keys, liste_mob *L,liste_tower *T, s_Mob mob, s_Mob mob2, s_Mob mob3, s_Mob mob4, s_Tower sniper1, s_Tower sniper2, s_Tower sniper3, s_Tower magic1, s_Tower magic2, s_Tower magic3, s_Tower fire1, s_Tower fire2, s_Tower fire3, s_Tower slow1, s_Tower slow2, s_Tower slow3, Map *map, Map *map_o, int *i, int *case1, int *case2, int *case3, int *case4, int *gameover, int *pause, int *menu, int *fin, int *money, SDL_Surface *screen, int *click, int *speedup);
 
 
 

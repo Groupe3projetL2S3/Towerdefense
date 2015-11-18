@@ -26,7 +26,6 @@ void tower_affichage(liste_tower L, SDL_Surface *screen) {
 
   while (it != NULL) {
     s_Tower t = it->t;
-    printf("x = %lf,y = %lf \n",t.coords.x,t.coords.y);
     t.rcSprite.x = (int) t.coords.x;
     t.rcSprite.y = (int) t.coords.y;
     SDL_BlitSurface(t.tower, &t.rcSrc, screen, &t.rcSprite);

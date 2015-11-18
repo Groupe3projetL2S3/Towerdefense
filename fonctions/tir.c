@@ -11,6 +11,7 @@ s_Tir tir_init(s_Tir t, int taillew, int tailleh) {
   t.dommage = 0;
   t.animation = 0;
   t.vitesse =0.0;
+  t.temps_deplacement = 0;
   return t;
 }
 
@@ -88,7 +89,7 @@ s_Tir tir_animation(s_Tir tir){
 }
 
 //affichage des tirs
-void tir_affichage(liste_tir L,  SDL_Surface *screen, liste_mob M) {
+void tir_affichage(liste_tir L,  SDL_Surface *screen, liste_mob M, int temps_jeu) {
 
   if (L == NULL)
     return;
@@ -99,8 +100,12 @@ void tir_affichage(liste_tir L,  SDL_Surface *screen, liste_mob M) {
   
   while (it != NULL) {
     s_Tir t = it->t;
-    t = deplacement_tir(t);
-    t = tir_animation(t);
+
+    if(temps_jeu - t.temps_deplacement > 20){
+      t = deplacement_tir(t);
+      t = tir_animation(t);
+      t.temps_deplacement = temps_jeu;
+    }
     
     t.rcSprite.x = (int) t.coords.x;
     t.rcSprite.y = (int) t.coords.y;
@@ -120,16 +125,16 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
     t.type = to.type;
     if (to.niveau == 1) {
       t.dommage = 2.0;
-      t.vitesse = 3.5;
+      t.vitesse = 7.0;
     }
     if (to.niveau == 2) {
       t.dommage = 5.0;
-      t.vitesse = 3.5;
+      t.vitesse = 7.0;
       to.cadence = to.cadence * 1.5;
     }
     if (to.niveau == 3) {
       t.dommage = 12.0;
-      t.vitesse = 3.5;
+      t.vitesse = 7.0;
       to.cadence = to.cadence * 1.5;
     }
   }
@@ -137,16 +142,16 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
     t.type = to.type;
     if (to.niveau == 1) {
       t.dommage = 5.0;
-      t.vitesse = 2.5;
+      t.vitesse = 5.0;
     }
     if (to.niveau == 2) {
       t.dommage = 11.0;  
-      t.vitesse = 2.5;
+      t.vitesse = 5.0;
       to.cadence = to.cadence * 1.5;
     }
     if (to.niveau == 3) {
       t.dommage = 27.0;
-      t.vitesse = 2.5;
+      t.vitesse = 5.0;
       to.cadence = to.cadence * 1.5;
     }
   }
@@ -154,15 +159,15 @@ s_Tir tir_spawn(s_Tir t, s_Tower to) {
     t.type = to.type;
     if (to.niveau == 1) {
       t.dommage = 0.08;
-      t.vitesse = 2.0;
+      t.vitesse = 4.0;
     }
     if (to.niveau == 2) {
       t.dommage = 0.3;
-      t.vitesse = 2.0;
+      t.vitesse = 4.0;
     }
     if (to.niveau == 3) {
       t.dommage = 0.8;
-      t.vitesse = 2.0;
+      t.vitesse = 4.0;
     }
   }
 

@@ -85,3 +85,16 @@ void top_score(int *meilleurs_scores, int points) {
     fclose(fichier);
   }
 }
+
+//clignotement du texte 
+s_Text clignotement_text(s_Text t, int temps_go) {
+  if(temps_go - t.temps <= 1200){
+    if ( temps_go - t.temps <= 600)
+      t.affiche = 1;
+    if ( temps_go - t.temps > 600 && temps_go - t.temps <=1200 )
+      t.affiche = 0;
+  }else
+    t.temps = temps_go;
+
+  return t;
+}
